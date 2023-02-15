@@ -1,9 +1,37 @@
 # ONE Record API Specification
-#### Version 1.1
 
-Draft: not yet approved by the COTB / CSC.
+**Version 2.0-dev**
 
-## Introduction
+**Status: Draft; not yet approved by the COTB / CSC**
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119). When RFC 2119 keywords are lowercase, they have only their normal English measning.
+
+This document is licensed under MIT license (see [LICENSE](../../LICENSE) for details).
+
+## Table of Contents
+
+- [ONE Record API Versioning](#one-record-api-versioning)  
+- [ONE Record data model](#one-record-data-model)  
+- [Create a Logistics Object](#create-a-logistics-object)      
+- [Read Logistics Object (GET)](#read-logistics-object-get)          
+- [Update Logistics Object (PATCH)](#update-logistics-object-patch)    
+- [Publish \& Subscribe with ONE Record](#publish--subscribe-with-one-record)  
+- [Access Delegation](#access-delegation)    
+- [Events (status update)](#events-status-update)  
+- [Access Control](#access-control)  -  
+- [Versioning](#versioning)  
+- [Internationalization (i18n)](#internationalization-i18n)
+- [Security in ONE Record](#security-in-one-record)  
+- [Glossary](#glossary)
+- [Contributors](#contributors)
+
+# About
+
+The ONE Record API specification is part of the IATA ONE Record standard. It defines a standard, programming language-agnotic interface for the interaction with  HTTP Web APIs. The ONE Record API specification supports the effective implementation to ensure the provisioning of ONE Record compliant APIs.
+
+# Introduction
+
+## Concepts
 
 #### Internet of Logistics
 
@@ -17,13 +45,13 @@ The implementation of ONE Record implies the implementation of web servers that 
 
 The ONE Record data model is based on an industry ontology using the RDF format. Specifically, the ONE Record API specifies the use of JSON-LD as the RDF serialization. JSON-LD provides for Linked Data and allows the creation of a comprehensive network of data and that is the thinking behind ONE Record, i.e. data related to specific consignments and shipments are accessible as a unique and single record, i.e. "one record" in that network of linked data. 
 
-Other RDF serializations may also be used since they are interchangeable. The ONE Record API specification also allows the Terse RDF Triple Language (TTL)
+Other RDF serializations may also be used since they are interchangeable. The ONE Record API specification also allows the [Terse RDF Triple Language (TTL)](https://www.w3.org/TeamSubmission/turtle/)
 
-#### Logistics Objects
+#### Logistics Objects (LO)
 
-The ONE Record data model is organized as a set of data objects that represent realworld concepts in logistics and transport, also know as digital twins. These data objects are referred to as "Logistics Objects" in the world of ONE Record. The data exchange that is facilitated by the ONE Record API is mainly the exchange of Logistics Objects, often shorted to LO. This is a departure from the traditional logistics and transport EDI systems that only exchanged documents. The concept of Logistics Objects is far more extensive since Logistics Objects can be more granular and have very specific usage in different use cases within the logistics and transport domain. An example of a Logistics Object would be an IoT **Sensor** or an **Address** or a **BookingRequest** and [many more](https://onerecord.iata.org/cargo).
+The ONE Record data model is organized as a set of data objects that represent realworld concepts in logistics and transport, also know as digital twins. These data objects are referred to as `Logistics Objects (LO)` in the world of ONE Record. The data exchange that is facilitated by the ONE Record API is mainly the exchange of Logistics Objects, often shorted to LO. This is a departure from the traditional logistics and transport EDI systems that only exchanged documents. The concept of Logistics Objects is far more extensive since Logistics Objects can be more granular and have very specific usage in different use cases within the logistics and transport domain. An example of a Logistics Object would be a `Piece`, an `IoT Sensor` or an a `BookingRequest` and [many more](https://onerecord.iata.org/cargo).
 
-#### Main API features
+## Main API features
 
 The following features summarize all of the API features
 
@@ -53,18 +81,11 @@ As such, the *only* endpoint that needs to be known of a ONE Record compatible s
 
 This may seem odd at first but it is entirely compatible with RDF technologies where data is accessed via queries and by following  links within the data itself. The main entry point for such servers is trivial.
 
-## Index
-
-[TOC]
-
-
-
 ## Definitions
 
-| **Term<div></div> **        | **Description**                                              |      |
+| **Term**        | **Description**                                              |      |
 | --------------------------- | ------------------------------------------------------------ | ---- |
-| COTB                        | Cargo Operations & Technology Board (COTB) reports to the Cargo Services Conference (CSC) at the International Air Transport Association. The COTB has authority over the ONE Record specifications. COTB decisions are formally endorsed by the CSC. |      |
-| ONE Record Server           | A ONE Record Server is a web server that implemenst the ONE Record API and some or all of the data model specifications. Technically, it is just a HTTP web server.  The ONE Record API and data model specifications may be added to existing servers that also provide other services. |      |
+| ONE Record Server           | A ONE Record Server is a web server that implemenst the ONE Record API and some or all of the data model specifications. Technically, it could be just a HTTP web server.  The ONE Record API and data model specifications may be added to existing servers that also provide other services. |      |
 | Logistics Object LO         | Logistics Object is a data object that represents a real world object in transport & logiscs, also referred to as a digital twin. In the data model this is represented by a generic class "Logistics Objects" and each digital twin inherits from this Logistics Objects class. |      |
 | Owner of a Logistics Object | - The Owner of a Logistics Object is the party that has created it and has control over it. <br /><br />The Owner may also control the server on which the Logistics Object is accessible via HTTP but this is not a requirement. Instead, the Owner may use a third party that implements the HTTP service and will provide suitable access to the Owner to manage and control the Logistics Object, include it's creation, any changes, authoprization and access rights and more. |      |
 | User of a Logistics  Object | A User of a Logistics Object is anyone other than the Owner and who has access to the Logistics Object. Most likely the User will have a role in the logistics & transport of the consignment. The User may be external, from another company than the Owner, or internal from the same company but with a different function within that company. |      |
@@ -75,48 +96,38 @@ Namespaces used in this document
 
 | Prefix | Namespace<div></div><div></div>          | Description                                                  |
 | ------ | ---------------------------------------- | ------------------------------------------------------------ |
-| cargo  | https://onerecord.iata.org/              | This refers to the IATA ONE Record cargo ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
-| api    | https://onerecord.iata.org/api/          | This refers to the IATA ONE Record API ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
+| cargo  | [https://onerecord.iata.org/cargo](https://onerecord.iata.org/cargo)              | This refers to the IATA ONE Record cargo ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
+| api    | [https://onerecord.iata.org/api](https://onerecord.iata.org/api)          | This refers to the IATA ONE Record API ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
 | w3c    | http://www.w3.org/2001/XMLSchema         | W3C primitive data types (primarily String and DateTime)     |
-| host   | https://{Server Domain}/{license plate}/ | prefix that represents a ONE Record server in the examples below. In these examples, this corresponds to the Company Identifier: |
 
-
-
-## ONE Record API Versioning
-
-The versioning for the ONE Record API is done through **route versioning**:
-
-The version is incremented when API specifications are endorsed by the IATA Cargo Operations Technology Board
-
-First version of the standard (Aug 2020) - Endorsed version in Mar2020 = 1.0
-
-If no version is specified, the latest should be returned and bind to a specific version of the API
-
-When a version is obsolete or not supported anymore, the client should be redirected to the latest API version, through the **Location** header and 302 HTTP redirection status.
-
-<!--- is route versioning still the preferred choice? Is it actually being implemented? -->
 
 ### Logistics Object Identifier
 
-Every Logistics Object is identified by a **Logistics Objects ID**. A Logistics Object ID (LOID) can be any URL that is unique. 
+Every Logistics Object MUST have a unique identifier. This is unique identifier MUST be a valid URI that CAN be any URL that is unique. 
 
-An example of a LOID could be for example:
+A valid Logistics Object URI SHOULD follow [RFC 3986](https://www.rfc-editor.org/rfc/rfc3986) and SHOULD look like:
 
-https://{Server Domain}/{license plate}/{unique id to identify Logistics Objects }
+```
+{scheme}://{host}[:port]/{basePath}/{ID}
+```
 
-| Identifier                   | URI structure                                                |
-| ---------------------------- | ------------------------------------------------------------ |
-| Logistics Objects Identifier | http://{Server Domain}/{license plate}/{unique id to identify Logistics Objects } |
+**Examples:**
+```
+https://1r.airline.com/v1/e17502db-9b2d-46cc-a06c-efb24aeca49b
+https://api.airline.com/handling/onerecord/v1/waybill-123-12345678-1
+https://onerecordcloud.com/organizations/airline/v2/6596bb81-f5a0-46d0-81be-c4d39531fc6a
+```
 
- The URI fields are defined below:
+The URI components are defined below:
 
-| **Field**<div></div>         | **Description**                                              |
-| ---------------------------- | ------------------------------------------------------------ |
-| **Server Domain**            | The domain name  associated with the ONE Record Server e.g. onerecordcargo.org |
-| **License plate**            | The company  identifier for this ONE Record Server, e.g. my-airline |
-| **Unique ID to identify LO** | An identifier for  the Logistics Object that is unique for this server (and thus extension globally).  <br /><br />The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to  the LO itself. For example “waybill_123-12345678”. An obscure ID could include  a UUID like: 6596bb81-f5a0-46d0-81be-c4d39531fc6a  <br /><br />So examples of valid  LOIDs are:   <br />https://airlinexyz.org/xyz/waybill_123-12345678  <br />https://airlinexyz.org/xyz/6596bb81-f5a0-46d0-81be-c4d39531fc6a  <br /><br />The LOID should be  URL friendly, i.e. avoid unsafe characters that include the blank/empty  spaces and " < > # % { } \| \ ^ ~ [ ] `. |
+| **URI Component**            | **Description**                 | **Examples**        |
+| ---------------------------- |---------------------------------| ------------------- |
+| scheme                       | Transfer protocol used by the API | http, https   |
+| host                         | Domain name or IP address (and port) of the host that serves the ONE Record API | 127.0.0.1:8080, 1r.airline.com, api.airline.com  |
+| base path                    | URL prefix for all API paths, relative to the host root. The base path SHOULD contain the versioning of the ONE Record API | /, /v1/, /onerecord/v1/, /rest/public/  |
+| ID                           | An identifier for  the Logistics Object that is unique for this server (and thus extension globally). The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to  the type of the LO itself, e.g. waybill_123-12345678”. An obscure ID could include a UUID, e.g. 6596bb81-f5a0-46d0-81be-c4d39531fc6a    | e17502db-9b2d-46cc-a06c-efb24aeca49b, waybill_123-12345678
 
-
+A LogisticsObject URI SHOULD be URL friendly, i.e. avoid unsafe characters that include the blank/empty  spaces and " < > # % { } \| \ ^ ~ [ ] `. | 
 
 ### Company Identifier
 
@@ -195,7 +206,7 @@ RDF (and JSON-LD) has different forms that are all equivalent. The same object c
 
 There are more forms that are equal to the example above. Copy and paste the first example on the [jsonld playground](https://json-ld.org/playground/) to see this different forms.
 
-## Create a Logistics Object
+## Create a Logistics Object (POST)
 
 This API action creates a Logistics Object as a new HTTP resource on a ONE Record server using the POST method. This can be any type of Logistics Object that is specified in the ONE Record data model. A list is found [here](https://onerecord.iata.org/cargo#LogisticsObject).
 
@@ -906,7 +917,7 @@ Content-Type: application/ld+json
 
 
 
-# Delegation
+# Access Delegation
 
 In ONE Record parties are enabled to grant other parties access to (parts of) their data. The standard allows parties to modify or withdraw these access rights to their data, whenever they wish.
 
@@ -1548,6 +1559,24 @@ A positive HTTP 200 response is expected to a GET request. The body of the respo
 
 # Versioning
 
+### ONE Record API Versioning
+
+The versioning for the ONE Record API is done through `route versioning`, e.g. http://1r.airline.com/v1/e17502db-9b2d-46cc-a06c-efb24aeca49b
+
+The version is incremented when API specifications are endorsed by the IATA Cargo Operations Technology Board
+
+First version of the standard (Aug 2020) - Endorsed version in Mar2020 = 1.0
+
+If no version is specified, the latest should be returned and bind to a specific version of the API
+
+When a version is obsolete or not supported anymore, the client should be redirected to the latest API version, through the **Location** header and 302 HTTP redirection status.
+
+<!--- is route versioning still the preferred choice? Is it actually being implemented? -->
+
+### Data Model Versioning
+
+
+### Data Versioning
 In ONE Record, data is updated in real time. There is a need to snapshot a version of a document, for example MAWB, and we need to know which version of data was used for that snapshot. 
 
 Every time a transaction/update is committed successfully, a new version entry is created by the versioning service. 
@@ -2086,22 +2115,30 @@ Additionally, IATA can deliver guidelines and sample code that illustrate the pr
 | **ACL**                                | Access Control  List                                         |      |      |
 | **Authentication**                     | A process that validates  the identity of IoL participant    |      |      |
 | **Authorization**                      | A process that  determines whether a IoL participant is allowed to access a specific  Logistics Object |      |      |
+| **COTB**                        | Cargo Operations & Technology Board (COTB) reports to the Cargo Services Conference (CSC) at the International Air Transport Association. The COTB has authority over the ONE Record specifications. COTB decisions are formally endorsed by the CSC. |      |
 | **Identity & Authentication Provider** | A service that  allows Internet of Logistics participants register and obtain an Public Key  encrypted token identify themselves with ONE Record Servers and get access to  Logistics Objects |      |      |
 | **Internet of Logistics (IoL)**        | A network of ONE  Record Clients and Servers that can share Logistics Objects over the internet  using the ONE Record standard data model, APIs and security |      |      |
 | **JSON-LD**                            | JSON-LD is a  lightweight Linked Data format. It is easy for humans to read and write. It  is based on the already successful JSON format and provides a way to help  JSON data interoperate at Web-scale. JSON-LD is an ideal data format for  programming environments, REST Web services, and unstructured databases such  as CouchDB and MongoDB. |      |      |
 | **Json Web Token (JWT)**               | JSON specification for a token format that includes a user defined  payload and the option for encryption. |      |      |
 | **Linked Data**                        | Linked Data empowers people that publish and use information on the  Web. It is a way to create a network of standards-based, machine-readable  data across Web sites. It allows an application to start at one piece of  Linked Data and follow embedded links to other pieces of Linked Data that are  hosted on different sites across the Web. |      |      |
 | **Logistics Object**                   | A data object  that represents a meaningful entity in the logistics business. These may represent  documents like air waybills but may also be more granular such as company  details or a transport segment description. Logistics Objects are specified  in a common data model by IATA and transport and logistics partners. |      |      |
-| **OAuth2**                             | A protocol for delegation of authentication in a network of secure  systems |      |      |
+| **OAuth 2.0**                             | A protocol for delegation of authentication in a network of secure  systems, see https://oauth.net/2/ |      |      |
 | **ONE Record Client**                  | A system that can access Logistics Objects on a ONE Record Server.  This system may also have a ONE Record Subscriber API. |      |      |
 | **ONE Record Server**                  | The platform that  hosts Logistics Objects on a web server on behalf of one or more companies |      |      |
 | **ONE Record Subscriber API**          | A ONE Record  Client API that has dedicated endpoint(s) for receiving Logistics Objects via  a subscription |      |      |
 | **Participant**                        | Server that  access or shares data via the Internet of Logistics and that has registered  with an Accredited Identity Provider and has possession of a valid  certificate to prove this |      |      |
 | **Publisher**                          | The Party that  makes their Logistics Objects available through a ONE Record Server |      |      |
 | **Subscriber**                         | The Party that  subscribes to Logistics Objects in order to receive updates automatically |      |      |
-| **URI**                                | In the web  context, this is a URL that uniquely identifies a Logistics Object and a Host |      |      |
+| **Uniform Resource Identifier (URI)**                                | A Uniform Resource Identifier (URI) is a URL that uniquely identifies a Logistics Object |      |      |
 | **WAC**                                | Web Access  Control                                          |      |      |
 
- 
+# Changelog
 
-  
+## Version 2.0
+- Removed Memento
+
+# Contributors
+- [Henk Mulder](https://github.com/edesignextended), IATA 
+- [Andra Blaj](https://github.com/andrablaj)
+- [Daniel A. Döppner](https://github.com/ddoeppner), Lufthansa Industry Solutions
+- [Philipp Billion](https://github.com/DrPhilippBillion), Lufthansa Cargo- 
