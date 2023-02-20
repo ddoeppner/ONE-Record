@@ -1,57 +1,56 @@
 # ONE Record API Specification
 
-**Version 2.0-dev**
+**Version 2.0.0-dev**
 
 **Status: Draft; not yet approved by the COTB / CSC**
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119). When RFC 2119 keywords are lowercase, they have only their normal English measning.
-
-This document is licensed under MIT license (see [LICENSE](../../LICENSE) for details).
-
 ## Table of Contents
 
-- [ONE Record API Versioning](#one-record-api-versioning)  
-- [ONE Record data model](#one-record-data-model)  
-- [Create a Logistics Object](#create-a-logistics-object)      
-- [Read Logistics Object (GET)](#read-logistics-object-get)          
-- [Update Logistics Object (PATCH)](#update-logistics-object-patch)    
-- [Publish \& Subscribe with ONE Record](#publish--subscribe-with-one-record)  
-- [Access Delegation](#access-delegation)    
-- [Events (status update)](#events-status-update)  
-- [Access Control](#access-control)  -  
-- [Versioning](#versioning)  
-- [Internationalization (i18n)](#internationalization-i18n)
-- [Security in ONE Record](#security-in-one-record)  
-- [Glossary](#glossary)
-- [Contributors](#contributors)
-
-# About
-
-The ONE Record API specification is part of the IATA ONE Record standard. It defines a standard, programming language-agnotic interface for the interaction with  HTTP Web APIs. The ONE Record API specification supports the effective implementation to ensure the provisioning of ONE Record compliant APIs.
+- needs to be generated
 
 # Introduction
 
-## Concepts
+## Purpose
 
-#### Internet of Logistics
+The ONE Record API specification is part of the IATA ONE Record standard. It defines a standard, programming language-agnotic interface for the interaction with the ONE Record Web API. The ONE Record API specification supports the effective implementation of ONE Record compliant APIs.
+
+## Prerequisites
+
+It is assumed that the reader is familiar with REST APIs and the ONE Record data model.
+
+## Supporting Documents
+- [Changelog](CHANGELOG.md) contains a list of all notable changes for each version of the ONE Record API specification.
+- [ONE Record API Ontology](IATA-1R-API-Ontology.ttl) provides the vocabulary and data classes for the data model used in the ONE Record API
+
+## Conventions
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
+
+## License
+
+This document is licensed under MIT license (see [LICENSE](../../LICENSE) for details).
+
+# Concepts
+
+### Internet of Logistics
 
 ONE Record specifies the API for logistics and transport data exchange over HTTP. This API specification is associated with the ONE Record data model that specifies the models and relationships within the transport and logistics data domain. This creates the foundation for a global industry data architecture that allows all participants in the logistics and transport process to exchange data necessary for the planning and execution of their activities. We refer to this global logistics and transport data exchange as the Internet of Logistics.
 
-#### Plug & play API connectivity
+### Plug & play API connectivity
 
 The implementation of ONE Record implies the implementation of web servers that comply with the API and data model. Having done so, each of these ONE Record Servers can connect and exchange data with any other ONE Record Server simply by accessing eachothers endpoints via URIs.
 
-#### Global network of data through "linked data"
+### Global network of data through "linked data"
 
 The ONE Record data model is based on an industry ontology using the RDF format. Specifically, the ONE Record API specifies the use of JSON-LD as the RDF serialization. JSON-LD provides for Linked Data and allows the creation of a comprehensive network of data and that is the thinking behind ONE Record, i.e. data related to specific consignments and shipments are accessible as a unique and single record, i.e. "one record" in that network of linked data. 
 
 Other RDF serializations may also be used since they are interchangeable. The ONE Record API specification also allows the [Terse RDF Triple Language (TTL)](https://www.w3.org/TeamSubmission/turtle/)
 
-#### Logistics Objects (LO)
+### Logistics Objects (LO)
 
 The ONE Record data model is organized as a set of data objects that represent realworld concepts in logistics and transport, also know as digital twins. These data objects are referred to as `Logistics Objects (LO)` in the world of ONE Record. The data exchange that is facilitated by the ONE Record API is mainly the exchange of Logistics Objects, often shorted to LO. This is a departure from the traditional logistics and transport EDI systems that only exchanged documents. The concept of Logistics Objects is far more extensive since Logistics Objects can be more granular and have very specific usage in different use cases within the logistics and transport domain. An example of a Logistics Object would be a `Piece`, an `IoT Sensor` or an a `BookingRequest` and [many more](https://onerecord.iata.org/cargo).
 
-## Main API features
+## Overview: Main API features
 
 The following features summarize all of the API features
 
@@ -79,22 +78,22 @@ Many API's specify endpoints for specific API actions. In ONE Record, these endp
 
 As such, the *only* endpoint that needs to be known of a ONE Record compatible server is an endpoint where new Logistics Objects may be sent. This would act like a generic "mailbox" where new Logistics Object are received. In subsequent exchanges, URI's will be exchanged as required.
 
-This may seem odd at first but it is entirely compatible with RDF technologies where data is accessed via queries and by following  links within the data itself. The main entry point for such servers is trivial.
+This may seem odd at first but it is entirely compatible with RDF technologies where data is accessed via queries and by following links within the data itself. 
+The main entry point for such servers is trivial.
 
 ## Definitions
 
-| **Term**        | **Description**                                              |      |
-| --------------------------- | ------------------------------------------------------------ | ---- |
-| ONE Record Server           | A ONE Record Server is a web server that implemenst the ONE Record API and some or all of the data model specifications. Technically, it could be just a HTTP web server.  The ONE Record API and data model specifications may be added to existing servers that also provide other services. |      |
-| Logistics Object LO         | Logistics Object is a data object that represents a real world object in transport & logiscs, also referred to as a digital twin. In the data model this is represented by a generic class "Logistics Objects" and each digital twin inherits from this Logistics Objects class. |      |
-| Owner of a Logistics Object | - The Owner of a Logistics Object is the party that has created it and has control over it. <br /><br />The Owner may also control the server on which the Logistics Object is accessible via HTTP but this is not a requirement. Instead, the Owner may use a third party that implements the HTTP service and will provide suitable access to the Owner to manage and control the Logistics Object, include it's creation, any changes, authoprization and access rights and more. |      |
-| User of a Logistics  Object | A User of a Logistics Object is anyone other than the Owner and who has access to the Logistics Object. Most likely the User will have a role in the logistics & transport of the consignment. The User may be external, from another company than the Owner, or internal from the same company but with a different function within that company. |      |
-|                             |                                                              |      |
-|                             |                                                              |      |
+| Term        | Description                                              |      
+| --------------------------- | ------------------------------------------------------------ |
+| **ONE Record Server**           | A ONE Record Server is a web server that implemenst the ONE Record API and some or all of the data model specifications. Technically, it could be just a HTTP web server.  The ONE Record API and data model specifications may be added to existing servers that also provide other services. |      
+| **Logistics Object (LO)**         | Logistics Object is a data object that represents a real world object in transport & logiscs, also referred to as a digital twin. In the data model this is represented by a generic class "Logistics Objects" and each digital twin inherits from this Logistics Objects class. |      
+| **Owner of a Logistics Object** | The owner of a logistics object is the one who created it, who hosts it and thus has control over it. The Owner may also control the server on which the Logistics Object is accessible via HTTP but this is not a requirement. Instead, the Owner may use a 3rd party that implements, operates, and provisions the ONE Record API and will provide suitable access to the Owner to manage and control the Logistics Object, include it's creation, any changes, authoprization and access rights and more. |      
+| **User of a Logistics  Object** | A User of a Logistics Object is anyone other than the Owner and who has access to the Logistics Object. Most likely the User will have a role in the logistics & transport of the consignment. The User may be external, from another company than the Owner, or internal from the same company but with a different function within that company. |      
+
 
 Namespaces used in this document
 
-| Prefix | Namespace<div></div><div></div>          | Description                                                  |
+| Prefix | Namespace            | Description                                                  |
 | ------ | ---------------------------------------- | ------------------------------------------------------------ |
 | cargo  | [https://onerecord.iata.org/cargo](https://onerecord.iata.org/cargo)              | This refers to the IATA ONE Record cargo ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
 | api    | [https://onerecord.iata.org/api](https://onerecord.iata.org/api)          | This refers to the IATA ONE Record API ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
@@ -103,7 +102,15 @@ Namespaces used in this document
 
 ### Logistics Object Identifier
 
-Every Logistics Object MUST have a unique identifier. This is unique identifier MUST be a valid URI that CAN be any URL that is unique. 
+Every Logistics Object MUST have a unique identifier. This identifier MUST be a URI, which can be any valid URL that is globally unique. 
+
+**Examples:**
+```
+https://1r.airline.com/v1/e17502db-9b2d-46cc-a06c-efb24aeca49b
+https://api.airline.com/handling/onerecord/v1/waybill-123-12345678-1
+https://onerecordcloud.com/organizations/airline/v2/6596bb81-f5a0-46d0-81be-c4d39531fc6a
+https://api.airline.com/rest/public/onerecord/v2/6596bb81-f5a0-46d0-81be-c4d39531fc6a
+```
 
 A valid Logistics Object URI SHOULD follow [RFC 3986](https://www.rfc-editor.org/rfc/rfc3986) and SHOULD look like:
 
@@ -111,43 +118,30 @@ A valid Logistics Object URI SHOULD follow [RFC 3986](https://www.rfc-editor.org
 {scheme}://{host}[:port]/{basePath}/{ID}
 ```
 
-**Examples:**
-```
-https://1r.airline.com/v1/e17502db-9b2d-46cc-a06c-efb24aeca49b
-https://api.airline.com/handling/onerecord/v1/waybill-123-12345678-1
-https://onerecordcloud.com/organizations/airline/v2/6596bb81-f5a0-46d0-81be-c4d39531fc6a
-```
 
 The URI components are defined below:
 
-| **URI Component**            | **Description**                 | **Examples**        |
+| URI Component                | Description                     | Examples            |
 | ---------------------------- |---------------------------------| ------------------- |
-| scheme                       | Transfer protocol used by the API | http, https   |
+| scheme                       | Transfer protocol used by the API | http, https       |
 | host                         | Domain name or IP address (and port) of the host that serves the ONE Record API | 127.0.0.1:8080, 1r.airline.com, api.airline.com  |
 | base path                    | URL prefix for all API paths, relative to the host root. The base path SHOULD contain the versioning of the ONE Record API | /, /v1/, /onerecord/v1/, /rest/public/  |
-| ID                           | An identifier for  the Logistics Object that is unique for this server (and thus extension globally). The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to  the type of the LO itself, e.g. waybill_123-12345678”. An obscure ID could include a UUID, e.g. 6596bb81-f5a0-46d0-81be-c4d39531fc6a    | e17502db-9b2d-46cc-a06c-efb24aeca49b, waybill_123-12345678
+| ID                           | An identifier for  the Logistics Object that is unique for this server (and thus extension globally). The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to  the type of the LO itself, e.g. waybill_123-12345678”. An obscure ID could include a UUID, e.g. 6596bb81-f5a0-46d0-81be-c4d39531fc6a    | e17502db-9b2d-46cc-a06c-efb24aeca49b, waybill_123-12345678 |
 
-A LogisticsObject URI SHOULD be URL friendly, i.e. avoid unsafe characters that include the blank/empty  spaces and " < > # % { } \| \ ^ ~ [ ] `. | 
+A LogisticsObject URI SHOULD be URL friendly, i.e. avoid unsafe characters that include blank/empty spaces and/or " < > # % { } \| \ ^ ~ [ ] `. 
+
+It is RECOMMENDED to follow a kebab-case URL naming convention for URI components, i.e. only use lower case letters, numbers, forward slashes, and dashes. For example, use https://1r.airline.com/waybill-020-12345678 instead of https://1r.airline.com/Waybill_020-12345678 
+
+The concrete generation of LogisticsObject URI and thus the design of an unique URI structure is up to each ONE Record API implementer.
 
 ### Company Identifier
 
-The ONE Record Company Identifier is a URI that uniquely identifies a company in its exchanges with other companies that uses ONE Record servers. As shown below, this Company Identifider URI shares the same base as a Logistics Object Identifier (LOID)
+In ONE Record, a Company Identifier is a URI that points to a [Company](https://onerecord.iata.org/cargo#Company) Logistics Object and uniquely identifies a company in its data exchanges with other companies that uses ONE Record. As shown below, this Company Identifier URI CAN share the same structure as a Logistics Object Identifier:
 
-| Identifier         | URI structure                             |
-| ------------------ | ----------------------------------------- |
-| Company Identifier | http:// {Server Domain} / {license plate} |
-
- For clarity, the URI fields of the Company Identifier are shown below.
-
-| **Field**         | **Description**                                        |
-| ----------------- | ------------------------------------------------------ |
-| **Server Domain** | The domain name  associated with the ONE Record Server |
-| **License plate** | The company  identifier for this ONE Record Server     |
-
-An example of a valid company identifier is shown below.
-
+**Examples:**
 ```
-https://www.myhost.com/myairline
+https://1r.airline.com/v1/24a8a9f0-92c1-4405-8dfb-71875e8cde0a
+https://1r.platform.com/v1/organizations/airline
 ```
 
 ## ONE Record data model
@@ -158,7 +152,7 @@ The ONE Record data model is specified as an ontology which is also referred to 
 
 ### 
 
-| ONE Record:<div></div> | **Description**                                              |
+| ONE Record | Description                                              |
 | ---------------------- | ------------------------------------------------------------ |
 | Ontology               | An ontology that defines the representation, formal naming, and definition of the categories, properties, and relations between the concepts, data, and entities in the air transport domain. |
 | Semantic Data Model    | A semantic data model, like the ontology, defines the naming, relationships between concepts etc but for the purpose of implementation in a data model |
@@ -172,45 +166,51 @@ An online documentation based on the ontology is on the [ONE Record Developer Po
 
 ##### JSON-LD format
 
-JSON-LD is one of the RDF serializations and to fully understand its syntax, requires a deep dive into RDF. For the purpose of this document, it is enough to understand the example below. This is a JSON-LD file that specifies a Sensor LO. A few points to note:
+JSON-LD is one of the RDF serializations and to fully understand its syntax, requires a deep dive into RDF. For the purpose of this document, it is enough to understand the example below that represents a Logistics Object of type `Sensor`
 
-- In a JSON-LD file, every data elements has a full URI associated with each data element
+A few points to note:
+- In JSON-LD, every data elements has a full URI associated with each data element
 - A JSON-LD file can include an @context that namespaces, vocabularies and more that facilitate the remainder of the data elements. In this context, there is a specification of two ontologies: the ONE Record data model (cargo) and the ONE Record API data model (api). 
 - A JSON-LD file can also include an @type that specifies the type of the data object, i.e. the ONE Record Logistics Object class (Sensor here).
 
 ```json
 {
   "@context": {
-    "cargo": "https://onerecord.iata.org/",
+    "cargo": "https://onerecord.iata.org/cargo/",
     "api": "https://onerecord.iata.org/api/"
   },
-  "@type": "cargo:Sensor",
-  "api:Sensor#sensorDescription": "temperature-tracker",
-  "api:Sensor#sensorName":"TPx14-a",
-  "api:Sensor#sensorSerialNumber": "142NL",
-  "api:Sensor#sensorType": "Temperature"
+  "@type": "https://onerecord.iata.org/cargo/Sensor",
+  "@id": "http://1r.airlne.com/11ccfb7c-3643-41db-8098-740fccd97c93",
+  "https://onerecord.iata.org/cargo/Sensor#sensorDescription": "A data logger with a temperature sensor.",
+  "https://onerecord.iata.org/cargo/Sensor#sensorName":"TPx14-a",
+  "https://onerecord.iata.org/cargo/Sensor#sensorSerialNumber": "142NL",
+  "https://onerecord.iata.org/cargo/Sensor#sensorType": "Thermometer"
 }
 ```
 
-RDF (and JSON-LD) has different forms that are all equivalent. The same object can be formatted as below where the uri's are explicit. This is less readable but often the server responses will be explicit like this.
+JSON-LD defines different types of transformations that can be applied to structure the data output.
+
+RDF (and JSON-LD) has different forms that are all equivalent. The same object can be formatted as compacted version where the IRIs are explicit. This is less readable but often the server responses will be explicit like this.
 
 ```json
 {
-  "@type": "https://onerecord.iata.org/Sensor",
-  "https://onerecord.iata.org/api/Sensor#sensorDescription": "temperature-tracker",
-  "https://onerecord.iata.org/api/Sensor#sensorName": "TPx14-a",
-  "https://onerecord.iata.org/api/Sensor#sensorSerialNumber": "142NL",
-  "https://onerecord.iata.org/api/Sensor#sensorType": "Temperature"
+  "@type": "https://onerecord.iata.org/cargo/Sensor",
+  "@id": "http://1r.airlne.com/11ccfb7c-3643-41db-8098-740fccd97c93",  
+  "https://onerecord.iata.org/cargo/Sensor#sensorDescription": "A data logger with a temperature sensor.",
+  "https://onerecord.iata.org/cargo/Sensor#sensorName": "TPx14-a",
+  "https://onerecord.iata.org/cargo/Sensor#sensorSerialNumber": "142NL",
+  "https://onerecord.iata.org/cargo/Sensor#sensorType": "Thermometer"
 }
 ```
 
-There are more forms that are equal to the example above. Copy and paste the first example on the [jsonld playground](https://json-ld.org/playground/) to see this different forms.
+There are more forms that are equal to the example above. Copy and paste the first example on the [JSON-LD Playground](https://json-ld.org/playground/) to see this different forms.
 
+# Handling Logistics Object
 ## Create a Logistics Object (POST)
 
 This API action creates a Logistics Object as a new HTTP resource on a ONE Record server using the POST method. This can be any type of Logistics Object that is specified in the ONE Record data model. A list is found [here](https://onerecord.iata.org/cargo#LogisticsObject).
 
-Although the creation of a Logistics Object is the API action specified here, technically it falls outside the specification of ONE Record. The reason is that *only the data owner of the Logistics Object* is allowed to create this Logistics Object and they may use any process or technology of their choosing. The only thing that matters is that the Logistics Object gets created with a LOID and available on a server with a dedicated URI. 
+Although the creation of a Logistics Object is the API action specified here, technically it falls outside the specification of ONE Record. The reason is that *only the owner of the Logistics Object* is allowed to create this Logistics Object and they may use any process or technology of their choosing. The only thing that matters is that the Logistics Object gets created with a LOID and available on a server with a dedicated URI. 
 
 This Create a Logistic Object action is included for reference since in many cases, the use of HTTP POST will be used.
 
@@ -272,7 +272,7 @@ Request body:
     "cargo": "https://onerecord.iata.org/",
     "api": "https://onerecord.iata.org/api/"
   },
-  "@type": "cargo:Sensor",
+  "@type": "https://onerecord.iata.org/cargo/Sensor",
   "api:Sensor#sensorDescription": "temperature-tracker",
   "api:Sensor#sensorName":"TPx14-a",
   "api:Sensor#sensorSerialNumber": "142NL",
@@ -488,7 +488,7 @@ Request body:
         {
             "@type": "api:LogisticsObjectRef",
             "api:LogisticsObjectRef#logisticsObjectId": "host:Sensor_715823",
-            "api:LogisticsObjectRef#logisticsObjectType": "cargo:Sensor"
+            "api:LogisticsObjectRef#logisticsObjectType": "https://onerecord.iata.org/cargo/Sensor"
         }
     ],
     "api:PatchRequest#operations": [
@@ -502,7 +502,7 @@ Request body:
                 }
             ],
             "api:Operation#op": "del",
-            "api:Operation#p": "cargo:Sensor#sensorSerialNumber"
+            "api:Operation#p": "https://onerecord.iata.org/cargo/Sensor#sensorSerialNumber"
         },
         {
             "@type": "api:Operation",
@@ -514,7 +514,7 @@ Request body:
                 }
             ],
             "api:Operation#op": "add",
-            "api:Operation#p": "cargo:Sensor#sensorSerialNumber"
+            "api:Operation#p": "https://onerecord.iata.org/cargo/Sensor#sensorSerialNumber"
         }
     ],
     "api:PatchRequest#requestorCompanyIdentifier": "myCompany",
@@ -563,7 +563,7 @@ The response body follows the API AuditTrail class structure.
 | **changeRequests**           | List of change requests that were sent as PATCH on for a Logistics Object | y        | api:ChangeRequest      |
 | - companyId                  | Company that made the patch request                          | y        | w3c:String             |
 | - patchRequest               | PATCH body of a change request sent for a specific Logistics Object (described in the previous section) | y        | api:PatchRequest       |
-| - requestingParty            | The party that has requested the change request, i.e. the person or department within the company | y        | cargo:CompanyBranch    |
+| - requestingParty            | The party that has requested the change request, i.e. the person or department within the company | y        | https://onerecord.iata.org/cargo/CompanyBranch    |
 | - status                     | ACCEPTED or REJECTED                                         | y        | Enumeration            |
 | - timestamp                  | Timestamp of the change request                              | y        | w3c:DateTime           |
 | **errors**                   | Mandatory only if patchRequest was rejected. Otherwise Optional | y/n      | api:Error              |
@@ -652,7 +652,7 @@ An example of a **api:AuditTrail#logisticsObjectRef** (of type logisticsObjectRe
 "api:AuditTrail#logisticsObjectRef": {
   "@type": "api:LogisticsObjectRef",
   "api:LogisticsObjectRef#logisticsObjectId": "http://wwww.myhost.com/Sensor_715823",
-  "api:LogisticsObjectRef#logisticsObjectType": "cargo:Sensor#sensorType"
+  "api:LogisticsObjectRef#logisticsObjectType": "https://onerecord.iata.org/cargo/Sensor#sensorType"
 }
 ```
 
@@ -691,7 +691,7 @@ Since errors are always part of another response object, below is an example of 
     "api:Error#details": [
       {
         "@type":"api:Details",
-        "api:Details#attribute": "cargo:Sensor#sensorType",
+        "api:Details#attribute": "https://onerecord.iata.org/cargo/Sensor#sensorType",
         "api:Details#code": "Invalid Device Type",
         "api:Details#message": "Sensor type 'ionization coil' is not a known option. ",
         "api:Details#resource": "http://wwww.myhost.com/Sensor_715823"
@@ -721,9 +721,9 @@ For each subscriber and each topic, a message queue is maintained automatically 
 
 Two scenarios were identified for initiating the publish/subscribe process. For simplicity reasons, the security part was not detailed in the following diagrams.
 
-### Scenario 1 – Publisher/Subscriber initiated by the Publisher
+### Scenario 1 – Publish/Subscribe initiated by Publisher
 
-In the first and most usual use case, the subscription process is initiated by the publisher.
+In the first and most usual use case, the subscription process is initiated by the Owner of the Logistics Object.
 
 The following steps describe how publish and subscribe is proposed to be implemented in the ONE Record Internet of Logistics (**webhook model with dynamic subscription**):
 
@@ -741,7 +741,7 @@ The prerequisite to this is that the companies must know each other through a pr
 
 Once the subscription information is received the publisher would push the Logistics Object to the intended ONE Record Client using the details provided. If Client Subscription API (server) was not available at the time, then the publisher would need to queue and retry to publish the Logistics Object over a certain time.
 
-**Note**: In Publish & Subscribe, publishing parties need to save a list of all the parties subscribed to their Logistics Objects in their backend systems. One of the possibilities would be that the list of subscribers is embedded in the body of the Logistics Object.
+**Note**: In Publish & Subscribe, publishing parties need to save a list of all the parties subscribed to their Logistics Objects in their backend systems. One of the possibilities COULD be that the list of subscribers is persisted with the Logistics Object.
 
 ![A screenshot of a cell phone  Description automatically generated](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image002.png)
 
@@ -777,60 +777,48 @@ The following HTTP header parameters MUST be present in the GET company informat
 
 The Response Body includes the following data elements.
 
-| Company Identifier           | Description                                             | Required |                              |
-| ---------------------------- | ------------------------------------------------------- | -------- | ---------------------------- |
-| **company**                  | company details                                         | y        | cargo:Company                |
-| **companyId**                | company ID, for example airline code                    | y        | w3c:String                   |
-| **errors**                   | errors related to this request (other than HTTP errors) |          | api:Error                    |
-| **serverEndpoint**           | URI of the company identifier                           | y        | w3c:URI                      |
-| **supportedContentTypes**    | HTTP content types supported by this server             | y        | w3c:String (list)            |
-| **supportedLogisticsObject** | logistics object types supported by this server         | y        | cargo:LogisticsObject (list) |
+| Object Property               | Description                                             | Required |                              |
+| ----------------------------- | ------------------------------------------------------- | -------- | ---------------------------- |
+| **companyIdentifier**         | URI to the Company that is hosted on the server         | y        | http://www.w3.org/2001/XMLSchema#anyURI |
+| **serverEndpoint**            | ONE Record API endpoint, incl. server URL               | y        | http://www.w3.org/2001/XMLSchema#anyURI        |
+| **supportedLanguages**        | Languages supported by this server                      | y        | http://www.w3.org/2001/XMLSchema#string (list)            |
+| **supportedContentTypes**     | HTTP content types supported by this server             | y        | http://www.w3.org/2001/XMLSchema#string (list)            |
+| **supportedLogisticsObjects** | Logistics Object types supported by this server         | y        | http://www.w3.org/2001/XMLSchema#anyURI (list) |
 
 #### Example of retrieving Company Identifier 
 
-```
-Request header:
-GET /airlinexyz
-Host: http://wwww.myhost.com
+```http
+Request
+GET / HTTP/1.1
+Host: 1r.airline.com
 Content-Type: application/ld+json
 Accept: application/ld+json
 
+Response
+HTTP/1.1 200 OK
+Content-Type: application/ld+json
+
 {
-  "@id": "host:airlinexyz",
-  "@type": "api:CompanyInformation",
+  "@id": "https://wwww.myhost.com",
+  "@type": "api:ServerInformation",
   "@context": {
     "cargo": "https://onerecord.iata.org/cargo/",
-    "api": "https://onerecord.iata.org/api/",
-    "host": "http://myhost/"
-  },
-  "api:CompanyInformation#company": {...company object...}
-  "api:CompanyInformation#companyId": "host:airlinexyz",
-  "api:CompanyInformation#errors": [...any non-HTTP errors associated with this request...],
-  "api:CompanyInformation#serverEndpoint": "host",
+    "api": "https://onerecord.iata.org/api/"    
+  },  
+  "api:CompanyInformation#companyIdentifier": "http://1r.airline.com/938d1f25-4557-475e-ac32-c5f4a4a023ba",  
+  "api:CompanyInformation#serverEndpoint": "http://1r.airline.com",
+  "api:CompanyInformation#supportedLanguages": [
+  	"en"
+  	],
   "api:CompanyInformation#supportedContentTypes": [
   	"application/ld+json"
   	],
   "api:CompanyInformation#supportedLogisticsObjects": [
-    "cargo:WayBill"
-    "cargo:Booking", 
-    "cargo:BookingOption",
-    "cargo:BookingOptionRequest",
-    "cargo:Schedule", 
-    "cargo:Request", 
-    "cargo:Product", 
-    "cargo:Piece", 
-    "cargo:Price", 
-    "cargo:Product",
-    "cargo:Ranges",
-    "cargo:Ratings",
-    "cargo:Request",
-    "cargo:Routing",
+    "https://onerecord.iata.org/cargo/WayBill"
+    "https://onerecord.iata.org/cargo/Shipment",     
+    "https://onerecord.iata.org/cargo/Piece"    
   ]
 }
-
-Response header:
-200 (OK)
-Content-Type: application/ld+json
 ```
 
 ## Publisher proposes a subscription 
@@ -855,16 +843,16 @@ The response body includes the following elements:
 
 | Subscription             | Description                                                  | Required                     |                              |
 | ------------------------ | ------------------------------------------------------------ | ---------------------------- | ---------------------------- |
-| contentTypes             | content types that the subscriber wants to receive in the notifications | n                            | w3c:String                   |
-| cacheFor                 | duration of the period to cache the subscription information in seconds | n                            | w3c:Integer                  |
+| contentTypes             | content types that the subscriber wants to receive in the notifications | n                            | http://www.w3.org/2001/XMLSchema#string                   |
+| cacheFor                 | duration of the period to cache the subscription information in seconds | n                            | http://www.w3.org/2001/XMLSchema#int                  |
 | callbackUrl              | callback URL of the Client Subscription API where the subscriber wants to receive Logistics Objects | y                            |                              |
 | errors                   | any non HTTP errors related to this request                  | no, unless there is an error |                              |
-| myCompanyIdentifier      | company identifier of the subscriber                         | y                            | w3c:URI                      |
+| myCompanyIdentifier      | company identifier of the subscriber                         | y                            | http://www.w3.org/2001/XMLSchema#string                       |
 | secret                   | a secret string or API Key that ensures that only companies with this secret information can POST to the subscriber callback endpoint | n                            | w3c:String                   |
 | sendLogisticsObjectBody  | Flag specifying if the publisher should send the whole Logistics Object or only the Logistics Object URI in the notification object | n                            | w3c:Boolean                  |
 | subscribeToStatusUpdates | Flag specifying if the subscriber wants to receive updates for a Logistics Object | n                            | w3c:Boolean                  |
 | subscribedTo             | Company Identifier of the company the subscriber wants to subscribe to (used delegation scenario). | y                            | w3c:URI                      |
-| topic                    | The Logistics Object type to which the subscriber wants subscribe to | y                            | cargo:LogisticsObject (list) |
+| topic                    | The Logistics Object type to which the subscriber wants subscribe to | y                            | https://onerecord.iata.org/cargo/LogisticsObject (list) |
 
 
 
@@ -895,7 +883,7 @@ Response Body
   "api:Subscription#sendLogisticsObjectBody": true,
   "api:Subscription#subscribeToStatusUpdates": true,
   "api:Subscription#subscribedTo": "publisher",
-  "api:Subscription#topic": "cargo:WayBill"
+  "api:Subscription#topic": "https://onerecord.iata.org/cargo/WayBill"
 }
 
 Response header:
@@ -1003,12 +991,12 @@ Accept: application/ld+json
         {
           "@type": "api:LogisticsObjectRef",
           "api:LogisticsObjectRef#logisticsObjectId": "lo-host:Sensor_715823",
-          "api:LogisticsObjectRef#logisticsObjectType": "cargo:Sensor#sensorType"
+          "api:LogisticsObjectRef#logisticsObjectType": "https://onerecord.iata.org/cargo/Sensor#sensorType"
       	},	  
         {
           "@type": "api:LogisticsObjectRef",
           "api:LogisticsObjectRef#logisticsObjectId": "lo-host:Sensor_165371",
-          "api:LogisticsObjectRef#logisticsObjectType": "cargo:Sensor#sensorType"
+          "api:LogisticsObjectRef#logisticsObjectType": "https://onerecord.iata.org/cargo/Sensor#sensorType"
       }  
 
   ]
@@ -1115,12 +1103,12 @@ The following HTTP header parameters MUST be present in the POST request:
 | <u>Event</u>           | Description                                                  | Required | Class          |
 | ---------------------- | ------------------------------------------------------------ | -------- | -------------- |
 | **linkedObject**       | Logistics object the event applies to                        | y        | w3c:String     |
-| **performedBy**        | Company that is adding the event                             | y        | cargo:Company  |
+| **performedBy**        | Company that is adding the event                             | y        | https://onerecord.iata.org/cargo/Company  |
 | **eventCode**          | Movement or milestone code. Refer CXML Code List 1.18, e.g. DEP, ARR, FOH, RCS | y        | w3c:String     |
 | **eventName**          | If no EventCode provided, event name - e.g. Security clearance | y        | w3c:String     |
 | **eventTypeIndicator** | Type of event being created:  "Actual" , "Expected" , "Planned" or "Requested" | y        | w3c:String     |
 | **dateTime**           | Date and time when  the event occurred                       | y        | w3c:DateTime   |
-| **location**           | Location of where  the event occurred                        | y        | Cargo:Location |
+| **location**           | Location of where  the event occurred                        | y        | https://onerecord.iata.org/cargo/Location |
 
 #### Response
 
@@ -1220,28 +1208,28 @@ Link: <http://myServer/my-airline/logistics-object/acl>; rel="acl"
 
 If a resource does not have an individual ACL (and therefore relies on an implicit ACL from a parent), this link header will still be present, but will return a 404.
 
-**Clients MUST NOT assume that the location of an ACL resource can be deterministically derived from a document's URL.** 
+**It MUST NOT be assumed that the location of an ACL resource can be deterministically derived from a Logistics Object identifier URI.** 
 
 #### Example of Authorizations
 
 ##### Single Authorization
 
-Below is an example ACL resource that specifies that Party1 (as identified by its ONE Record Company Identifier https://party1.server.com/company) has full access (Read, Write and Control) to one of its web resources, located at https://party1.server.com/company/logistics-object.
+Below is an example ACL resource that describes that Party1 (as identified by its ONE Record Company Identifier https://1r.party1.com) has full access (Read, Write and Control) 
+to one of their own web resources, located at https://1r.party1.com/06ebed0f-b5b2-4abf-b0e5-dc027f5ce6cc
 
 ```
-# Contents of https://party1.server.com/company/logistics-object/acl
+# Contents of https://1r.party1.com/06ebed0f-b5b2-4abf-b0e5-dc027f5ce6cc/acl
+
 @prefix acl:  <http://www.w3.org/ns/auth/acl#>.
  
 <#authorization1>
     a             acl:Authorization;
-    acl:agent     <https://party1.server.com/company>;  # Company Identifier in the IoL
-    acl:accessTo  <https://party1.server.com/company/logistics-object>;
+    acl:agent     <https://1r.party1.com>;  # Company Identifier in the IoL
+    acl:accessTo  <https://1r.party1.com/06ebed0f-b5b2-4abf-b0e5-dc027f5ce6cc>;
     acl:mode      acl:Read, 
                   acl:Write, 
                   acl:Control.
 ```
-
-
 
  
 
@@ -1574,7 +1562,8 @@ When a version is obsolete or not supported anymore, the client should be redire
 <!--- is route versioning still the preferred choice? Is it actually being implemented? -->
 
 ### Data Model Versioning
-
+Data Model versioning is done via Content-Negotiation
+ServerInformation should provide information about supported data models
 
 ### Data Versioning
 In ONE Record, data is updated in real time. There is a need to snapshot a version of a document, for example MAWB, and we need to know which version of data was used for that snapshot. 
@@ -1582,6 +1571,17 @@ In ONE Record, data is updated in real time. There is a need to snapshot a versi
 Every time a transaction/update is committed successfully, a new version entry is created by the versioning service. 
 
 Note: Revert to a previous memento (version) of a Logistics Object with PATCH and Deleting a previous memento (version) of a Logistics Object with DELETE are not supported as out of scope of ONE Record. 
+
+
+
+
+
+
+### Caching
+Is not part of the specification
+It is RECOMMENDED to proide caching information via response HTTP header [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control). For example, set `"Cache-Control: max-age=86400"` to indicate that the requested resource has a time to live of one day. 
+This is useful to inform the ONE Record client that a data can be cached locally and does not have to be requested before the TTL expires. `Subscription` information are an example.
+
 
 ## Memento Protocol
 
@@ -1831,6 +1831,20 @@ Internationalization (abbreviated i18n) enable companies to request and return d
 
 i18n support is particularly needed when getting Company information: the address could be written in Chinese or in English for example. If a Chinese Shipper provides information only with Chinese characters, maybe a European company won’t be able to use this information, therefore the need to specify the language in which the data is returned.
 
+The supported languages SHOULD be provided in the ServerInformation.
+
+To ensure globally interoperablity every ONE Record API MUST implement American English as supported language. 
+The `Accept-Language` request HTTP header SHOULD be used to select the language.
+
+**Example Request**
+
+```http
+GET /1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
+Host: 1r.example.com
+Accept-Language: en 
+Accept: application/ld+json
+```
+
 #### Request
 
 In order to retrieve the data in a desired language, the ONE Record client should send the following query parameter in the request: ?lang=language_code, where:
@@ -1864,249 +1878,21 @@ Example of response:
       {
          "@type":"iata-api:Details",
          "iata-api:Details#attribute":".WayBillNumber ",
-         "iata-api:Details#code":"1234",
-         "iata-api:Details#message":"Waybill number  could not be dereferenced, an error occurred",
+         "iata-api:Details#code":"404",
+         "iata-api:Details#message":"Waybill number could not be dereferenced, an error occurred",
          "iata-api:Details#resource":"[iata-api:Waybill](https://onerecord.iata.org/Waybill)"
       }
    ],
-   "iata-api:Error#title":"Request  contains invalid field"
+   "iata-api:Error#title":"Request contains invalid field"
 }
 
-# Security in ONE Record 
+# Content Encoding
 
-This section discusses the security options for the ONE Record API that governs the connectivity between ONE Record clients and servers on the Internet of Logistics. 
+It is RECOMMENDED to implement content compression for the ONE Record API, because it improves the data transfer speed and bandwith utilization. 
 
-## Background
-
-When exchanging data, each party needs to know with certainty the true identity of the other party and that they have the authority to receive or share the data. They also need to be certain that the data being shared is private, secured and confidential and cannot be intercepted or changed by any unauthorized third party. The ONE Record security framework works globally and for all stakeholders in the full logistics and transport supply chain, and in compliance with corporate and local data security requirements.
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image001.png" alt="img" style="zoom:150%;" />
-
-IT and business experts from the industry  from ONE Record Task Force have explored and discussed the different connectivity configurations within the Internet of Logistics and two models – possibly complementary – were retained. This section presents these models and showcases the implications and benefits that they bring to the air cargo industry.
-
-## IoL Nodes
-
-The connectivity between clients and servers on the Internet of Logistics (IoL) is governed by the ONE Record API and Security specifications. Since the IoL is proposed to include end-to-end transport and logistics chain connectivity, there are many configurations for interaction between stakeholders and their systems, both large and small, that may include all types such as shippers, forwarders, airlines, ground handlers, airports, customers as well as entities from other modes. The following non-exhaustive list of IoL Nodes types have been identified: 
-
-\1. Single Node: A node that can receive and transmit data via the ONE Record API. It can act **both as a Client & Server** or as **a Client only**. Typically, a Single Node is operated by a single company.
-
-\2. Multi-Company Node: A node that may be shared by **multiple companies** and is operated by a **“ONE Record as a Service”** service provider. This allows small and medium sized companies to exchange data without the need to implement their own node.
-
-\3. Multi-User Node: A node that is shared by **many users**, possibly from different companies. Typically, this would be an app server that allows users to interact via an mobile app and retrieve or send data via ONE Record.
-
-\4. Multi-Device Node: In addition to multi-company and multi-user nodes, there will be nodes that regroup **devices** such as **trackers** and that may connect via ONE Record.
-
-Together these are referred to as **IoL Nodes**.
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image002.png" alt="img" style="zoom:40%;" />
-
-IoL Nodes 
-
-Below is an example of a small IoL network where the different types of IoL Nodes interact using the ONE Record API and Security specifications. 
-
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image003.png)
-
-From an IoL perspective, these are all clients and services but, in the Multi-User, Multi-Company and Multi-Device cases, the actual IoL API is shared between multiple companies and/or users which impacts the identification, authentication and authorization models for ONE Record. 
-
-## Definitions and Acronyms
-
-Here are some definitions and acronyms used in the following sections:
-
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image004.png)
-
-## Practical implementation of a first ONE Record Security working concept
-
-ONE Record Security specifications are built around two concepts: **mutual TLS** (short for Transport Layer Security) and **OAuth2** (an authorization protocol). Mutual TLS secures all the Node-to-Node channels whereas OAuth2 adds an extra security layer for identification and authentication.
-
-IATA has conceptualized a first practical implementation, which is promoted as the official security model for ONE Record. This implementation is split in two modules:
-
-- **TLS authentication** **support**, including the definition of certificate profiles and practical use of digital certificates for client and server certificates;
-- **Token-based authentication support**, including a practical implementation using OAuth2 as authorization protocol, based on the concept of a “Trusted Identity Provider”.
-
-The next sections provide more detailed descriptions on the chosen security models and common use cases.
-
-### TLS Authentication Model
-
-The first ONE Record Security layer is based on Mutual TLS (with TLS1.2), where the Nodes identify themselves via digital certificates (X509) issued by Certificate Authorities (CA) that are recognized by the ONE Record community. Therefore, there is a prerequisite that the ONE Record Community operates and manages one or more CAs that meets the registration and issuance requirements of the Internet of Logistics. 
-
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image005.png)
-
-TLS in ONE Record
-
-#### Digital Certificates and PKI
-
-- **Digital Certificates** enable to:
-- **Identify the entities** (persons, applications or objects) connecting to an application;
-- **Encrypt** the data, to ensure the **confidentiality**, either during the communication, or permanently;
-- **Digitally sign** the data, to ensure both:
-  - the **authenticity**, and
-  - the **integrity** of the data.
-
-#### TLS Overview
-
-TLS defines a handshake procedure to authenticate the parties and encrypt the communication channel.
-
-Key points to consider:
-
-- TLS Authentication can be used with certificates for server side only, or for both client and server-side authentication;
-- A certificate can allow an application to act as client or as a server;
-- The same certificate can be used for other purposes, like digitally signing the messages;
-- TLS is standardized and supports common server applications and development frameworks.
-
-#### TLS in ONE Record
-
-IATA defines two digital certificate profiles:
-
-- **Client Certificate**. This certificate can authenticate a 1R-Client, and it includes one or more “ONE Record IDs” in the form of URI, that represent the endpoints that are authorized for the 1R-Client, to receive ONE Record responses. These ONE Record IDs are included in the certificate as SAN URI extensions. IATA recommends that these certificates are issued by a publicly trusted CA that is operating according to the PKI industry regulations and that is conforming to a WebTrust or equivalent independent audit criteria.
-
-- **Server Certificate**. This is valid for server authentication and it is similar to common TLS certificates used to protect web sites. The main particularity and requirement are that, to cover the needs of Multi-Company Nodes, the Server Certificate must contain all the internet domains that can be extracted from the list of authorized 1R-IDs.
-
-Please see the [section below](#_PKI_Compliance) for more details about the client and server certificates requirements.
-
-#### Use-Case: TLS Client/Server Authentication
-
-The 1R-Client needs to establish a secure connection to the 1R-Server, and both parties need to authenticate the other, so both will be required to present a valid digital certificate to establish the connection.
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image006.png" alt="img" style="zoom:45%;" />
-
-It is important to note that ONE Record uses a Publish/Subscribe approach, therefore:
-
-- The 1R-Client sends a request to the 1R-Server and includes a callback URL;
-- The 1R-Server will process asynchronously the request and will send a notification to the 1R-Client using the callback URL.
-
-This means that when the response from the 1R-Server is ready, it will be sent to the 1R-Client as a new TLS flow, initiated by the 1R-Server, but it is now acting as a TLS client as it pushes data back to the 1R-Client. This means that both entities will operate alternatively as both client and server.
-
-Traffic flow:
-
-- The 1R-Client Initiates the request using HTTPS, i.e to an SSL server.
-
-- The 1R-Server presents its certificate, and requests a Client certificate.
-
-- The TLS connection is established if the 1R-Server and 1R-Client are properly configured to require TLS authentication with Client certificate, and the CA issuing the certificate is included in the CA list of the 1R-Server.
-
-- The 1R-Client Accepts the connection if:
-
-  - the Server certificate comes from a Trusted CA and
-
-  - it is not expired or revoked
-
-- The 1R-Server Accepts the connection if:
-
-  - the Client certificate comes from a Trusted Source and
-
-  - it is not expired or revoked, and 
-
-  - the Client certificate contains a 1R-ID that is allowed to make 1R requests.
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image007.png" alt="img" style="zoom:40%;" />
-
-
-
-### OAuth2 Authorization model
-
-#### Overview 
-
-The mutual TLS model proposed for Node-to-Node data exchange is not enough to ensure identification for the Multi-Company/User/Device configurations. 
-
-Mutual TLS can only identify the owner of the digital certificate. When that server is shared by multiple companies and/or multiple users, this is insufficient for guaranteed identification of such companies and/or users for a 3rd party IoL node to apply its authorization and access policies. 
-
-Although Multi-Company/User/Device Nodes could obtain a digital certificate for each of its platform users (i.e. companies) and ensure their identity as such using the mutual TLS model, the ONE Record Task Force proposes an complementary identification and authentication approach. 
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image008.png" alt="img" style="zoom:55%;" />
-
-It is proposed to use the services of one or more Identity & Authentication Provider/s (IAP) that can register companies, users and other entities such as devices based on policies agreed by the ONE Record community. These IAPs provide authentication and validation as requested.
-
-This second security model intends to cover the use cases where a multi-company/user/device client application is connecting to a ONE Record service, and the server needs to take an authorization decision based on the identity of the end client making the request. This authorization will be based on the use of claims-based technology, in particular:
-
-- The end client is authenticated by a trusted identity provider who has a digital certificate issued by a ONE Record CA;
-- The client can attach to the request an authorization token issued by the trusted identity provider;
-- The server application can extract from the token the identity of the end client and can also ensure that his identity is endorsed by a trusted identity provider.
-
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image009.png)
-
-Using OAuth2 Tokens
-
-#### Calling ONE Record API over TLS and OAuth2
-
-- 1R API requires TLS mutual authentication;
-- 1R API requires OAuth2 authentication using OpenID Connect Code Flow;
-- 1R API validates TLS client authentication;
-- 1R API validates ID token to check if the token is signed by a trusted IAP.
-
-#### OAuth2 Auth - OpenID Connect Code Flow
-
-1. Client prepares an authentication request containing the desired request parameters.
-2. Client sends the request to the authorization server.
-3. Authorization server authenticates the end-user.
-4. Authorization server obtains end-user consent/authorization.
-5. Authorization server sends the end-user back to the client with an authorization code.Client requests a response using the authorization code at the token endpoint.
-6. Client receives a response that contains an ID token and access token in the response body.
-7. Client validates the ID token and retrieves the end-user's subject identifier.
-
-#### Token Validation Process
-
-The security model enforces the concept of “trusted identity provider”, this implies that the server must ensure that the token is issued by a trusted party. This validation implies these steps:
-
-- Parsing;
-- Loading IAP’s public key;
-- Validate signature;
-- TRUST IAP validation through by doing validate if the public key linked with a trusted certificate.
-
-## Federated trust centres
-
-### PKI Compliance
-
-Mutual TLS requires the use of digital certificates that were issued by trusted Certificate Authorities (CAs). It is proposed that trusted organizations like IATA and/or other industry bodies provide such CA services to their IoL stakeholders. 
-
-It is essential that all these IoL CAs operate on the same basis, i.e. that they implement the same registration and operational policies. It is therefore proposed that these CA’s federate under a common agreement that they jointly develop, sign and maintain. 
-
-#### Certificate profile 1 – Client 
-
-It is recommended to use client certificates with only the clientAuthentication EKU, in order to simplify the issuance process and reduce audit complexity. Example of ONE Record Client Certificate:
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image010.png" alt="img" style="zoom:33%;" />
-
-#### Certificate profile 2 – Server 
-
-It is recommended to use TLS server certificates of type “Domain Validated”, that don’t contain company name or other identity attributes, in order to simplify the issuance process and reduce audit complexity. Example of ONE Record Server Certificate:
-
-<img src="file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image011.png" alt="img" style="zoom: 33%;" />
-
-
-
-#### Requirements for Certificate Authorities (CAs)
-
-- Issue and authenticate valid ONE Record certificates
-- Must be internationally accredited to issue public certificates
-- Meets ONE Record requirements for registration and service levels
-- Is federated with other certificate authorities and identity & authentication services
-
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image012.png)
-
-CA Requirements
-
-### Trusted IAP
-
-Similarly, the OAuth2 security model requires that Identity and Authentication Providers provide a service to their stakeholders that must also be operated on the same basis, i.e. using the same registration and operational policies.
-
-It is therefore proposed that both CAs and IAPs operate under the same ONE Record and IoL data security agreement that allows CAs and IAPs to offer a federated trust environment to the transport and logistics industry.
-
-Although ONE Record and IoL are open initiatives and aim to create a global network for data sharing and connectivity, these CA’s and IAPs’ will incur cost that they may pass on to the registrants. This should be considered the cost of security. It is very well possible that as the IoL grows, that the CA’s and IAP’s find business models that would allow them to provide these security services for free to their stakeholders.
-
-#### Trusted IAP validation
-
- 
-
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image013.png) 
-
-## Resources available for interested parties
-
-With the purposes of implementing this security concept in pilot or real projects, IATA has made available to all interested parties a platform that provides the necessary services for:
-
-- Issuing Client and Server Digital Certificates, for TLS Authentication. This will facilitate to obtain certificates conforming to the profiles defined by IATA and issued out of a publicly trusted certification authority;
-- Obtaining digital identities compatible with OpenID Connect and OAuth2, for token-based authorization purposes.
-
-Additionally, IATA can deliver guidelines and sample code that illustrate the processes for client and server authentication, using TLS and/or OAuth2 methods. 
+The request body and the response bodies MUST
+- use `UTF-8 encoding`
+- consist of valid Unicode strings, i.e. must not contain non-characters or surrogates 
 
 # Glossary 
 
@@ -2132,10 +1918,6 @@ Additionally, IATA can deliver guidelines and sample code that illustrate the pr
 | **Uniform Resource Identifier (URI)**                                | A Uniform Resource Identifier (URI) is a URL that uniquely identifies a Logistics Object |      |      |
 | **WAC**                                | Web Access  Control                                          |      |      |
 
-# Changelog
-
-## Version 2.0
-- Removed Memento
 
 # Contributors
 - [Henk Mulder](https://github.com/edesignextended), IATA 
