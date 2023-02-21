@@ -79,6 +79,12 @@ xsd:date rdf:type rdfs:Datatype .
 #    Object Properties
 #################################################################
 
+###  https://onerecord.iata.org/Notification#changeRequest
+<https://onerecord.iata.org/Notification#changeRequest> rdf:type owl:ObjectProperty ;
+                                                        rdfs:comment "Optional URI to the ChangeRequest if the Notification#eventType is one of  CHANGEREQUEST_ACCEPTED, CHANGEREQUEST_REJECT, or CHANGEREQUEST_FAILED"@en ;
+                                                        rdfs:label "notification:changeRequest"@en .
+
+
 ###  https://onerecord.iata.org/Notification#logisticsObjectRef
 <https://onerecord.iata.org/Notification#logisticsObjectRef> rdf:type owl:ObjectProperty ;
                                                              rdfs:comment "Identifier of the LogisticsObject to which the Notification belongs to"@en ;
@@ -97,6 +103,12 @@ auditTrail:changeRequests rdf:type owl:ObjectProperty ;
 auditTrail:logisticsObjectRef rdf:type owl:ObjectProperty ;
                               rdfs:domain :AuditTrail ;
                               rdfs:range :LogisticsObjectRef .
+
+
+###  https://onerecord.iata.org/api/ChangeRequest#errors
+changeRequest:errors rdf:type owl:ObjectProperty ;
+                     rdfs:comment "Contains a list of Error objects if the patching of the LogisticsObject was not successful"@en ;
+                     rdfs:label "changeRequest:errors"@en .
 
 
 ###  https://onerecord.iata.org/api/ChangeRequest#logisticsObjectRef
@@ -119,6 +131,12 @@ changeRequest:requestedBy rdf:type owl:ObjectProperty ;
                           rdfs:range :LogisticsObjectRef ;
                           rdfs:comment "Reference to the identifier that represents the party that has requested the change request"@en ;
                           rdfs:label "changeRequest:requestedBy"@en .
+
+
+###  https://onerecord.iata.org/api/DelegationRequest#errors
+delegationRequest:errors rdf:type owl:ObjectProperty ;
+                         rdfs:label "Contains a list of Error objects if the processing of the DelegationRequest was not successful"@en ,
+                                    "delegationRequest:errors"@en .
 
 
 ###  https://onerecord.iata.org/api/DelegationRequest#targetLogisticsObjects
@@ -206,6 +224,12 @@ auditTrail:latestRevision rdf:type owl:DatatypeProperty ;
 
 ###  https://onerecord.iata.org/api/AuditTrail#logisticsObjectRef
 auditTrail:logisticsObjectRef rdf:type owl:DatatypeProperty .
+
+
+###  https://onerecord.iata.org/api/ChangeRequest#callbackUrl
+changeRequest:callbackUrl rdf:type owl:DatatypeProperty ;
+                          rdfs:comment "Optional callback URL of the requester to be used for sending notifications about success, failure or rejection of the ChangeRequest"@en ;
+                          rdfs:label "changeRequest:callbackUrl"@en .
 
 
 ###  https://onerecord.iata.org/api/ChangeRequest#description
@@ -498,8 +522,9 @@ subscription:callbackUrl rdf:type owl:DatatypeProperty ;
 subscription:contentTypes rdf:type owl:DatatypeProperty ;
                           rdfs:domain :Subscription ;
                           rdfs:range xsd:string ;
-                          rdfs:comment "Content types that the subscriber wants to receive in the notifications"@en ;
-                          rdfs:label "subscription:contentTypes"@en .
+                          rdfs:comment "Content types that the subscriber wants to receive in the notifications, e.g. application/ld+json"@en ;
+                          rdfs:label "subscription:contentTypes"@en ;
+                          rdfs:seeAlso "https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types"@en .
 
 
 ###  https://onerecord.iata.org/api/Subscription#myCompanyIdentifier
@@ -526,12 +551,13 @@ subscription:sendLogisticsObjectBody rdf:type owl:DatatypeProperty ;
                                      rdfs:label "subscription:sendLogisticsObjectBody"@en .
 
 
-###  https://onerecord.iata.org/api/Subscription#subscribeToStatusUpdates
-subscription:subscribeToStatusUpdates rdf:type owl:DatatypeProperty ;
-                                      rdfs:domain :Subscription ;
-                                      rdfs:range xsd:boolean ;
-                                      rdfs:comment "Flag specifying if the subscriber wants to receive updates for a Logistics Object"@en ;
-                                      rdfs:label "subscription:subscribeToStatusUpdates"@en .
+###  https://onerecord.iata.org/api/Subscription#subscribeToLogisticsEvents
+subscription:subscribeToLogisticsEvents rdf:type owl:DatatypeProperty ;
+                                        rdfs:domain :Subscription ;
+                                        rdfs:range xsd:boolean ;
+                                        rdfs:comment "Flag specifying if the subscriber wants to receive Notification from the publisher when LogisticsEvents for a Logistics Object are received, default=FALSE"@en ;
+                                        rdfs:label "subscription:subscribeToLogisticsEvents"@en ;
+                                        rdfs:seeAlso "https://onerecord.iata.org/cargo/LogisticsEvent"^^xsd:anyURI .
 
 
 ###  https://onerecord.iata.org/api/Subscription#subscribedTo
@@ -600,6 +626,10 @@ subscription:topic rdf:type owl:DatatypeProperty ;
 ###  https://onerecord.iata.org/api/ChangeRequest
 :ChangeRequest rdf:type owl:Class ;
                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                 owl:onProperty changeRequest:errors ;
+                                 owl:allValuesFrom :Error
+                               ] ,
+                               [ rdf:type owl:Restriction ;
                                  owl:onProperty changeRequest:logisticsObjectRef ;
                                  owl:allValuesFrom :LogisticsObjectRef
                                ] ,
@@ -632,6 +662,10 @@ subscription:topic rdf:type owl:DatatypeProperty ;
                                  owl:onProperty changeRequest:requestedBy ;
                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :LogisticsObjectRef
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty changeRequest:callbackUrl ;
+                                 owl:someValuesFrom xsd:anyURI
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty changeRequest:description ;
@@ -671,6 +705,11 @@ subscription:topic rdf:type owl:DatatypeProperty ;
                                  owl:minCardinality "1"^^xsd:nonNegativeInteger
                                ] ,
                                [ rdf:type owl:Restriction ;
+                                 owl:onProperty changeRequest:callbackUrl ;
+                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onDataRange xsd:anyURI
+                               ] ,
+                               [ rdf:type owl:Restriction ;
                                  owl:onProperty changeRequest:description ;
                                  owl:maxCardinality "1"^^xsd:nonNegativeInteger
                                ] ,
@@ -699,12 +738,17 @@ subscription:topic rdf:type owl:DatatypeProperty ;
 ###  https://onerecord.iata.org/api/DelegationRequest
 :DelegationRequest rdf:type owl:Class ;
                    rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                     owl:onProperty delegationRequest:errors ;
+                                     owl:someValuesFrom :Error
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
                                      owl:onProperty delegationRequest:targetLogisticsObjects ;
                                      owl:allValuesFrom :LogisticsObjectRef
                                    ] ,
                                    [ rdf:type owl:Restriction ;
                                      owl:onProperty delegationRequest:targetLogisticsObjects ;
-                                     owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :LogisticsObjectRef
                                    ] ,
                                    [ rdf:type owl:Restriction ;
                                      owl:onProperty <https://onerecord.iata.org/DelegationRequest#status> ;
@@ -791,11 +835,11 @@ subscription:topic rdf:type owl:DatatypeProperty ;
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty errorDetails:property ;
-                                owl:allValuesFrom xsd:string
+                                owl:allValuesFrom xsd:anyURI
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty errorDetails:resource ;
-                                owl:allValuesFrom xsd:string
+                                owl:allValuesFrom xsd:anyURI
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty errorDetails:code ;
@@ -854,6 +898,10 @@ subscription:topic rdf:type owl:DatatypeProperty ;
 ###  https://onerecord.iata.org/api/Notification
 :Notification rdf:type owl:Class ;
               rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty <https://onerecord.iata.org/Notification#changeRequest> ;
+                                owl:allValuesFrom :ChangeRequest
+                              ] ,
+                              [ rdf:type owl:Restriction ;
                                 owl:onProperty <https://onerecord.iata.org/Notification#logisticsObjectRef> ;
                                 owl:allValuesFrom :LogisticsObjectRef
                               ] ,
@@ -861,6 +909,11 @@ subscription:topic rdf:type owl:DatatypeProperty ;
                                 owl:onProperty <https://onerecord.iata.org/Notification#logisticsObjectRef> ;
                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :LogisticsObjectRef
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <https://onerecord.iata.org/Notification#changeRequest> ;
+                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :ChangeRequest
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty <https://onerecord.iata.org/Notification#logisticsObjectRef> ;
@@ -1074,7 +1127,7 @@ subscription:topic rdf:type owl:DatatypeProperty ;
                                 owl:allValuesFrom xsd:boolean
                               ] ,
                               [ rdf:type owl:Restriction ;
-                                owl:onProperty subscription:subscribeToStatusUpdates ;
+                                owl:onProperty subscription:subscribeToLogisticsEvents ;
                                 owl:allValuesFrom xsd:boolean
                               ] ,
                               [ rdf:type owl:Restriction ;
@@ -1123,7 +1176,7 @@ subscription:topic rdf:type owl:DatatypeProperty ;
                                 owl:maxCardinality "1"^^xsd:nonNegativeInteger
                               ] ,
                               [ rdf:type owl:Restriction ;
-                                owl:onProperty subscription:subscribeToStatusUpdates ;
+                                owl:onProperty subscription:subscribeToLogisticsEvents ;
                                 owl:maxCardinality "1"^^xsd:nonNegativeInteger
                               ] ,
                               [ rdf:type owl:Restriction ;
@@ -1139,7 +1192,9 @@ subscription:topic rdf:type owl:DatatypeProperty ;
 
 
 ###  https://onerecord.iata.org/api/SubscriptionRequest
-:SubscriptionRequest rdf:type owl:Class .
+:SubscriptionRequest rdf:type owl:Class ;
+                     rdfs:comment "SubscriptionRequest initiated by subscribers to publisher (data owner) for themselves or for a third party subscriber."@en ;
+                     rdfs:label "SubscriptionRequest"@en .
 
 
 #################################################################

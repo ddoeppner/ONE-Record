@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Changed
 - moved Security part of ONE Record API specification to separate file [IATA-1R-Security-Specification.md](IATA-1R-Security-Specification.md)
+- restructured Introduction section
   
 #### Added
 
@@ -35,14 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed ServerInformation#companyId
 - removed AuditTrail#errors, auditTrail#loInitialSnapshot
 
-#### Added
-
-- added Notification#changedProperties
-- added further enums to notification#eventType, i.e. CHANGEREQUEST_ACCEPTED, CHANGEREQUEST_FAILED, CHANGEREQUEST_PENDING, CHANGEREQUEST_REJECTED, EVENT_RECEIVED
-- added PENDING enum to ChangeRequest#status
-- added DelegationRequest#status as required property
-- added Operation#s to enable updating not only properties of primitive types, e.g. int, string, but also embedded objects, e.g. Shipment#totalGrossWeight<Value> in LogisticsObjects
-
 #### Changed 
 
 - replaced all data classes of the ONE Reoord cargo ontology to maintain independency between ONE Record API and cargo data model, e.g. replaced Notification#LogisticsObject with Notification#LogisticsObjectRef
@@ -54,6 +47,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed ChangeRequest#requestingParty to ChangeRequest#requestedBy
 - changed ChangeRequest#timestamp to ChangeRequest#requestedAt
 - changed ChangeRequest#requestingParty<Branch> to ChangeRequest#requestedBy<LogisticsObjectRef>
-- changed property type of Notification#topic, Notification#changedProperties, OperationObject#datatype, ServerInformation#serverEndpoint, ServerInformation#supportedLogisticsObjects, ErrorDetails#property, ErrorDetails#resource, Subscription#callbackUrl  to xsd:AnyURI
+- changed ErrorDetails#attribute to ErrorDetails#property
+- changed property type of Notification#topic, Notification#changedProperties, OperationObject#datatype, ServerInformation#serverEndpoint, ServerInformation#supportedLogisticsObjects, ErrorDetails#property, ErrorDetails#resource, Subscription#callbackUrl to xsd:AnyURI- 
+
+#### Added
+
+- added Notification#changedProperties
+- added further enums to notification#eventType, i.e. CHANGEREQUEST_ACCEPTED, CHANGEREQUEST_FAILED, CHANGEREQUEST_PENDING, CHANGEREQUEST_REJECTED, EVENT_RECEIVED
+- added PENDING enum to ChangeRequest#status
+- added Operation#s to enable updating not only properties of primitive types, e.g. int, string, but also embedded objects, e.g. Shipment#totalGrossWeight<Value> in LogisticsObjects
+- added DelegationRequest#status as required property, initial value SHOULD be PENDING
+- added ChangeRequest#errors
+- added ChangeRequest#callbackURL
+- added Notification#changeRequest
+- added DelegationRequest#errors
+
 
 ---
