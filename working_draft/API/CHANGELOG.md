@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ONE Record API Specification
 
+#### TODO
+- specify ISO 8601 as datetime string serialization standard
+- specify UTC as time format
+
 #### Changed
 - moved Security part of ONE Record API specification to separate file [IATA-1R-Security-Specification.md](IATA-1R-Security-Specification.md)
 - restructured Introduction section
@@ -40,13 +44,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - merged PatchRequest into ChangeRequest
 - renamed Operaton#op enums to UPPERCASE, e.g. changed del to DEL
 - renamed Details to ErrorDetails
-- changed ChangeRequest#requestingParty to ChangeRequest#requestedBy
-- changed ChangeRequest#timestamp to ChangeRequest#requestedAt
+- renamed ChangeRequest#requestingParty to ChangeRequest#requestedBy
+- renamed ChangeRequest#timestamp to ChangeRequest#requestedAt
 - changed ChangeRequest#requestingParty<Branch> to ChangeRequest#requestedBy<LogisticsObjectRef>
-- changed ErrorDetails#attribute to ErrorDetails#property
-- changed ServerInformation#supportedLogisticsObjects to ServerInformation#supportedLogisticsObjectTypes
+- renamed ErrorDetails#attribute to ErrorDetails#property
+- renamed ServerInformation#supportedLogisticsObjects to ServerInformation#supportedLogisticsObjectTypes
 - changed property type of Notification#topic, Notification#changedProperties, OperationObject#datatype, ServerInformation#serverEndpoint, ServerInformation#supportedLogisticsObjects, ErrorDetails#property, ErrorDetails#resource, Subscription#callbackUrl, Subscription#topic, Subscription#subscribedTo, LogisticsObjectRef#type to xsd:AnyURI
-- changed Subscription#myCompanyIdentifier to LogisticsObjectRef
+- renamed Subscription#myCompanyIdentifier to Subscription#subscriber
+- changed Subscription#cacheFor<xsd:int> to Subscrption#expiresAt<xsd:dateTime>
+- renamed DelegationRequest#operations to DelegationRequest#permissions
 
 #### Removed
 
@@ -56,6 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed AuditTrail#errors, auditTrail#loInitialSnapshot
 - removed ChangeRequest#requestorCompanyIdentifier
 - removed ServerInformation#errors
+- removed Subscription#subscribedTo
+
 
 #### Added
 
@@ -68,6 +76,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added ChangeRequest#callbackURL
 - added Notification#changeRequest
 - added DelegationRequest#errors
-
-
+- added DelegationRequest#description
+- added OrganizationRef in analogy to LogisticsObjectRef
+- added SubscripionRequest. Subscription is the response for the scenario where publisher initiates the Subscription and asks the subscribers for their Subscription information. SubscriptionRequest is used for scenario where the subscriber initiates a SubscriptionRequest towards the Publisher.
 ---
+
+subscriptionRequest:requestedAt
+Datetime when the Subscription Request was created

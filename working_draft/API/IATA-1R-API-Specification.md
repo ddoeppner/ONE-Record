@@ -73,7 +73,7 @@ The owner of a Logistics Object is the one who created it and thus has control o
 
 A User of a Logistics Object is anyone other than the Owner and who has access to the Logistics Object. Most likely the User will have a role in the logistics & transport of the consignment. The User may be external, from another company than the Owner, or internal from the same company but with a different function within that company. 
 
-*In a publisher-subscriber scenario, the User of a Logistics Object is also referred to as `Subscriber`. In an access delegation scenario, the User of a Logistics Object is also referred to as the `Requestor` or `Delegatee`. In a PATCH scenario, the User of a Logistics Object is also referred to as the `Requestor`.*
+*In a publisher-subscriber scenario, the User of a Logistics Object is also referred to as `Subscriber`. In an access delegation scenario, the User of a Logistics Object is also referred to as the `Requestor` or `Delegate`. In a PATCH scenario, the User of a Logistics Object is also referred to as the `Requestor`.*
 
 ## Overview: ONE Record API features
 
