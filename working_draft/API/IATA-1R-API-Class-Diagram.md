@@ -80,7 +80,7 @@ classDiagram
     }
     class Operation{
         + o: OperationObject
-        + op: Enumeration
+        + op: OperationEnum
         + p: xsd:anyURI
         + s: xsd:string
     }
