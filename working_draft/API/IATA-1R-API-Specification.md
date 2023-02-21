@@ -2,6 +2,7 @@
 
 **Version:** 2.0.0-dev **Status:** Draft; not yet approved by the COTB / CSC
 
+
 ## Table of Contents
 
 
@@ -9,7 +10,7 @@
 
 ## Purpose
 
-This ONE Record API specification is part of the IATA ONE Record standard. It defines a standard, programming language-agnotic interface for the interaction with the ONE Record Web API. This ONE Record API specification supports the effective implementation of ONE Record compliant APIs.
+This ONE Record API specification is part of the IATA ONE Record standard. It defines a standard, programming language-agnotic interface for the interaction with the ONE Record Web API. This ONE Record API specification supports the effective implementation of ONE Record compliant APIs. It aims to provide detailed realistic use cases and examples for the various API features while maintaining the necessary technical depth for implementers.
 
 ## Prerequisites
 
@@ -17,7 +18,8 @@ It is assumed that the reader is familiar with REST APIs (also known as RESTful 
 
 ## Supporting Documents
 - [Changelog](CHANGELOG.md) contains a list of all notable changes for each version of the ONE Record API specification.
-- [ONE Record API Ontology](IATA-1R-API-Ontology.ttl) provides the vocabulary and data classes for the data model used in the ONE Record API
+- [ONE Record API Ontology](IATA-1R-API-Ontology.ttl) provides the vocabulary and data classes for the data model used in the ONE Record API.
+- [ONE Record API Class Diagram](IATA-1R-API-Class-Diagram.md) describes the ONE Record API data classes, their properties as attributes, and the relationship that can exist between the classes.
 
 ## Namespace prefixes
 
@@ -25,7 +27,7 @@ It is assumed that the reader is familiar with REST APIs (also known as RESTful 
 | ------ | ---------------------------------------- | ------------------------------------------------------------ |
 | cargo  | [https://onerecord.iata.org/cargo](https://onerecord.iata.org/cargo)              | This refers to the IATA ONE Record cargo ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
 | api    | [https://onerecord.iata.org/api](https://onerecord.iata.org/api)          | This refers to the IATA ONE Record API ontology. Refer also to the ONE Record [Developer Portal](https://onerecord.iata.org/) |
-| w3c    | http://www.w3.org/2001/XMLSchema         | W3C primitive data types (primarily String and DateTime)     |
+| xsd    | http://www.w3.org/2001/XMLSchema         | W3C primitive data types (e.g. string, dateTime)     |
 | acl    | http://www.w3.org/ns/auth/acl         | Ontology for WebAccessControl with Access Control Lists (ACL)      |
 
 ## Conventions
@@ -63,11 +65,15 @@ These generic data classes are referred to as `Logistics Objects` in the world o
 
 #### Owner of a Logistics Object
 
-The owner of a Logistics Object is the one who created it and thus has control over it. The Owner may also control the ONE Record server on which the Logistics Object is accessible via HTTP but this is not a requirement. Instead, the owner may use a 3rd party that implements, operates, and provisions the ONE Record API and will provide suitable access to the Owner to manage and control the Logistics Object, include it's creation, any changes, authoprization and access rights and more. In a publisher-subscriber scenario, the Owner of a Logistics Object is also referred to as `Publisher`.    
+The owner of a Logistics Object is the one who created it and thus has control over it. The Owner may also control the ONE Record server on which the Logistics Object is accessible via HTTP but this is not a requirement. Instead, the owner may use a 3rd party that implements, operates, and provisions the ONE Record API and will provide suitable access to the Owner to manage and control the Logistics Object, include it's creation, any changes, authoprization and access rights and more. 
+
+*In a publisher-subscriber scenario, the Owner of a Logistics Object is also referred to as `Publisher`. In an access delegation scenario, the Owner of a Logistics Object is also referred to as the `Delegator`.*
 
 #### User of a Logistics Object
 
-A User of a Logistics Object is anyone other than the Owner and who has access to the Logistics Object. Most likely the User will have a role in the logistics & transport of the consignment. The User may be external, from another company than the Owner, or internal from the same company but with a different function within that company. In a publisher-subscriber scenario, the User of a Logistics Object is also referred to as `Subscriber`.  
+A User of a Logistics Object is anyone other than the Owner and who has access to the Logistics Object. Most likely the User will have a role in the logistics & transport of the consignment. The User may be external, from another company than the Owner, or internal from the same company but with a different function within that company. 
+
+*In a publisher-subscriber scenario, the User of a Logistics Object is also referred to as `Subscriber`. In an access delegation scenario, the User of a Logistics Object is also referred to as the `Requestor` or `Delegatee`. In a PATCH scenario, the User of a Logistics Object is also referred to as the `Requestor`.*
 
 ## Overview: ONE Record API features
 
@@ -118,7 +124,7 @@ The following features summarize all of the API features
 
 ### Logistics Object Identifier
 
-Every Logistics Object MUST have a unique identifier. This identifier MUST be a URI, which can be any valid URL that is globally unique. 
+Every Logistics Object MUST have a globally unique identifier, an Unique Resource Identifier (URI). 
 
 **Examples:**
 ```
@@ -134,15 +140,14 @@ A valid Logistics Object URI SHOULD follow [RFC 3986](https://www.rfc-editor.org
 {scheme}://{host}[:port]/{basePath}/{ID}
 ```
 
-
-The URI components are defined below:
+The URI components are described below:
 
 | URI Component                | Description                     | Examples            |
 | ---------------------------- |---------------------------------| ------------------- |
-| scheme                       | Transfer protocol used by the API | http, https       |
-| host                         | Domain name or IP address (and port) of the host that serves the ONE Record API | 127.0.0.1:8080, 1r.airline.com, api.airline.com  |
-| base path                    | URL prefix for all API paths, relative to the host root. The base path SHOULD contain the versioning of the ONE Record API | /, /v1/, /onerecord/v1/, /rest/public/  |
-| ID                           | An identifier for  the Logistics Object that is unique for this server (and thus extension globally). The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to  the type of the LO itself, e.g. waybill_123-12345678”. An obscure ID could include a UUID, e.g. 6596bb81-f5a0-46d0-81be-c4d39531fc6a    | e17502db-9b2d-46cc-a06c-efb24aeca49b, waybill_123-12345678 |
+| scheme                       | Transfer protocol used by the API | <ul><li>http</li><li>https</li></ul>       |
+| host                         | Host name, domain name or IP address (and port) of the host that serves the ONE Record API | <ul><li>127.0.0.1:8080</li><li>1r.airline.com</li><li>api.airline.com</li></ul>  |
+| basePath                    | URL prefix for all API paths, relative to the host root. The base path SHOULD contain at least the version of the ONE Record API | <ul><li>/</li><li>/v1/</li><li>/onerecord/v1/</li><li>/rest/public/</li></ul>  |
+| ID                           | An identifier for  the Logistics Object that is unique for this server (and thus extension globally). The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to the type of the LO itself. An obscure ID could be a UUID. | <ul><li>e17502db-9b2d-46cc-a06c-efb24aeca49b</li><li>waybill-123-12345678</li></ul> |
 
 A LogisticsObject URI SHOULD be URL friendly, i.e. avoid unsafe characters that include blank/empty spaces and/or " < > # % { } \| \ ^ ~ [ ] `. 
 
@@ -150,9 +155,9 @@ It is RECOMMENDED to follow a kebab-case URL naming convention for URI component
 
 The concrete generation of LogisticsObject URI and thus the design of an unique URI structure is up to each ONE Record API implementer.
 
-### Company Identifier
+### Organization Identifier
 
-In ONE Record, a Company Identifier is a URI that points to a [Company](https://onerecord.iata.org/cargo#Company) Logistics Object and uniquely identifies a company in its data exchanges with other companies that uses ONE Record. As shown below, this Company Identifier URI CAN share the same structure as a Logistics Object Identifier:
+In ONE Record, a Organization Identifier is a URI that points to a data object that inherits from [Organization](https://onerecord.iata.org/cargo#Organization). Therefore, this data object CAN be a [Company](https://onerecord.iata.org/cargo#Company), a [Carrier](https://onerecord.iata.org/cargo#Carrier), or a [PublicAuthority](https://onerecord.iata.org/cargo#PublicAuthority). It MUST uniquely identifies an organization in its data exchanges with other organizations that use ONE Record. As shown below, this Organization Identifier URI CAN share the same structure as a Logistics Object Identifier:
 
 **Examples:**
 ```
@@ -301,8 +306,6 @@ Location: http://wwww.myhost.com/mycompany/Sensor_715823
 Content-Type: application/ld+json
 LO-type: https://onerecord.iata.org/Sensor
 ```
-
-
 
 ## Read Logistics Object (GET)
 
@@ -488,18 +491,18 @@ The PatchRequest is a class in the API Ontology. This defines the data that need
 
 PatchRequest body is defined below. Please also refer to the example below for more clarity
 
-| <u>PatchRequest</u>            | Description                                                  | Required | Class                  |
-| ------------------------------ | ------------------------------------------------------------ | -------- | ---------------------- |
-| **description**                | Reason for the change                                        | n        | w3c:String             |
-| **logisticsObjectRef**         | Logistics Object referred to                                 | y        | api:LogisticsObjectRef |
-| - logisticsObjectId            | LOID of the Logistics Object being changed                   | y        | w3c:String             |
-| - logisticsObjectType          | Type (class) of the Logistics Object being changed           | y        | w3c:String             |
-| **operations**                 | to be performed on this Logistics Object                     | y        | api:Operation          |
-| - o                            | the "object" that is being changed                           | y        | w3c:String             |
-| - op                           | the operation required, i.e. "del" or "add                   | y        | w3c:String             |
-| - p                            | predicate" refers to the type of the element being changed   | y        | w3c:String             |
-| **requestorCompanyIdentifier** | the company identifier of the entity that is requesting the change request | y        | w3c:String             |
-| **revision**                   | Revision number of the Logistics Object (incremented from the previous number) | n        | w3c:String             |
+| <u>PatchRequest</u>            | Description                                                                         | Required | Class                  |
+| ------------------------------ | ----------------------------------------------------------------------------------- | -------- | ---------------------- |
+| **description**                | Reason for the change                                                               | n        | xsd:String             |
+| **logisticsObjectRef**         | Logistics Object referred to                                                        | y        | api:LogisticsObjectRef |
+| - logisticsObjectId            | LOID of the Logistics Object being changed                                          | y        | xsd:String             |
+| - logisticsObjectType          | Type (class) of the Logistics Object being changed                                  | y        | xsd:String             |
+| **operations**                 | to be performed on this Logistics Object                                            | y        | api:Operation          |
+| - o                            | the "object" that is being changed                                                  | y        | xsd:String             |
+| - op                           | the operation required, i.e. "del" or "add                                          | y        | xsd:String             |
+| - p                            | predicate" refers to the type of the element being changed                          | y        | xsd:String             |
+| **requestedBy**                | the organization identifier of the entity that is requesting the change request     | y        | api:LogisticsObjectRef |
+| **revision**                   | Revision number of the affected Logistics Object                                    | y        | xsd:nonNegativeInteger |
 
 #### HTTP Response Body
 
@@ -521,24 +524,22 @@ The response body has no content.
 
 #### Example PATCH of a Logistics Object 
 
-In the example below, the "total piece and ULD count" is updated from 10 to 11 and a date is added to a Waybill. The process is as follows:
+In the example below, Piece#goodsDescription `"BOOKS"` is added and Piece#coload is set from `TRUE` to `FALSE`. 
+This results in the following operations that MUST to be part of the ChangeRequest:
 
-1) Delete the value 10 from the "totalPieceAndULDCount" from the Waybill object
-2) Add the value 11 to the "totalPieceAndULDCount"
-3) Add a date "2022-03-21".
+1) add the value `"BOOKS"` (xsd:string) to the property Piece#goodsDescription
+2) delete the value `TRUE` (xsd:boolean) from Piece#coload
+3) add the value `FALSE` (xsd:boolean) to Piece#coload
 
-In the "@context" the namespace prefixes for cargo and api ontologies are referenced and this allows for the shortened URI's in the body of this PatchRequest.  
+<!-- TODO: refactor to JSON-LD intro part: In the "@context" the namespace prefixes for cargo and api ontologies are referenced and this allows for the shortened URI's in the body of this PatchRequest. -->
 
-This also points at the ontologies themselves that define all of the classes and object & data properties used in this change request.
-
-```
-Request header:
-PATCH /mycompany/Sensor_715823 HTTP/1.1
-Host: http://wwww.myhost.com
+Request:
+```http
+PATCH /c2f0387a-f8bf-4cbc-a0a2-e40b2842c1d8 HTTP/1.1
+Host: 1r.example.com
 Content-Type: application/ld+json
 Accept: application/ld+json
 
-Request body:
 {
     "@type": "api:PatchRequest",
     "@context": {
@@ -583,12 +584,17 @@ Request body:
     "api:PatchRequest#requestorCompanyIdentifier": "myCompany",
     "api:PatchRequest#revision": "1"
 }
- 
+```
 
-Response header:
-204 (No Content)
+Response
+```bash
+204 No Content
 Content-Type: application/ld+json
 ```
+
+## Historical Logistics Object
+ONE Record APIs MUST enable the ONE Record client to request an historical version of a Logistics Object.
+
 
 ## Audit trail of Logistics Object
 
@@ -623,10 +629,10 @@ The response body follows the API AuditTrail class structure.
 
 | <div><u>AuditTrail</u></div> | Description                                                  | Required | Class                  |
 | ---------------------------- | ------------------------------------------------------------ | -------- | ---------------------- |
-| **changeRequests**           | List of change requests that were sent as PATCH on for a Logistics Object | y        | api:ChangeRequest      |
+| **changeRequests**           | List of change requests that were sent as PATCH for a Logistics Object | y        | api:ChangeRequest      |
 | - companyId                  | Company that made the patch request                          | y        | w3c:String             |
 | - patchRequest               | PATCH body of a change request sent for a specific Logistics Object (described in the previous section) | y        | api:PatchRequest       |
-| - requestingParty            | The party that has requested the change request, i.e. the person or department within the company | y        | https://onerecord.iata.org/cargo/CompanyBranch    |
+| - requestedBy            | The party that has requested the change request, i.e. the person or department within the company | y        | https://onerecord.iata.org/cargo/CompanyBranch    |
 | - status                     | ACCEPTED or REJECTED                                         | y        | Enumeration            |
 | - timestamp                  | Timestamp of the change request                              | y        | w3c:DateTime           |
 | **errors**                   | Mandatory only if patchRequest was rejected. Otherwise Optional | y/n      | api:Error              |
@@ -719,50 +725,9 @@ An example of a **api:AuditTrail#logisticsObjectRef** (of type logisticsObjectRe
 }
 ```
 
-An example of an **api:AuditTrail#errors** element (of type Error) is shown in the next section
+An example of an `api:ChangeRequest#errors` object (of type Error) is shown in the next section.
 
-## Error model
 
-This section describes the datatype definitions used within the ONE Record API for error handling.
-
-#### Response HTTP Status Codes
-
-The API response will includes standard HTTP Status Codes in it's reponse.
-
-#### Response Body
-
-The error response should contain the following fields:
-
-| **Error**<div></div> | **Description**                                              | **Required** | Class       |
-| -------------------- | ------------------------------------------------------------ | ------------ | ----------- |
-| **title**            | a short summary of the problem                               | y            | w3c:String  |
-| **details**          | details of the error                                         | n            | api:Details |
-| - code               | a ONE Record application-specific  error code expressed as a string value. | n            | w3c:String  |
-| - attribute          | data element to which the error applies                      | n            | w3c:String  |
-| - resource           | URI of the object concerned                                  | n            | w3c:Strin   |
-| - message            | Explanation specific to this problem                         | n            | w3c:String  |
-
-#### Example error response body
-
-Since errors are always part of another response object, below is an example of an **api:AuditTrail#errors** element (of type Error). Note that is a list and there may be multiple errors reports.
-
-```
-"api:AuditTrail#errors": [
-  {
-    "@type":"api:Error",
-    "api:Error#title": "Unknown sensor type",
-    "api:Error#details": [
-      {
-        "@type":"api:Details",
-        "api:Details#attribute": "https://onerecord.iata.org/cargo/Sensor#sensorType",
-        "api:Details#code": "Invalid Device Type",
-        "api:Details#message": "Sensor type 'ionization coil' is not a known option. ",
-        "api:Details#resource": "http://wwww.myhost.com/Sensor_715823"
-      }
-    ]
-  }
-]
-```
 
  
 
@@ -1586,9 +1551,50 @@ A positive HTTP 200 response is expected to a GET request. The body of the respo
 | **403**  |      | Not authorized to retrieve ACL  | Error                                 |
 | **404**  |      | Logistics Object/ACL not found  | Error                                 |
 
- 
-
 # Error Handling
+
+## Error model
+
+This section describes the datatype definitions used within the ONE Record API for error handling.
+
+#### Response HTTP Status Codes
+
+The API response will includes standard HTTP Status Codes in it's reponse.
+
+#### Response Body
+
+The error response should contain the following fields:
+
+| **Error**<div></div> | **Description**                                              | **Required** | Class       |
+| -------------------- | ------------------------------------------------------------ | ------------ | ----------- |
+| **title**            | a short summary of the problem                               | y            | w3c:String  |
+| **details**          | details of the error                                         | n            | api:Details |
+| - code               | a ONE Record application-specific  error code expressed as a string value. | n            | w3c:String  |
+| - attribute          | data element to which the error applies                      | n            | w3c:String  |
+| - resource           | URI of the object concerned                                  | n            | w3c:Strin   |
+| - message            | Explanation specific to this problem                         | n            | w3c:String  |
+
+#### Example error response body
+
+Since errors are always part of another response object, below is an example of an **api:AuditTrail#errors** element (of type Error). Note that is a list and there may be multiple errors reports.
+
+```
+"api:AuditTrail#errors": [
+  {
+    "@type":"api:Error",
+    "api:Error#title": "Unknown sensor type",
+    "api:Error#details": [
+      {
+        "@type":"api:Details",
+        "api:Details#attribute": "https://onerecord.iata.org/cargo/Sensor#sensorType",
+        "api:Details#code": "Invalid Device Type",
+        "api:Details#message": "Sensor type 'ionization coil' is not a known option. ",
+        "api:Details#resource": "http://wwww.myhost.com/Sensor_715823"
+      }
+    ]
+  }
+]
+```
 
 ## Error Codes
 <!--  needs to be added -->
@@ -1619,6 +1625,7 @@ When a version is obsolete or not supported anymore, the client should be redire
 <!--- is route versioning still the preferred choice? Is it actually being implemented? -->
 
 ### Data Model Versioning
+
 Data Model versioning is done via Content-Negotiation between the ONE Record client and the ONE Record server.
 ServerInformation should provide information about supported data models.
 
@@ -1631,9 +1638,10 @@ Note: Revert to a previous memento (version) of a Logistics Object with PATCH an
 
 # Caching
 Is not part of the specification
-It is RECOMMENDED to proide caching information via response HTTP header [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control). For example, set `"Cache-Control: max-age=86400"` to indicate that the requested resource has a time to live of one day. 
-This is useful to inform the ONE Record client that a data can be cached locally and does not have to be requested before the TTL expires. `Subscription` information are an example.
-
+It is RECOMMENDED to proide caching information via response HTTP header [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control). 
+For example, set `"Cache-Control: max-age=86400"` to indicate that the requested resource has a time to live of one day. 
+This is useful to inform the ONE Record client that a data can be cached locally and does not have to be requested before the TTL expires. 
+`Subscription` information are an example.
 
 # Internationalization (i18n)
 

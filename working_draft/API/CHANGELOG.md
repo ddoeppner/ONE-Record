@@ -1,4 +1,4 @@
-# ONE Record API: Changelog
+# ONE Record API Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -8,33 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 2.0.0-dev (not released yet)
 
 ---
-### ONE Record API Specification
 
-#### Removed
-- removed Memento (incl. TimeGate, Timemap)
+### ONE Record API Specification
 
 #### Changed
 - moved Security part of ONE Record API specification to separate file [IATA-1R-Security-Specification.md](IATA-1R-Security-Specification.md)
 - restructured Introduction section
+
+#### Removed
+- removed Memento (incl. TimeGate, Timemap)
   
 #### Added
 
 - added UTF-8 as default content encoding
 - added 0 as default revision number for AuditTrail and LogisticsObjects
+- added class diagram as supporting document
 
 #### Fixed
 
 - cleaned [OpenAPI](IATA-1R-API-OpenAPI.yaml) example 
 
 ---
+
 ### ONE Record API Ontology
-
-#### Removed
-
-- removed not used classes, data properties, object properties
-- removed Memento (classes, data properties, object properties)
-- removed ServerInformation#companyId
-- removed AuditTrail#errors, auditTrail#loInitialSnapshot
 
 #### Changed 
 
@@ -48,7 +44,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed ChangeRequest#timestamp to ChangeRequest#requestedAt
 - changed ChangeRequest#requestingParty<Branch> to ChangeRequest#requestedBy<LogisticsObjectRef>
 - changed ErrorDetails#attribute to ErrorDetails#property
-- changed property type of Notification#topic, Notification#changedProperties, OperationObject#datatype, ServerInformation#serverEndpoint, ServerInformation#supportedLogisticsObjects, ErrorDetails#property, ErrorDetails#resource, Subscription#callbackUrl to xsd:AnyURI- 
+- changed ServerInformation#supportedLogisticsObjects to ServerInformation#supportedLogisticsObjectTypes
+- changed property type of Notification#topic, Notification#changedProperties, OperationObject#datatype, ServerInformation#serverEndpoint, ServerInformation#supportedLogisticsObjects, ErrorDetails#property, ErrorDetails#resource, Subscription#callbackUrl, Subscription#topic, Subscription#subscribedTo, LogisticsObjectRef#type to xsd:AnyURI
+- changed Subscription#myCompanyIdentifier to LogisticsObjectRef
+
+#### Removed
+
+- removed not used classes, data properties, object properties
+- removed Memento (classes, data properties, object properties)
+- removed ServerInformation#companyId
+- removed AuditTrail#errors, auditTrail#loInitialSnapshot
+- removed ChangeRequest#requestorCompanyIdentifier
+- removed ServerInformation#errors
 
 #### Added
 
