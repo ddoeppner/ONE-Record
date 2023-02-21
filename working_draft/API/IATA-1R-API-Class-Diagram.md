@@ -115,6 +115,3 @@ classDiagram
     }
     
 ```
-
-subscription:myCompanyIdentifier
-The company identifier from the Internet of Logistics of my company.
