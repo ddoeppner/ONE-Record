@@ -7,10 +7,12 @@ classDiagram
     direction LR     
     
     class AuditTrail{
+        + initialLogisticsObject: LogisticsObject
         + logisticsObjectRef: LogisticsObjectRef
         + latestRevsion: xsd:nonNegativeInteger
-        + changeRequests[]: ChangeRequest [*]
+        + changeRequests[]: ChangeRequest [*]        
     }   
+    AuditTrail "1" --> "1" LogisticsObject
     AuditTrail "1" --> "1" LogisticsObjectRef
     AuditTrail "1" --> "*" ChangeRequest
 
