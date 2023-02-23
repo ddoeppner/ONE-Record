@@ -11,15 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ONE Record API Specification
 
-#### TODO
-- specify ISO 8601 as datetime string serialization standard
-- specify UTC as time format
-
 #### Changed
+
 - moved Security part of ONE Record API specification to separate file [IATA-1R-Security-Specification.md](IATA-1R-Security-Specification.md)
 - restructured Introduction section
+- use Logistics Object instead of its abbreviation LO
 
 #### Removed
+
 - removed Memento (incl. TimeGate, Timemap)
   
 #### Added
@@ -79,7 +78,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added DelegationRequest#description
 - added OrganizationRef in analogy to LogisticsObjectRef
 - added SubscripionRequest. Subscription is the response for the scenario where publisher initiates the Subscription and asks the subscribers for their Subscription information. SubscriptionRequest is used for scenario where the subscriber initiates a SubscriptionRequest towards the Publisher.
+- added AuditTrail#initialLogisticsObject to maintain the original document before changes applied
 ---
-
-subscriptionRequest:requestedAt
-Datetime when the Subscription Request was created

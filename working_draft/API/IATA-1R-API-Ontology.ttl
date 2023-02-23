@@ -243,6 +243,7 @@ subscriptionRequest:subscription rdf:type owl:ObjectProperty ;
 
 ###  https://onerecord.iata.org/DelegationRequest#status
 <https://onerecord.iata.org/DelegationRequest#status> rdf:type owl:DatatypeProperty ;
+                                                      rdfs:domain :DelegationRequest ;
                                                       rdfs:range [ rdf:type rdfs:Datatype ;
                                                                    owl:oneOf [ rdf:type rdf:List ;
                                                                                rdf:first "ACCEPTED" ;
@@ -261,6 +262,8 @@ subscriptionRequest:subscription rdf:type owl:ObjectProperty ;
 
 ###  https://onerecord.iata.org/ServerInformation#supportedEncodings
 <https://onerecord.iata.org/ServerInformation#supportedEncodings> rdf:type owl:DatatypeProperty ;
+                                                                  rdfs:domain :ServerInformation ;
+                                                                  rdfs:range xsd:string ;
                                                                   rdfs:comment "Optional list of supported encodings of the ONE Record server, e.g. gzip"@en ;
                                                                   rdfs:label "serverInformation:supportedEncodings"@en ;
                                                                   rdfs:seeAlso "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding"@en .
@@ -268,8 +271,18 @@ subscriptionRequest:subscription rdf:type owl:ObjectProperty ;
 
 ###  https://onerecord.iata.org/ServerInformation#supportedLanguages
 <https://onerecord.iata.org/ServerInformation#supportedLanguages> rdf:type owl:DatatypeProperty ;
+                                                                  rdfs:domain :ServerInformation ;
+                                                                  rdfs:range xsd:string ;
                                                                   rdfs:comment "Supported languages of the ONE Record API, minimum is en-US (American English)"@en ;
                                                                   rdfs:label "serverInformation:supportedLanguages"@en .
+
+
+###  https://onerecord.iata.org/api/AuditTrail#initialLogisticsObject
+auditTrail:initialLogisticsObject rdf:type owl:DatatypeProperty ;
+                                  rdfs:domain :AuditTrail ;
+                                  rdfs:range <https://onerecord.iata.org/cargo/LogisticsObject> ;
+                                  rdfs:comment "Initial LogisticsObject (revision: 0) of the LogisticsObject the AuditTrail belongs to"@en ;
+                                  rdfs:label "auditTrail:initialLogisticsObject"@en .
 
 
 ###  https://onerecord.iata.org/api/AuditTrail#latestRevision
@@ -282,6 +295,8 @@ auditTrail:latestRevision rdf:type owl:DatatypeProperty ;
 
 ###  https://onerecord.iata.org/api/ChangeRequest#callbackUrl
 changeRequest:callbackUrl rdf:type owl:DatatypeProperty ;
+                          rdfs:domain :ChangeRequest ;
+                          rdfs:range xsd:anyURI ;
                           rdfs:comment "Optional callback URL of the requester to be used for sending notifications about success, failure or rejection of the ChangeRequest"@en ;
                           rdfs:label "changeRequest:callbackUrl"@en .
 
@@ -371,6 +386,8 @@ delegationRequest:permissions rdf:type owl:DatatypeProperty ;
 
 ###  https://onerecord.iata.org/api/DelegationRequest#requestedAt
 delegationRequest:requestedAt rdf:type owl:DatatypeProperty ;
+                              rdfs:domain :DelegationRequest ;
+                              rdfs:range xsd:dateTime ;
                               rdfs:comment "Datetime when the Delegation Request was created"@en ;
                               rdfs:label "delegationRequest:requestedAt"@en .
 
@@ -521,6 +538,8 @@ operation:p rdf:type owl:DatatypeProperty ;
 
 ###  https://onerecord.iata.org/api/Operation#s
 operation:s rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Operation ;
+            rdfs:range xsd:string ;
             rdfs:comment "Operation objects MUST have exactly one \"s\", subject, member. The value of this member MUST be one of IRI or blank node."@en ;
             rdfs:label "operation:s"@en ;
             rdfs:seeAlso "https://github.com/digibib/ls.ext/wiki/JSON-LD-PATCH#operationse"@en .
@@ -544,6 +563,8 @@ operationObject:value rdf:type owl:DatatypeProperty ;
 
 ###  https://onerecord.iata.org/api/OrganizationRef#organizationId
 <https://onerecord.iata.org/api/OrganizationRef#organizationId> rdf:type owl:DatatypeProperty ;
+                                                                rdfs:domain :OrganizationRef ;
+                                                                rdfs:range xsd:anyURI ;
                                                                 rdfs:comment "Identifier of the referenced Organization, i.e. Logistics Object URI"@en ;
                                                                 rdfs:label "organizationRef:organizationId"@en .
 
@@ -709,13 +730,27 @@ subscriptionRequest:status rdf:type owl:DatatypeProperty ;
                               owl:onClass :LogisticsObjectRef
                             ] ,
                             [ rdf:type owl:Restriction ;
+                              owl:onProperty auditTrail:initialLogisticsObject ;
+                              owl:allValuesFrom <https://onerecord.iata.org/cargo/LogisticsObject>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
                               owl:onProperty auditTrail:latestRevision ;
                               owl:allValuesFrom xsd:nonNegativeInteger
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty auditTrail:initialLogisticsObject ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange <https://onerecord.iata.org/cargo/LogisticsObject>
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty auditTrail:latestRevision ;
                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onDataRange xsd:nonNegativeInteger
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty auditTrail:initialLogisticsObject ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange <https://onerecord.iata.org/cargo/LogisticsObject>
                             ] ,
                             [ rdf:type owl:Restriction ;
                               owl:onProperty auditTrail:latestRevision ;
