@@ -1,0 +1,8 @@
+{
+  "@type": "https://onerecord.iata.org/cargo/Sensor",
+  "@id": "http://1r.example.com/11ccfb7c-3643-41db-8098-740fccd97c93",
+  "https://onerecord.iata.org/cargo/Sensor#sensorDescription": "A data logger with a temperature sensor.",
+  "https://onerecord.iata.org/cargo/Sensor#sensorName": "TPx14-a",
+  "https://onerecord.iata.org/cargo/Sensor#sensorSerialNumber": "142NL",
+  "https://onerecord.iata.org/cargo/Sensor#sensorType": "Thermometer"
+}

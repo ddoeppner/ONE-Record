@@ -1,0 +1,23 @@
+{
+    "@type": [
+        "https://onerecord.iata.org/Company",
+        "https://onerecord.iata.org/Organization",
+        "https://onerecord.iata.org/LogisticsAgent",
+        "https://onerecord.iata.org/LogisticsObject"
+    ],
+    "https://onerecord.iata.org/cargo/Organization#name": "Acme Corporation",
+    "https://onerecord.iata.org/cargo/Organization#shortName": "ACME",
+    "https://onerecord.iata.org/cargo/Organization#contactpersons": [
+        {
+            "@type": [
+                "https://onerecord.iata.org/Person",
+                "https://onerecord.iata.org/Actor",
+                "https://onerecord.iata.org/LogisticsAgent",
+                "https://onerecord.iata.org/LogisticsObject"
+            ],
+            "https://onerecord.iata.org/cargo/Person#firstName": "Jane",
+            "https://onerecord.iata.org/cargo/Person#lastName": "Doe",
+            "https://onerecord.iata.org/cargo/Person#salutation": "Ms"
+        }
+    ]
+}

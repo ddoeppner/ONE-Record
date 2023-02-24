@@ -1,0 +1,12 @@
+{
+    "@type": "https://onerecord.iata.org/cargo/Piece",
+    "https://onerecord.iata.org/cargo/Piece#goodsDescription": "ONE Record Advertisement Materials",
+    "https://onerecord.iata.org/cargo/Piece#handlingInstructions": [
+        {
+            "@type": "https://onerecord.iata.org/cargo/HandlingInstructions",
+            "https://onerecord.iata.org/cargo/HandlingInstructions#serviceType": "SPH",
+            "https://onerecord.iata.org/cargo/HandlingInstructions#serviceDescription": "Valuable Cargo",
+            "https://onerecord.iata.org/cargo/HandlingInstructions#serviceTypeCode": "VAL"
+        }
+    ]
+}
