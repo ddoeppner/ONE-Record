@@ -1,0 +1,16 @@
+{
+    "@context": {
+      "api": "https://onerecord.iata.org/api/",
+      "@language": "en-US"
+    },
+    "@type":"https://onerecord.iata.org/api/Error",
+    "api:Error#title":"Not authorized to retrieve the Logistics Object",
+    "api:Error#details":[
+       {
+          "@type":"api:ErrorDetails",         
+          "api:ErrorDetails#code":"403",
+          "api:ErrorDetails#message":"Authenticated client could not be found in ACL for the Logistics Object",
+          "api:ErrorDetails#resource":"https://1r.example.com/Sensor_715824"
+       }
+    ]
+ }

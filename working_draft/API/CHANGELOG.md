@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - moved Security part of ONE Record API specification to separate file [IATA-1R-Security-Specification.md](IATA-1R-Security-Specification.md)
 - restructured Introduction section
-- use Logistics Object instead of its abbreviation LO
+- use Logistics Object instead of its abbreviation LO 
 
 #### Removed
 
@@ -25,7 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - added UTF-8 as default content encoding
 - added 0 as default revision number for AuditTrail and LogisticsObjects
-- added class diagram as supporting document
+- added class diagram as supporting document, see [IATA-1R-API-Class-Diagram.md](IATA-1R-API-Class-Diagram.md)
+- added `Implemenation Guidelines` section to reduce ambiguity
+- added JSON files with examples mentioned in the API specification
 
 #### Fixed
 
