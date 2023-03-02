@@ -2,128 +2,11 @@
 
 **Version:** 2.0.0-dev **Status:** Draft; not yet approved by the COTB / CSC
 
+The version is incremented when API specifications are endorsed by the IATA Cargo Operations Technology Board (COTB).
+The first version (v1.0) of the API specifaction was released in Aug 2020 (endorsed in Mar 2020).
 
 ## Table of Contents
-- [ONE Record API Specification](#one-record-api-specification)
-  - [Table of Contents](#table-of-contents)
-- [Introduction](#introduction)
-  - [Purpose](#purpose)
-  - [Prerequisites](#prerequisites)
-  - [Supporting Documents](#supporting-documents)
-  - [Conventions](#conventions)
-  - [License](#license)
-- [Concepts](#concepts)
-    - [Internet of Logistics](#internet-of-logistics)
-    - [ONE Record API](#one-record-api)
-    - [ONE Record Data Model](#one-record-data-model)
-    - [Logistics Objects (LO)](#logistics-objects-lo)
-    - [ONE Record Server](#one-record-server)
-    - [Plug \& Play API Connectivity](#plug--play-api-connectivity)
-    - [Global Network of Data through "Linked Data"](#global-network-of-data-through-linked-data)
-      - [Used Namespace Prefixes in ONE Record Context](#used-namespace-prefixes-in-one-record-context)
-    - [JSON for Linking Data (JSON-LD)](#json-for-linking-data-json-ld)
-- [Implementation Guidelines](#implementation-guidelines)
-  - [Principles](#principles)
-    - [Versioning](#versioning)
-    - [Error Handling](#error-handling)
-    - [Serialization and Data Formats](#serialization-and-data-formats)
-    - [Internationalization (i18n)](#internationalization-i18n)
-  - [Best Practices](#best-practices)
-    - [Caching](#caching)
-    - [Monitoring](#monitoring)
-    - [OpenAPI Documentation](#openapi-documentation)
-- [Overview: ONE Record API features](#overview-one-record-api-features)
-- [ONE Record API Endpoints](#one-record-api-endpoints)
-  - [General HTTP Request Headers](#general-http-request-headers)
-    - [HTTP Request](#http-request)
-    - [HTTP Response](#http-response)
-- [Handling Logistics Objects](#handling-logistics-objects)
-  - [Create a Logistics Object](#create-a-logistics-object)
-  - [Get a Logistics Object](#get-a-logistics-object)
-  - [Update Logistics Object (PATCH)](#update-logistics-object-patch)
-    - [Linked Data PATCH Format](#linked-data-patch-format)
-    - [PATCH in ONE Record](#patch-in-one-record)
-  - [Historical Logistics Object](#historical-logistics-object)
-  - [Audit trail of Logistics Object](#audit-trail-of-logistics-object)
-      - [HTTP Request](#http-request-1)
-      - [HTTP Request Header](#http-request-header)
-      - [HTTP Response Body](#http-response-body)
-      - [Example Audit Trail response for a Logistics Object](#example-audit-trail-response-for-a-logistics-object)
-- [Publish \& Subscribe with ONE Record](#publish--subscribe-with-one-record)
-  - [Publish \& Subscribe model](#publish--subscribe-model)
-    - [Publish/subscribe topics and guaranteed delivery queue](#publishsubscribe-topics-and-guaranteed-delivery-queue)
-      - [Scenario 1 – Publish/Subscribe initiated by Publisher](#scenario-1--publishsubscribe-initiated-by-publisher)
-      - [Scenario 2 – Publisher/Subscriber initiated by the Subscriber](#scenario-2--publishersubscriber-initiated-by-the-subscriber)
-  - [Retrieve Company Information](#retrieve-company-information)
-      - [Request](#request)
-      - [HTTP Headers](#http-headers)
-      - [Response Body](#response-body)
-  - [Publisher proposes a subscription](#publisher-proposes-a-subscription)
-      - [Http Request](#http-request-2)
-      - [HTTP Request Headers](#http-request-headers)
-      - [HTTP Response Body](#http-response-body-1)
-      - [Example of a response to a subscription proposal from a publisher to a subscriber](#example-of-a-response-to-a-subscription-proposal-from-a-publisher-to-a-subscriber)
-    - [](#)
-- [Access Delegation](#access-delegation)
-    - [Delegation endpoint](#delegation-endpoint)
-  - [](#-1)
-        - [Request](#request-1)
-        - [HTTP Headers](#http-headers-1)
-        - [Request body](#request-body)
-        - [Response](#response)
-  - [Use Case 1: delegate \& 3rd party pubsub](#use-case-1-delegate--3rd-party-pubsub)
-      - [Delegation Scenario 1](#delegation-scenario-1)
-  - [Use Case 2: delegate \& access Logistics Object directly](#use-case-2-delegate--access-logistics-object-directly)
-      - [Delegation Scenario 2](#delegation-scenario-2)
-  - [Trust Chains](#trust-chains)
-- [Events (status update)](#events-status-update)
-  - [Create event (POST)](#create-event-post)
-      - [Request](#request-2)
-      - [HTTP Header](#http-header)
-      - [Request body](#request-body-1)
-      - [Response](#response-1)
-  - [Retrieve events (GET)](#retrieve-events-get)
-      - [Request](#request-3)
-      - [HTTP Headers](#http-headers-2)
-      - [Response](#response-2)
-- [Access Control](#access-control)
-  - [Web Access Control](#web-access-control)
-      - [Access Control List Resources](#access-control-list-resources)
-      - [Example of Authorizations](#example-of-authorizations)
-        - [Single Authorization](#single-authorization)
-        - [Group Authorization](#group-authorization)
-        - [Authenticated Agents (Default)](#authenticated-agents-default)
-      - [Modes of Access](#modes-of-access)
-        - [`acl:Write`](#aclwrite)
-        - [`acl:Control`](#aclcontrol)
-          - [`Out of scope of ONE Record`](#out-of-scope-of-one-record)
-        - [`acl:Append`](#aclappend)
-      - [Inheritance](#inheritance)
-      - [Delegation](#delegation)
-  - [Access Control in ONE Record](#access-control-in-one-record)
-  - [Use case](#use-case)
-  - [Create ACL (POST)](#create-acl-post)
-      - [Request](#request-4)
-      - [HTTP Headers](#http-headers-3)
-      - [Response](#response-3)
-  - [Retrieve ACL for a specific Logistics Object (GET)](#retrieve-acl-for-a-specific-logistics-object-get)
-      - [HTTP Headers](#http-headers-4)
-- [Error Handling](#error-handling-1)
-  - [Error model](#error-model)
-      - [Response HTTP Status Codes](#response-http-status-codes)
-      - [Response Body](#response-body-1)
-      - [Example error response body](#example-error-response-body)
-  - [Error Codes](#error-codes)
-    - [HTTP Error Codes](#http-error-codes)
-    - [Cargo Error Codes](#cargo-error-codes)
-- [Glossary](#glossary)
-- [Bibliography](#bibliography)
-- [Development Team](#development-team)
-  - [Maintainers](#maintainers)
-  - [Contributors](#contributors)
-
-
-
+> add ToC later
 
 # Introduction
 
@@ -142,6 +25,7 @@ It is assumed that the reader is familiar with the ONE Record data model, REST A
 - [Changelog](CHANGELOG.md) contains a list of all notable changes for each version of the ONE Record API specification.
 - [ONE Record API Ontology](IATA-1R-API-Ontology.ttl) provides the vocabulary and data classes for the data model used in the ONE Record API.
 - [ONE Record API Class Diagram](IATA-1R-API-Class-Diagram.md) describes the ONE Record API data classes, their properties as attributes, and the relationship that can exist between the classes.
+- [OpenAPI specification](IATA-1R-API-OpenAPI.yaml) describes an example and recommended structure of an ONE Record API implementation
 - [Postman Collection]() that contains demo requests that demonstrate how to interact with the various ONE Record API endpoints and can be used to playback the examples provided in this document. 
 
 ## Conventions
@@ -189,7 +73,7 @@ An example of a Logistics Object would be a `Piece`, an `IoT Sensor` or an a `Bo
 The owner of a Logistics Object is the one who created it and thus has control over it. The Owner may also control the ONE Record server on which the Logistics Object is accessible via HTTP but this is not a requirement. 
 Instead, the owner may use a 3rd party that implements, operates, and provisions the ONE Record API and will provide suitable access to the Owner to manage and control the Logistics Object, include it's creation, any changes, authoprization and access rights and more. 
 
-*In a publisher-subscriber scenario, the Owner of a Logistics Object is also referred to as `Publisher`.* 
+*In a publisher-subscriber scenario, the Owner of a Logistics Object is also referred to as `Publisher`.* <br/>
 *In an access delegation scenario, the Owner of a Logistics Object is also referred to as the `Delegator`.*
 
 **User of a Logistics Object**
@@ -198,11 +82,11 @@ A User of a Logistics Object is anyone other than the Owner and who has access t
 Most likely the User will have a role in the logistics & transport of the consignment. 
 The User MAY be external, from another company than the Owner, or internal from the same company but with a different function within that company. 
 
-*In a publisher-subscriber scenario, the User of a Logistics Object is also referred to as `Subscriber`.* 
-*In an access delegation scenario, the User of a Logistics Object is also referred to as the `Requestor` or `Delegate`.*
+*In a publisher-subscriber scenario, the User of a Logistics Object is also referred to as `Subscriber`.* <br/>
+*In an access delegation scenario, the User of a Logistics Object is also referred to as the `Requestor` or `Delegate`.* <br/>
 *In a PATCH scenario, the User of a Logistics Object is also referred to as the `Requestor`.*
 
-**Logistics Object Identifier (LOID)**
+#### **Logistics Object Identifier (LOID)**
 
 Every Logistics Object MUST have a globally unique identifier, an Unique Resource Identifier (URI). 
 
@@ -218,31 +102,37 @@ The URI components are described below:
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | scheme        | Transfer protocol used by the API                                                                                                                                                                                                                                                                | <ul><li>http</li><li>https</li></ul>                                                |
 | host          | Host name, domain name or IP address (and port) of the host that serves the ONE Record API                                                                                                                                                                                                       | <ul><li>127.0.0.1:8080</li><li>1r.example.com</li><li>api.airline.com</li></ul>     |
-| basePath      | URL prefix for all API paths, relative to the host root. The base path SHOULD contain at least the version of the ONE Record API                                                                                                                                                                 | <ul><li>/</li><li>/v1/</li><li>/onerecord/v1/</li><li>/rest/public/</li></ul>       |
+| basePath      | URL prefix for all API paths, relative to the host root. The base path SHOULD contain at least the version of the ONE Record API                                                                                                                                                                 | <ul><li>/logistics-objects/</li><li>/v1/</li><li>/onerecord/v1/</li><li>/rest/public/</li></ul>       |
 | ID            | An identifier for  the Logistics Object that is unique for this server (and thus extension globally). The ID to identify the Logistics Object may be meaningful or obscure. A meaningful ID might include a reference to the type of the Logistics Object itself. An obscure ID could be a UUID. | <ul><li>e17502db-9b2d-46cc-a06c-efb24aeca49b</li><li>waybill-123-12345678</li></ul> |
 
 A LogisticsObject URI SHOULD be URL friendly, i.e. avoid unsafe characters that include blank/empty spaces and/or " < > # % { } \| \ ^ ~ [ ] `. 
 
 It is RECOMMENDED to follow a kebab-case URL naming convention for URI components, i.e. only use lower case letters, numbers, forward slashes, and dashes. 
-For example, use https://1r.example.com/waybill-020-12345678 instead of https://1r.example.com/Waybill_020-12345678 
+For example, use https://1r.example.com/logistics-object/waybill-020-12345678 instead of https://1r.example.com/logistics-object/Waybill_020-12345678 
 
 The concrete generation of LogisticsObject URI and thus the design of an unique URI structure is up to each ONE Record API implementer.
 
 Examples:
 
 ```
+https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c
 https://1r.example.com/v1/e17502db-9b2d-46cc-a06c-efb24aeca49b
 https://api.airline.com/handling/onerecord/v1/waybill-123-12345678-1
 https://onerecordcloud.com/organizations/airline/v2/6596bb81-f5a0-46d0-81be-c4d39531fc6a
 https://api.airline.com/rest/public/onerecord/v2/6596bb81-f5a0-46d0-81be-c4d39531fc6a
 ```
 
-**Organization Identifier**
+#### **Organization Identifier**
 
-In ONE Record, each party in the Internet of Logistics, e.g., a shipper, airline, or public authorities like customs that acts as an owner or user of Logistics Objects, requires an unique `Organization Identifier`. This MUST have a URI that points to a data object that inherits from [Organization](https://onerecord.iata.org/cargo#Organization). Therefore, this data object CAN be a [Company](https://onerecord.iata.org/cargo#Company), a [Carrier](https://onerecord.iata.org/cargo#Carrier), or a [PublicAuthority](https://onerecord.iata.org/cargo#PublicAuthority). It MUST uniquely identifies an organization in its data exchanges with other organizations that use ONE Record. As shown below, this Organization Identifier URI CAN share the same structure as a Logistics Object Identifier:
+In ONE Record, each party in the Internet of Logistics, e.g., a shipper, airline, or public authorities like customs that acts as an owner or user of Logistics Objects, requires an unique `Organization Identifier`. 
+This MUST have a URI that points to a data object that inherits from [Organization](https://onerecord.iata.org/cargo#Organization). 
+Therefore, this data object CAN be a [Company](https://onerecord.iata.org/cargo#Company), a [Carrier](https://onerecord.iata.org/cargo#Carrier), or a [PublicAuthority](https://onerecord.iata.org/cargo#PublicAuthority). 
+It MUST uniquely identifies an organization in its data exchanges with other organizations that use ONE Record. 
+As shown below, this Organization Identifier URI CAN share the same structure as a Logistics Object Identifier:
 
 Examples:
 ```
+https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda
 https://1r.example.com/v2/logistics-objects/24a8a9f0-92c1-4405-8dfb-71875e8cde0a
 https://1r.example.com/v1/24a8a9f0-92c1-4405-8dfb-71875e8cde0a
 https://1r.platform.com/v1/organizations/airline
@@ -254,7 +144,7 @@ A ONE Record Server is a web server that provides the ONE Record API capabilitie
 Technically, it could be just a simple HTTP web server. The ONE Record API and data model specifications may be added 
 to existing (server) software implementations that also provide other services.
 
-> 📝 **Note:** In this document, the general term ONE Record API is used instead of ONE Record server when referring to an instance of the API specification.
+> 📝 **Note:** In this document, the general term ONE Record API is used instead of ONE Record server when referring to an actual software implementation of the API specification.
 
 
 ### Plug & Play API Connectivity
@@ -284,19 +174,18 @@ e.g. [Terse RDF Triple Language (TTL)](https://www.w3.org/TeamSubmission/turtle/
 
 ### JSON for Linking Data (JSON-LD)
 
-JSON-LD is one of the RDF serializations and to fully understand its syntax, requires a deep dive into RDF. 
+JSON for Linking Data (JSON-LD) is one of the RDF serializations and to fully understand its syntax, requires a deep dive into RDF. 
 For the purpose of this document, it is sufficient to understand the example below that represents a Logistics Object of type `Sensor`
 
-A few points to mention about JSON-LD:
-- In JSON-LD, every data elements MUST a full URI as an `@id` associated with each data element
-- A JSON-LD document CAN include an `@context` that namespaces, vocabularies and more that facilitate the remainder of the data elements. In this context, there is a specification of two ontologies: the ONE Record ontology (`cargo`) and the ONE Record API ontology (`api`). 
-- A JSON-LD document CAN include an `@type` that specifies the type of the data object, i.e. the ONE Record Logistics Object class (https://onerecord.iata.org/cargo/Sensor in the following example).
+RDF (and JSON-LD) has different forms that are all equivalent. 
+For example, JSON-LD defines different types of transformations that can be applied to structure the data output.
+Therefore, the same `Sensor` object can be formatted as extended (see example 1) - where the URIs of the properties are explicit - or formatted as compressed (see example 2).
 
 Example 1:
 ```json
 {
   "@type": "https://onerecord.iata.org/cargo/Sensor",
-  "@id": "http://1r.example.com/11ccfb7c-3643-41db-8098-740fccd97c93",
+  "@id": "http://1r.example.com/logistics-objects/11ccfb7c-3643-41db-8098-740fccd97c93",
   "https://onerecord.iata.org/cargo/Sensor#sensorDescription": "A data logger with a temperature sensor.",
   "https://onerecord.iata.org/cargo/Sensor#sensorName":"TPx14-a",
   "https://onerecord.iata.org/cargo/Sensor#sensorSerialNumber": "142NL",
@@ -305,10 +194,7 @@ Example 1:
 ```
 (see [examples/Sensor.expanded.json](examples/Sensor.expanded.json))
 
-JSON-LD defines different types of transformations that can be applied to structure the data output.
 
-RDF (and JSON-LD) has different forms that are all equivalent. The same object can be formatted as compacted version 
-where the URIs of the properties are explicit. This is less readable but often the server responses will be explicit like this.
 
 Example 2:
 ```json
@@ -316,7 +202,7 @@ Example 2:
   "@context": {
     "cargo": "https://onerecord.iata.org/cargo/"
   },
-  "@id": "http://1r.example.com/11ccfb7c-3643-41db-8098-740fccd97c93",
+  "@id": "http://1r.example.com/logistics-objects/11ccfb7c-3643-41db-8098-740fccd97c93",
   "@type": "cargo:Sensor",
   "cargo:Sensor#sensorDescription": "A data logger with a temperature sensor.",
   "cargo:Sensor#sensorName": "TPx14-a",
@@ -335,8 +221,7 @@ A full specificaton of the JSON-LD 1.1 standard can be found [here](https://www.
 
 This section lists general principles and best practices for the instantiation of a ONE Record API through implementation.
 The lists are inspired by other API principles (e.g. [SBB](https://schweizerischebundesbahnen.github.io/api-principles/), 
-[Zalando](https://opensource.zalando.com/restful-api-guidelines/), )
-
+[Zalando](https://opensource.zalando.com/restful-api-guidelines/))
 
 ## Principles
 
@@ -344,40 +229,21 @@ This section provides guidelines that MUST be followed by an implementer of the 
 maximum compatibility with other ONE Record servers and clients on the Internet of Logistics.
 When implementing and publishing a ONE Record API, these principles MUST be followed.
 
-### Versioning
-
-**ONE Record API Versioning**
-
-The versioning for the ONE Record API is done through `URI Path`, e.g. http://1r.example.com/v1/e17502db-9b2d-46cc-a06c-efb24aeca49b
-
-The version is incremented when API specifications are endorsed by the IATA Cargo Operations Technology Board
-
-First version of the standard (Aug 2020) - Endorsed version in Mar2020 = 1.0
-
-If no version is specified, the latest should be returned and bind to a specific version of the API
-
-When a version is obsolete or not supported anymore, the client should be redirected to the latest API version, through the **Location** header and 302 HTTP redirection status.
-
-
-**Data Model Versioning**
-
-Data Model versioning is done via Content-Negotiation between the ONE Record client and the ONE Record server.
-ServerInformation should provide information about supported data models.
-
-**API Deprecations**
-
-
-
-**Data Versioning**
-
-see [Historical Logistics Object](#historical-logistics-object)
-
-
-### Error Handling
-
-**HTTP Status Codes**
-
 ### Serialization and Data Formats
+
+**JSON-LD Document Forms**
+
+Every ONE Record API (and every compliant ONE Record client) MUST support at least the expanded document form, the compacted document form, and the flattened document form.
+See https://w3c.github.io/json-ld-api/
+
+Therefore, there are some points to mention about JSON-LD in the context of ONE Record:
+- Every JSON-LD document MUST include `@id` property
+- A JSON-LD document CAN include an `@context` that namespaces, vocabularies and more that facilitate the remainder of the data elements. In this context, there is a specification of two ontologies: the ONE Record cargo ontology (`cargo`) and the ONE Record API ontology (`api`). 
+- A JSON-LD document MUST include an `@type` property that specifies the type of the data object, i.e. the ONE Record Logistics Object class (https://onerecord.iata.org/cargo/Sensor in the following example).
+
+> 📝 **Note:** The [OpenAPI specification](IATA-1R-API-OpenAPI.yaml) includes only schemas that can be used to generate expanded document form. 
+> Nevertheless, every ONE Record API and ONE Record client MUST support at least all three document forms.
+
 
 **Content Encoding**
 
@@ -399,30 +265,59 @@ Date and time formats MUST follow [RFC 3339](https://www.rfc-editor.org/rfc/rfc3
 Time durations and intervals MUST be conform to ISO 8601.
 Whenever possible, explicit expiry dates `SHOULD` be used in favor of durations and intervals.
 
-**Country, Language and Currency Codes**
+**Airline, Airport, Country, Currency, Language Codes**
 
-| Type     | Description                     | Example               |
-| -------- | ------------------------------- | --------------------- |
-| Country  | Should match                    | 2023-03-01            |
-| Language | Follow IETF BCP 47 language tag | en-US                 |
-| Currency | Always UTC                      | 2023-03-031T10:38:01Z |
-| Currency | Always UTC                      | 2023-03-031T10:38:01Z |
+| Type     | Description                                        | Example          |
+| -------- | -------------------------------------------------- | ---------------- |
+| Airline  | IATA Two Letter Codes                              | LH               |
+| Airport  | IATA Three Letter Codes                            | FRA              |
+| Country  | Two letter country codes. Follow ISO 3166 alpha-2  | CH               |
+| Currency | Follow ISO 4217                                    | EUR              |
+| Language | Follow IETF BCP 47 language tag                    | en-US            |
 
 
-**Arrays**
 
-It can not be assumed that a ONE Record client interprests JSON-LD correctly. Therefore, arrays should be explicit, i.e. containing [] brackets.
+**Collections**
 
-As there might be a semantic difference between an empty array and the non-existing of a property, this MUST also be explicit.
-Shipment#containedPieces: [] differs from unset Shipment#containedPieces.
-
-**Booleans**
+Since there may be a semantic difference between an empty collection and the absence of a propert of type collection, this difference MUST also be explicitly apparent in the response body.
+For example, Shipment#containedPieces: [] differs from unset Shipment#containedPieces.
 
 **Null values**
 
 To safe bandwith, null valued properties `SHOULD` not be part of the JSON-LD bodies.
 
-**Enumerations**
+### Versioning
+
+**ONE Record API Versioning**
+
+Since in ONE Record the endpoint of a LogisticsObject is its URI - which MUST NOT change - API versioning via URI Path is **not** possible,
+e.g. http://1r.example.com/v1/logistics-objects/e17502db-9b2d-46cc-a06c-efb24aeca49b
+
+Instead, the `Accept` request header SHOULD be use, so that a ONE Record API can select one of the proposals and informs the ONE Record client using the `Content-Type` response header.
+
+If no version is specified, the ONE Record API SHOULD use the latest API version implemented and MUST inform the ONE Record client about the API version using the `Content-Type` response header.
+
+When a version is obsolete or not supported anymore, the ONE Record server should be redirected to the latest API version, through the **Location** header and 302 HTTP redirection status.
+
+
+**Data Model Versioning**
+
+Data Model versioning is done through JSON-LD.
+ServerInformation#supportedLogisticsObjectTypes should provide information about supported data classes. This URIS should include the version of the data model, e.g. https://onerecord.iata.org/cargo/v3/Piece
+
+
+**API Deprecations**
+<!-- TODO: How can we deal with this? -->
+
+
+**Data Versioning**
+
+see [Historical Logistics Object](#historical-logistics-object)
+
+
+### Error Handling
+
+**HTTP Status Codes**
 
 ### Internationalization (i18n)
 
@@ -446,7 +341,7 @@ In order to retrieve the data in a desired language, the ONE Record client shoul
 Request:
 
 ```http
-GET /1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
+GET /logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
 Host: 1r.example.com
 Accept-Language: de-DE 
 Accept: application/ld+json
@@ -479,7 +374,6 @@ Content-Type: application/ld+json
 *([examples/Error_404.json](examples/Error_404.json))*
 
 > In JSON-LD, the language can be set in the [context](https://www.w3.org/TR/json-ld11/#dfn-context) using the language key whose value must be a [string](https://infra.spec.whatwg.org/#javascript-string) representing a [BCP47](https://www.w3.org/TR/json-ld11/#bib-bcp47) language code or `null`.
-
 
 ## Best Practices
 
@@ -540,24 +434,113 @@ The following features summarize all of the API features
 However, it is RECOMMENDED to implement the various API endpoints by following a pattern.
 
 
-| API Endpoint                                   | API function                                                                                                                       |
-| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| /                                              | Retrieve ServerInformation                                                                                                         |
-| /events                                        | Create events that contain links to the affected Logistics Objects                                                                 |
-| /subscriptions                                 | Subscribe to receive Notifications about data changes related to a Logistics Object or retrieve Subscriptions                      |
-| /access-delegations                            | Create or retrieve Access Delegation Request                                                                                       |
-| /logistics-objects                             | Create Logistics Object                                                                                                            |
-| {LogisticsObjectIdentifier}                    | Retrieve Logistics Object and links to related resources                                                                           |
-| {LogisticsObjectIdentifier}/subscriptions      | Subscribe to receive Notifications about changes to a Logistics Object or retrieve subscriptions registered for a Logistics Object |
-| {LogisticsObjectIdentifier}/events             | Create or retrieve events to a Logistics Object                                                                                    |
-| {LogisticsObjectIdentifier}/acl                | Create or retrieve Access Control List (ACL) of a specific Logistics Object                                                        |
-| {LogisticsObjectIdentifier}/audit-trail        | Retrieve Audit Trail of a Logistics Object                                                                                         |
-| {LogisticsObjectIdentifier}/access-delegations | Create or retrieve Access Delegation Request for a specific Logistics Object                                                       |
+| HTTP Methods     | API Endpoint                                   | API Function                                                                                                                       |
+| ---------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| GET              | /                                              | Retrieve ServerInformation                                                                                                         |
+| POST             | /logistics-objects                             | Create a LogisticsObject                                                                                                            |
+| GET, POST, PATCH | {LogisticsObjectIdentifier}                    | Retrieve Logistics Object and links to related resources                                                                           |
+| GET              | {LogisticsObjectIdentifier}/acl                | Create or retrieve Access Control List (ACL) of a specific Logistics Object                                                        |
+| GET              | {LogisticsObjectIdentifier}/audit-trail        | Retrieve Audit Trail of a Logistics Object                                                                                         |
+| GET, POST        | {LogisticsObjectIdentifier}/logistics-events   | Create or retrieve LogisticsEvents to a Logistics Object                                                                           |
+| GET              | {LogisticsEventIdentifier}                     | Retrieve a LogisticsEvent                                                                                                          |
+| GET, POST        | /subscriptions                                 | Create or retrieve Subscription information for a LogisticsObject type or a specific LogisticsObjectIdentifier                     |
+| GET, POST, PATCH | /subscription-requests                         | Create, retrieve, or update Subscription Request for for a LogisticsObject type or a specific LogisticsObjectIdentifier            |
+| POST             | /notifications                                 | Receive Notifications                                                                                                              |
+| GET, POST, PATCH | /delegation-requests                           | Create, retrieve, or update Access Delegation Request                                                                              |
 
 ## General HTTP Request Headers
 ### HTTP Request 
 ### HTTP Response
 Authorization -> this is discusse in Security section.
+
+# Get Server Information
+
+As a ONE Record client, it is helpful to know the capabilities of a ONE Record API and to be able to retrieve this information in a systematic way.
+Therefore, every ONE Record API MUST provide an endpoint that can be used to retrieve this rather technical server information. 
+This `ServerInformation` include details about the API's ONE Record capabilities, the data owner (as a link to an [Organization Identifier](#organization-identifier)), 
+the supported LogisticsObject types and the supported serialization formats. 
+Every `authenticated ONE Record client` who knows this endpoint MUST be able to request this information from the ONE Record API.
+
+**Request**
+The following HTTP header parameters MUST be present in the GET server information request:
+
+| Request Header   | Description                                                                  | Examples            |
+| ---------------- | ---------------------------------------------------------------------------- | ------------------- |
+| **Accept**       | The content type that you want the HTTP response to be formatted in.         | application/ld+json |
+
+The HTTP body must contain a valid Logistics Object in the format as specified by the Content-Type in the header. 
+
+**Response**
+
+The following HTTP headers parameters MUST be present in the GET server information response:
+
+| Response Header            | Description     | Example |
+| -------------------------- | --------------- | ------- |
+| **Content-Type**           | The content type  that is contained with the HTTP body. | application/ld+json   |
+| **Content-Language**       | Describes the language(s) for which the requested resource is intended. | en-US |
+| **Last-Modified**          | Date and time when the LogisticsObject was last time changed. See https://developer.mozilla.org/en-US/docs/Web/  | Tue, 21 Feb 2023 07:28:00 GMT                                                                                                                                                                                |
+| **Link**                   | Contains one or more links to related resources, e.g. subscriptions or notifications endpoints | &lt;https://1r.example.com/notifications&gt;; rel="notifications", &lt;https://1r.example.com/subscriptions&gt;; rel="subscriptions" |
+
+One of the following HTTP response codes MUST be present in the GET server information response: 
+
+
+| Code    | Description                                                       | Response body     |
+| ------- | ----------------------------------------------------------------- | ----------------- |
+| **200** | The request to retrieve the ServerInformation has been successful | ServerInformation |
+
+The response body includes the following data elements.
+
+| Object Property               | Description                                     | Required |                                                |
+| ----------------------------- | ----------------------------------------------- | -------- | ---------------------------------------------- |
+| **dataOwner**                 | URI to the Company that is hosted on the server | y        | http://www.w3.org/2001/XMLSchema#anyURI        |
+| **serverEndpoint**            | ONE Record API endpoint, incl. server URL       | y        | http://www.w3.org/2001/XMLSchema#anyURI        |
+| **supportedLanguages**        | Languages supported by this server              | y        | http://www.w3.org/2001/XMLSchema#string (list) |
+| **supportedContentTypes**     | HTTP content types supported by this server     | y        | http://www.w3.org/2001/XMLSchema#string (list) |
+| **supportedLogisticsObjects** | Logistics Object types supported by this server | y        | http://www.w3.org/2001/XMLSchema#anyURI (list) |
+
+**Example**
+
+Request:
+```http
+
+GET / HTTP/1.1
+Host: 1r.example.com
+Content-Type: application/ld+json
+Accept: application/ld+json
+```
+
+Response:
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/ld+json
+
+{
+  "@context": {
+    "cargo": "https://onerecord.iata.org/cargo/",
+    "api": "https://onerecord.iata.org/api/"    
+  },  
+  "@id": "https://1r.example.com/",
+  "@type": "api:ServerInformation",  
+  "api:ServerInformation#dataOwner": {
+    "@type": "https://onerecord.iata.org/Company",
+    "@id": "https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda"
+  }
+  "api:ServerInformation#serverEndpoint": "http://1r.example.com",
+  "api:ServerInformation#supportedLanguages": [
+  	"en-US"
+  	],
+  "api:ServerInformation#supportedContentTypes": [
+  	"application/ld+json"
+  	],
+  "api:ServerInformation#supportedLogisticsObjects": [
+    "https://onerecord.iata.org/cargo/WayBill"
+    "https://onerecord.iata.org/cargo/Shipment",     
+    "https://onerecord.iata.org/cargo/Piece"    
+  ]
+}
+```
+
 
 # Handling Logistics Objects
 
@@ -612,8 +595,8 @@ Request:
 POST /logistics-objects HTTP/1.1
 Host: 1r.example.com
 
-Content-Type: application/ld+json;version=3.0
-Accept: application/ld+json;version=3.0
+Content-Type: application/ld+json;version=2.0.0-dev
+Accept: application/ld+json;version=2.0.0-dev
 
 {
     "@type": "https://onerecord.iata.org/cargo/Piece",    
@@ -635,7 +618,7 @@ Response:
 ```bash
 HTTP/1.1 201 Created
 Location: https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c
-Content-Type: application/ld+json;version=3.0
+Content-Type: application/ld+json;version=2.0.0-dev
 Type: https://onerecord.iata.org/cargo/Piece
 ```
 
@@ -647,8 +630,8 @@ Request:
 POST /logistics-objects HTTP/1.1
 Host: 1r.example.com
 
-Content-Type: application/ld+json;version=3.0
-Accept: application/ld+json;version=3.0
+Content-Type: application/ld+json;version=2.0.0-dev
+Accept: application/ld+json;version=2.0.0-dev
 
 {
     "@type": [
@@ -680,12 +663,12 @@ Response:
 ```bash
 HTTP/1.1 201 Created
 Location: https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda
-Content-Type: application/ld+json;version=3.0
+Content-Type: application/ld+json;version=2.0.0-dev
 Type: https://onerecord.iata.org/cargo/Company
 ```
 
-In the following, the Piece with the Logistics Object Identifier `"https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c"`
-and the Company with the Organization Identifier `"https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda"` will be used for the following examples.
+In the following, the Piece with the [Logistics Object Identifier](#logistics-object-identifier-loid) `"https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c"`
+and the Company with the [Organization Identifier](#organization-identifier) `"https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda"` will be used for the following examples.
 
 ## Get a Logistics Object
 
@@ -694,7 +677,7 @@ If the requester is authorized to access this Logistics Object then the response
 
 It is possible that the Logistics Object requested contains links to other Logistics Object for some of the data elements, 
 rather than explicitly embedd that data. The former is RECOMMENDED.
-If the User of the Logistics Object is interested in this linked data objects (which not necessary have to be on the same ONE Record server) and has the necessary access , 
+If the User of the Logistics Object is interested in this linked data objects (which not necessary have to be on the same ONE Record server) and has the necessary access, 
 the User of the Logistis Object CAN request those Logistics Objects via their linked URIs.
 This enables the Owner of the Logistics Object the possibility to manage access on the level of Logistics Objects.
 
@@ -706,7 +689,7 @@ The following HTTP header MUST be present in the GET request:
 
 | Request Header    | Description                                                                                                                                                                              | Examples                                                                                                                |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **Accept**        | The content type that a ONE Record client wants the HTTP response to be formatted in. This SHOULD include the version of the data model, otherwise the latest data model MAY be applied. | <ul><li>application/ld+json</li><li>application/ld+json;version=3.0</li><li>application/ld+json;version=2.1.0</li></ul> |
+| **Accept**        | The content type that a ONE Record client wants the HTTP response to be formatted in. This SHOULD include the version of the data model, otherwise the latest data model MAY be applied. | <ul><li>application/ld+json</li><li>application/ld+json;version=2.0.0-dev</li><li>application/ld+json;version=1.2</li></ul> |
 | **Authorization** | Provides credentials that authenticates the ONE Record client with the ONE Record API. This COULD be an base64 encoded JSON Web Token (JWT) or credentials.                              | Basic b25lOnJlY29yZA==                                                                                                  |
 
 **Response**
@@ -1198,73 +1181,7 @@ In the second scenario, the subscriber initiates the subscription process by pul
 
 Publish & Subscribe Sequence Diagram – Scenario 2
 
-## Retrieve Company Information
 
-Retrieves company information about ONE Record capabilities, including details about the company and the logistics objects types it supports and the data formats it can use.
-
-#### Request
-
-HTTP Request type: **GET**
-
-#### HTTP Headers
-
-The following HTTP header parameters MUST be present in the GET company information request:
-
-| **Header** | **Value**                                                                                                                                                          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Accept** | The content  type that you want the HTTP response to be formatted in. Valid content types  include:  ▪ application/x-turtle  or text/turtle  ▪ application/ld+json |
-
-#### Response Body
-
-The Response Body includes the following data elements.
-
-| Object Property               | Description                                     | Required |                                                |
-| ----------------------------- | ----------------------------------------------- | -------- | ---------------------------------------------- |
-| **companyIdentifier**         | URI to the Company that is hosted on the server | y        | http://www.w3.org/2001/XMLSchema#anyURI        |
-| **serverEndpoint**            | ONE Record API endpoint, incl. server URL       | y        | http://www.w3.org/2001/XMLSchema#anyURI        |
-| **supportedLanguages**        | Languages supported by this server              | y        | http://www.w3.org/2001/XMLSchema#string (list) |
-| **supportedContentTypes**     | HTTP content types supported by this server     | y        | http://www.w3.org/2001/XMLSchema#string (list) |
-| **supportedLogisticsObjects** | Logistics Object types supported by this server | y        | http://www.w3.org/2001/XMLSchema#anyURI (list) |
-
-**Example**
-
-Request:
-```http
-
-GET / HTTP/1.1
-Host: 1r.example.com
-Content-Type: application/ld+json
-Accept: application/ld+json
-```
-
-Response:
-
-```bash
-HTTP/1.1 200 OK
-Content-Type: application/ld+json
-
-{
-  "@id": "https://wwww.myhost.com",
-  "@type": "api:ServerInformation",
-  "@context": {
-    "cargo": "https://onerecord.iata.org/cargo/",
-    "api": "https://onerecord.iata.org/api/"    
-  },  
-  "api:CompanyInformation#companyIdentifier": "http://1r.example.com/938d1f25-4557-475e-ac32-c5f4a4a023ba",  
-  "api:CompanyInformation#serverEndpoint": "http://1r.example.com",
-  "api:CompanyInformation#supportedLanguages": [
-  	"en"
-  	],
-  "api:CompanyInformation#supportedContentTypes": [
-  	"application/ld+json"
-  	],
-  "api:CompanyInformation#supportedLogisticsObjects": [
-    "https://onerecord.iata.org/cargo/WayBill"
-    "https://onerecord.iata.org/cargo/Shipment",     
-    "https://onerecord.iata.org/cargo/Piece"    
-  ]
-}
-```
 
 ## Publisher proposes a subscription 
 
@@ -1344,35 +1261,44 @@ Content-Type: application/ld+json
 | -------- | --- | ------------------------------------------------------------------------- | ----------------- |
 | **200**  |     | The request to retrieve the Subscription Information has been  successful | Subscription      |
 | **204**  |     | Request has been successful, but the server does not subscribe            | No response body  |
-| **401**  |     | Not authenticated                                                         | Error model       |
-| **403**  |     | Not authorized to retrieve the Subscription Information                   | Error model       |
-| **404**  |     | Subscription Information not found                                        | Error model       |
+| **401**  |     | Not authenticated                                                         | Error             |
+| **403**  |     | Not authorized to retrieve the Subscription Information                   | Error             |
+| **404**  |     | Subscription Information not found                                        | Error             |
 
 
 
 # Access Delegation
 
-In ONE Record parties are enabled to grant other parties access to (parts of) their data. The standard allows parties to modify or withdraw these access rights to their data, whenever they wish.
+In ONE Record parties are enabled to grant other parties access to (parts of) their data. 
+The standard allows parties to modify or withdraw these access rights to their data, whenever they wish.
 
-Before a company can access a logistics object of another company, it needs to be authorized to do so and the server that hosts the logistics objects will determine whether to grant access. Typically, when a company creates a logistics object on a server, it will share the URI of that logistics object with another company and grant them access by default. For example, a forwarder creates a logistics object for a booking request and then sends the URI to the airline. When the airline then accesses the logistics object, the forwarder will usually grant access to the airline but only to that airline and no one else. 
+Before a company can access a logistics object of another company, it needs to be authorized to do so and the server that hosts the logistics objects will determine whether to grant access. 
+Typically, when a company creates a LogisticsObject and makes it available via its ONE Record API, the company will share the URI of that LogisticsObject with another company and grant them access by default. 
 
-The party granting access is referred to as the delegator and the party receiving the access is the delegate. 
+For example, a freight forwarder creates a [BookingOptionRequest](https://onerecord.iata.org/cargo#BookingOptionRequest), grants read access to the airline, and then sends the URI to the airline via ONE Record Notification or other channel.
+At this point, only the forwarder and the airline can access this specific LogisticsObject, but no one else.
 
+The party granting access is referred to as the `Delegator` and the party receiving the access is the `Delegate`. 
+
+
+## Permissions
+
+| Permission        | Description                                                     |
+| ----------------- | --------------------------------------------------------------- |
+| **GET**           | Allows to retrieve the content of a resource                    |
+| **PATCH**         | Allows to accept/reject a ChangeRequest                         |
+| **APPEND**        | Allows to add a resources to a list, e.g. append LogisticsEvent |
 
 
 <img src="/Users/henkmulder/Library/Application Support/typora-user-images/image-20220404114548771.png" alt="image-20220404114548771" style="zoom:60%;" />
 
-### Delegation endpoint
 
-Delegation has a specifix endpoint:
 
-| API function                                                     | Endpoint                                          |
-| ---------------------------------------------------------------- | ------------------------------------------------- |
-| Request to delegate access to Logistics Object for a third party | http://{Server Domain}/{license plate}/delegation |
+| Endpoint                  | API function                                                     |
+| ------------------------- | ---------------------------------------------------------------- |
+| /delegation-requests      | Request to delegate access to Logistics Object for a third party |
 
-## 
-
-##### Request
+**Request**
 
 HTTP Request type: POST
 
@@ -1382,9 +1308,8 @@ Host: http://wwww.logistics-object-host.com/
 
 Accept: application/ld+json
 
- 
 
-##### HTTP Headers
+**HTTP Headers**
 
 The following HTTP header parameters MUST be present in the POST request:
 
@@ -1393,7 +1318,7 @@ The following HTTP header parameters MUST be present in the POST request:
 | **Accept**       | The content type  that you want the HTTP response to be formatted in. Valid content types  include:  ▪ application/x-turtle  or text/turtle  ▪ application/ld+json |
 | **Content-Type** | The content type  that is contained with the HTTP body. Valid content types include:  ▪ application/x-turtle  or text/turtle  ▪ application/ld+json                |
 
-#####   Request body
+**Request**
 
 | <u>DelegationRequest</u>  | Description                                                                 | Required | Class                  |
 | ------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------- |
@@ -1509,11 +1434,11 @@ These chains of trust are based on business partnerships and trust in the transp
 
 
 
-# Events (status update)
+# Logistics Events
 
-Status updates in ONE Record can be added to Logistics Objects bying posting an Event object to a dedicated Events endpoint. 
+Logistics Events (also known as status updates) in ONE Record can be added to Logistics Objects by posting a LogisticsEvent object to the events endpoint of a LogisticsObject. 
 
-Any Logistics Object can be assigned new events. 
+LogisticsEvents can be submitted to any LogisticsObject, if the submitter has sufficient access.
 
 ## Create event (POST)
 
