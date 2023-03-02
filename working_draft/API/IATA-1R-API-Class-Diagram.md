@@ -4,52 +4,59 @@
 
 ```mermaid
 classDiagram   
-    direction LR     
+    direction LR   
+
+    class LogisticsObject{                
+    }
+
+    class Organization{        
+    }  
     
-    class AuditTrail{
-        + initialLogisticsObject: LogisticsObject
-        + logisticsObjectRef: LogisticsObjectRef
-        + latestRevsion: xsd:nonNegativeInteger
+    class AuditTrail{        
         + changeRequests[]: ChangeRequest [*]        
-    }   
+        + latestRevsion: xsd:nonNegativeInteger        
+        + logisticsObject: LogisticsObject
+    }
+
     AuditTrail "1" --> "1" LogisticsObject
-    AuditTrail "1" --> "1" LogisticsObjectRef
     AuditTrail "1" --> "*" ChangeRequest
 
     class ChangeRequest{
+        + affectedLogisticsObject: LogisticsObject                
         + callbackUrl: xsd:anyURI [0..1]
         + description: xsd:string [0..1]
-        + errors[]: Error [*]        
-        + logisticsObjectRef: LogisticsObjectRef                
+        + errors[]: Error [*]                
         + operations[]: Operation [1..*]                
         + requestedAt: xsd:dateTime         
-        + requestedBy: OrganizationRef    
+        + requestedBy: Organization    
         + revision: xsd:nonNegativeInteger
         + status: RequestStatus = PENDING
-    }    
+    }
+        
     ChangeRequest "1" --> "*" Error
-    ChangeRequest "1" --> "*" LogisticsObjectRef
+    ChangeRequest "1" --> "*" LogisticsObject
     ChangeRequest "1" --> "1..*" Operation
-    ChangeRequest "1" --> "*" OrganizationRef    
+    ChangeRequest "1" --> "*" Organization    
     ChangeRequest --> RequestStatus        
    
     class DelegationRequest{
         + action: xsd:string
-        + delegates[]: OrganizationRef [1..*]
+        + delegates[]: Organization [1..*]
         + description: xsd:string [0..1]
         + errors[]: Error [*]
         + permissions[]: Permission [1..*]                
         + requestedAt: xsd:dateTime         
-        + requestedBy: OrganizationRef    
+        + requestedBy: Organization    
         + status: RequestStatus = PENDING
-        + targetLogisticsObjects[]: LogisticsObjectRef [1..*]
+        + targetLogisticsObjects[]: LogisticsObject [1..*]
     }
-    DelegationRequest "1" --> "1..*" OrganizationRef : delegatedTo  
+    
     DelegationRequest "1" --> "0..*" Error
     DelegationRequest --> Permission        
-    DelegationRequest "1" --> "1..*" OrganizationRef : requestedBy
+    DelegationRequest "1" --> "1..*" Organization : requestedBy
     DelegationRequest --> RequestStatus        
-    DelegationRequest "1" --> "1..*" LogisticsObjectRef
+    DelegationRequest "1" --> "1..*" LogisticsObject
+    DelegationRequest "1" --> "1..*" Organization : delegatedTo  
     
     class Error{        
         + details[]: ErrorDetails [1..*]
@@ -63,28 +70,17 @@ classDiagram
         + property: xsd:anyURI [0..1]
         + resource: xsd:anyURI [0..1]
     }
-
-    class LogisticsObjectRef{
-        + logisticsObjectId: xsd:anyURI
-        + logisticsObjectType: xsd:anyURI
-    }
-
-    class LogisticsObject{
-
-    }
-
+    
     class Notification{
         + changedProperties[]: xsd:anyURI [*]
         + changeRequest: ChangeRequest [0..1]
         + eventType: NotificationEventType
-        + logisticsObject: LogisticsObject [0..1]
-        + logisticsObjectRef: LogisticsObjectRef [0..1]
+        + logisticsObject: LogisticsObject [0..1]        
         + topic: xsd:anyURI
     }
     Notification "1" --> "0..1" ChangeRequest    
     Notification --> NotificationEventType
-    Notification "1"--> "0..1" LogisticsObject
-    Notification "1"--> "0..1" LogisticsObjectRef
+    Notification "1"--> "1" LogisticsObject
 
     class Operation{
         + o: OperationObject
@@ -100,20 +96,15 @@ classDiagram
         + value: xsd:string   
     }
 
-    class OrganizationRef{
-        + organizationId: xsd:anyURI
-        + organizationType: xsd:anyURI
-    }
-
     class ServerInformation{
-        + dataOwner: OrganizationRef
+        + dataOwner: Organization
         + serverEndpoint: xsd:anyURI
         + supportedContentTypes[]: xsd:string [1..*]
         + supportedEncodings[]: xsd:string [*]
         + supportedLanguages[]: xsd:string [1..*]
         + supportedLogisticsObjectTypes[]: xsd:anyURI [1..*]
     }    
-    ServerInformation "1" --> "1" OrganizationRef
+    ServerInformation "1" --> "1" Organization
 
     class Subscription{
         + callbackUrl: xsd:anyURI
@@ -121,21 +112,23 @@ classDiagram
         + expiresAt: xsd:dateTime [0..1]                        
         + secret: xsd:string [0..1]
         + sendLogisticsObjectBody: xsd:boolean = FALSE
-        + subscriber: OrganizationRef        
+        + subscriber: Organization        
         + subscribeToLogisticsEvents: xsd:boolean = FALSE
+        + topicType: TopicType
         + topic: xsd:anyURI
     }    
-    Subscription "1" --> "1" OrganizationRef
+    Subscription "1" --> "1" Organization
+    Subscription --> TopicType
 
     class SubscriptionRequest{
         + description: xsd:string [0..1]
         + errors[]: Error [*]        
         + requestedAt: xsd:dateTime         
-        + requestedBy: OrganizationRef    
+        + requestedBy: Organization    
         + status: RequestStatus = PENDING
         + subscription[]: Subscription [1..*]
     }       
-    SubscriptionRequest "1" --> "1..*" OrganizationRef : requestedBy
+    SubscriptionRequest "1" --> "1..*" Organization : requestedBy
     SubscriptionRequest --> RequestStatus        
     SubscriptionRequest "1" --> "1..*" Subscription
 
@@ -150,11 +143,23 @@ classDiagram
         <<Enumeration>>
         OBJECT_CREATED
         OBJECT_UPDATED
-        CHANGEREQUEST_PENDING
-        CHANGEREQUEST_ACCEPTED                
-        CHANGEREQUEST_REJECTED
-        CHANGEREQUEST_FAILED
+
         EVENT_RECEIVED
+
+        CHANGE_REQUEST_PENDING
+        CHANGE_REQUEST_ACCEPTED                
+        CHANGE_REQUEST_REJECTED
+        CHANGE_REQUEST_FAILED
+
+        DELEGATION_REQUEST_PENDING
+        DELEGATION_REQUEST_ACCEPTED                
+        DELEGATION_REQUEST_REJECTED
+        DELEGATION_REQUEST_FAILED
+
+        SUBSCRIPTION_REQUEST_PENDING
+        SUBSCRIPTION_REQUEST_ACCEPTED                
+        SUBSCRIPTION_REQUEST_REJECTED
+        SUBSCRIPTION_REQUEST_FAILED
     }
     class OperationEnum{
         <<Enumeration>>
@@ -165,6 +170,11 @@ classDiagram
         <<Enumeration>>
         GET
         PATCH
+    }
+    class TopicType{
+        <<Enumeration>>
+        LOGISTICS_OBJECT_TYPE
+        LOGISTICS_OBJECT_IDENTIFIER
     }
     
 ```
