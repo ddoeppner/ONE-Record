@@ -71,10 +71,90 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Error'
-  /logistics-objects/{id}/logistics-events:
+  /logistics-objects/{id}:
     get:
       tags:
         - Logistics Object Endpoints
+      summary: Retrieves a LogisticsObject
+      operationId: getLogisticsObject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: embedded
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: revision
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/LogisticsObject'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Logistics Object Endpoints
+      summary: Submit a ChangeRequest for the specific LogisticsObject
+      operationId: updateLogisticsObject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/PatchRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Error'
+  /logistics-objects/{id}/logistics-events:
+    get:
+      tags:
+        - Logistics Event Endpoints
       summary: Retrieves the LogisticsEvent of a given LogisticsObject
       operationId: getEvents
       parameters:
@@ -106,7 +186,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-        - Logistics Object Endpoints
+        - Logistics Event Endpoints
       summary: Append a LogisticsEvents to the event log of a given LogisticsObject
       operationId: addEvents
       parameters:
@@ -326,86 +406,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   
-  /logistics-objects/{id}:
-    get:
-      tags:
-        - Logistics Object Endpoints
-      summary: Retrieves a LogisticsObject
-      operationId: getLogisticsObject
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: embedded
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: revision
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: at
-          in: query
-          required: false
-          schema:
-            type: string
-            format: date-time
-      responses:
-        '200':
-          description: OK
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/LogisticsObject'
-        '404':
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-        '503':
-          description: Service Unavailable
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-    patch:
-      tags:
-        - Logistics Object Endpoints
-      summary: Submit a ChangeRequest for the specific LogisticsObject
-      operationId: updateLogisticsObject
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/PatchRequest'
-        required: true
-      responses:
-        '204':
-          description: No Content
-        '404':
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-        '503':
-          description: Service Unavailable
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
+  
   /delegation-requests/{id}:
     get:
       tags:
@@ -472,7 +473,7 @@ paths:
   /logistics-objects/{id}/logistics-events/{eventId}:
     get:
       tags:
-        - Logistics Object Endpoints
+        - Logistics Event Endpoints
       summary: Retrieves single event of a given logistics object
       operationId: getEvent
       parameters:
