@@ -1133,8 +1133,6 @@ ONE Record proposes a Publish & Subscribe pattern to allow for a distributed net
 
 This chapter describes the Publish & Subscribe model, its implementation and the requirements of a Client Subscription API which a company must implement to receive Logistics Objects from ONE Record Servers through subscriptions.
 
-![img](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image001.png)
-
 ## Publish & Subscribe model
 
 ### Publish/subscribe topics and guaranteed delivery queue
@@ -1145,66 +1143,73 @@ For each subscriber and each topic, a message queue is maintained automatically 
 
 Two scenarios were identified for initiating the publish/subscribe process. For simplicity reasons, the security part was not detailed in the following diagrams.
 
-#### Scenario 1 – Publish/Subscribe initiated by Publisher
+### Scenario 1 – Publish/Subscribe initiated by Publisher
 
-In the first and most usual use case, the subscription process is initiated by the Owner of the Logistics Object.
+In the first use case, the subscription process is initiated by the owner of the Logistics Object.
 
-The following steps describe how publish and subscribe is proposed to be implemented in the ONE Record Internet of Logistics (**webhook model with dynamic subscription**):
+There are two different shapes of the scenario:
+ * The publisher wants to notify the subscriber about changes to Logistics Objects of a certain type (i.e. Waybills, Bookings)
+ * The publisher wants to notify the subscriber about changes to a specific Logistics Object
+
+For both cases the interaction between two ONE Record follows the following diagram.
+
+```mermaid
+sequenceDiagram
+
+  participant PUB as Publisher
+  participant SUB as Subscriber
+
+  PUB->>SUB: propose subscription to LO or LO type
+  SUB->>PUB: acknowledge proposal
+  note over PUB, SUB: After subscription proposal process
+  PUB->>SUB: notify about updates and events
+```
 
 **Step 1 - Publish a Logistics Object**
 
-The publish action occurs when a Logistics Object is created on a ONE Record Server. At this stage the Logistics Object is accessible via the Server API to authorized companies.
+At any time the publisher may propose a subscription to a subscriber. If the proposal targets a specific Logistics Object it has to be accessible via its url.
 
 **Step 2 - Retrieve Subscription information from companies that you want to give access to**
 
-The second step is retrieving the subscription information from the companies you want to give access to this Logistics Object. To achieve this, the company publishing the Logistics Object must check with each of the companies it wants to give access to, whether they subscribe to these types of Logistics Objects. If they do, they provide the details of the endpoint where the Logistics Objects should be pushed to. 
-
-The prerequisite to this is that the companies must know each other through a previous exchanged Company Identifier so that the machines can ask this question during operation. These Company Identifiers may also be retrieved from common or local directories.
+In order to acknowledge a proposal the subscriber answers with the subscription information.
 
 **Step 3 - Push to the company’s ONE Record Clients**
 
-Once the subscription information is received the publisher would push the Logistics Object to the intended ONE Record Client using the details provided. If Client Subscription API (server) was not available at the time, then the publisher would need to queue and retry to publish the Logistics Object over a certain time.
+Once the subscription information is received the publisher sends notifications to the subscribers using the details provided. If a subscriber was not available at the time, then the publisher would need to queue and retry to notify the subscriber.
 
-> 📝 **Note:** In Publish & Subscribe, publishing parties need to save a list of all the parties subscribed to their Logistics Objects in their backend systems. One of the possibilities COULD be that the list of subscribers is persisted with the Logistics Object.
+### Scenario 2 – Publisher/Subscriber initiated by the Subscriber
 
-![A screenshot of a cell phone  Description automatically generated](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image002.png)
+In the second scenario, the subscriber initiates the subscription process by actively sending subscription information to the publisher. The subscription information can either target a type of Logistics Object or a specific Logistics Object.
 
- 
+```mermaid
+sequenceDiagram
 
-Publish & Subscribe Sequence Diagram – Scenario 1
+  participant SUB as Subscriber
+  participant PUB as Publisher
 
-#### Scenario 2 – Publisher/Subscriber initiated by the Subscriber
-
-In the second scenario, the subscriber initiates the subscription process by pulling the publisher in order to verify if there are any logistics objects/updates of a given topic to which it can subscribe to.
-
-![A picture containing screenshot  Description automatically generated](file:////Users/henkmulder/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image003.png)
-
-Publish & Subscribe Sequence Diagram – Scenario 2
-
-
+  SUB->>PUB: subscribe to either LO or LO type
+  PUB->>SUB: acknowledge subscription
+  note over PUB, SUB: After subscription proposal process
+  PUB->>SUB: notify about updates and events
+```
 
 ## Publisher proposes a subscription 
 
-When the ownerm, the "publisher", of a Logistics Objects wants to actively share this with a user, the ""subscriber", they can request the user to provide subscription data. To do so, the  publisher does a GET to the Company Identifier URI of the user with the proposed topic by appending the request URI with "/topic={Logistics Object type}"
+When publisher wants to actively share information about a Logistics Object type or a specific Logistics Object with a subscriber, the publisher can request the potential subscriber to provide subscription information. To do so, the publisher sends a `GET` request to the subscriptions endpoint with the proposed Logistics Object type or Logistics Object using the query parameter `topic`.
 
-#### Http Request
+### Http Request
 
-HTTP Request type: GET 
-
-#### HTTP Request Headers
-
-The following HTTP header parameters must be present in the GET subscription information request:
-
-| **Header** | **Value**                                                                                                                                                          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Accept** | The content  type that you want the HTTP response to be formatted in. Valid content types  include:  ▪ application/x-turtle  or text/turtle  ▪ application/ld+json |
+```http request
+GET /subscriptions?topic={lo-type|lo-url}
+Accept: application/ld+json
+``` 
 
 ####  HTTP Response Body
 
 The response body includes the following elements:
 
 | Subscription             | Description                                                                                                                           | Required                     |                                                         |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------- |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------|------------------------------|---------------------------------------------------------|
 | contentTypes             | content types that the subscriber wants to receive in the notifications                                                               | n                            | http://www.w3.org/2001/XMLSchema#string                 |
 | cacheFor                 | duration of the period to cache the subscription information in seconds                                                               | n                            | http://www.w3.org/2001/XMLSchema#int                    |
 | callbackUrl              | callback URL of the Client Subscription API where the subscriber wants to receive Logistics Objects                                   | y                            |                                                         |
