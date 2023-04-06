@@ -122,6 +122,12 @@ xsd:date rdf:type rdfs:Datatype .
                 rdfs:label "has Error Detail"@en .
 
 
+###  https://onerecord.iata.org/ns/api#hasEventType
+:hasEventType rdf:type owl:ObjectProperty ;
+              rdfs:domain :Notification ;
+              rdfs:range :EventType .
+
+
 ###  https://onerecord.iata.org/ns/api#hasOperation
 :hasOperation rdf:type owl:ObjectProperty ;
               rdfs:domain :ChangeRequest ;
@@ -705,9 +711,19 @@ xsd:date rdf:type rdfs:Datatype .
                                 owl:allValuesFrom :ActionRequest
                               ] ,
                               [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasEventType ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :EventType
+                              ] ,
+                              [ rdf:type owl:Restriction ;
                                 owl:onProperty :isTriggeredBy ;
                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass :ActionRequest
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :referencesLogisticsObject ;
+                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass cargo:LogisticsObject
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :changedProperty ;
