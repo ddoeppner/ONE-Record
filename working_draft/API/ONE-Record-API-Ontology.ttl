@@ -615,6 +615,11 @@ xsd:date rdf:type rdfs:Datatype .
                                  owl:onProperty :hasChange ;
                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onClass :Change
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :referencesLogisticsObject ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass cargo:LogisticsObject
                                ] ;
                rdfs:comment "Change Request containing updates on a Logistics Object"@en ;
                rdfs:label "Change Request"@en .
