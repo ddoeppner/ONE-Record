@@ -28,13 +28,12 @@ The following features summarize all of the ONE Record API features
 | HTTP Methods     | API Endpoint       | API Function                           |
 | ---------------- | -------------------------------------- |   -------- |
 | GET              | /                  | Retrieve ServerInformation             |
-| POST             | /logistics-objects                     | Create a Logistics Object               |
+| POST             | /logistics-objects | Create a Logistics Object               |
 | GET, POST, PATCH | /logistics-objects/{logisticsObjectId}                  | Retrieve Logistics Object and links to related resources                       |
-| GET              | /logistics-objects/{logisticsObjectId}/acl              | Create or retrieve Access Control List (ACL) of a specific Logistics Object    |
 | GET              | /logistics-objects/{logisticsObjectId}/audit-trail      | Retrieve Audit Trail of a Logistics Object                 |
 | GET, POST        | /logistics-objects/{logisticsObjectId}/logistics-events | Create or retrieve LogisticsEvents to a Logistics Object                       |
-| GET              | {LogisticsEvent URI}                  | Retrieve a LogisticsEvent              |
+| GET              | /logistics-objects/{logisticsObjectId}/logistics-events/{LogisticsEvent URI}                  | Retrieve a LogisticsEvent              |
 | GET, POST        | /subscriptions     | Create or retrieve Subscription information for a Logistics Object type or a specific LogisticsObjectIdentifier          |
-| GET, POST, PATCH | /subscription-requests                 | Create, retrieve, or update Subscription Request for for a Logistics Object type or a specific LogisticsObjectIdentifier |
+| GET, POST, PATCH | /action-requests   | Create, retrieve, or update Action Request (i.e. SubscriptionRequests, ChangeRequests or AccessDelegationRequests) |
 | POST             | /notifications     | Receive Notifications                  |
-| GET, POST, PATCH | /delegation-requests                   | Create, retrieve, or update Access Delegation Request      |
+| POST             | /access-delegations | Create, retrieve, or update Access Delegation Request      |

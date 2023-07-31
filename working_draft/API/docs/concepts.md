@@ -68,7 +68,7 @@ _In a publisher-subscriber scenario, the owner of a Logistics Object is also ref
 _In an access delegation scenario, the owner of a Logistics Object is also referred to as the `Delegator`._
 
 !!! note
-    In this ONE Record API specification document, the term owner is used to describe a technical owner of a logistics object data object.
+    In this ONE Record API specification document, the term owner is used to describe a technical holder of a logistics object data object.
     This does not include legal topics such as data governance, ownership, data stewardship or data custodian.
 
 ### **User of a Logistics Object**
