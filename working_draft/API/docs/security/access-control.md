@@ -42,6 +42,6 @@ In the context of ONE Record, the definition of the following three types of per
 
 1. **Single Authorization** – when a single organization (identified by its Organization URI) from the Internet of Logistics has access to a Logistics Object.
 2. **Group Authorization** – when a group of organizations has access to the Logistics Object. The ONE Record Server can define internally groups of access such as Airlines, Ground Handlers, Customs, etc.
-3. **Public” Authorization** – when every authenticated organization can access the Logistics Object URI can retrieve the data.
+3. **Public Authorization** – when every authenticated organization can access the Logistics Object URI can retrieve the data.
 
 
