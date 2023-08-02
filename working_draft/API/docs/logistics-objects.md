@@ -49,8 +49,7 @@ The following HTTP status codes MUST be supported:
 | **415** | Unsupported Content Type                                     | Error            |
 
 ## Security
-
-The endpoint for creating Logistics Objects must only be accessible internally and should not be exposed to external parties.
+Access to the Logistics Objects creation endpoint should be restricted to internal usage only, and it must not be made available to external entities.
 
 ## Example A1
 
@@ -159,6 +158,11 @@ The ONE Record server SHOULD then replace the linked Logistics Objects with the 
         Furthermore, there ONE Record server MAY not resolve and replace linked Logistics Events.
         Logistics Events MUST be accessed using the `/logistics-events` endpoint. (see [Logistics Events](logistics-events.md))
 
+## Endpoint
+``` 
+ GET {{baseURL}}/logistics-objects/{{logisticsObjectId}}
+```
+
 ## Request
 
 The following query parameters MUST be supported:
@@ -201,6 +205,10 @@ The following HTTP status codes MUST be supported:
 | **403** | Not authorized to retrieve the Logistics Object                  | Error            |
 | **404** | Logistics Object not found                   | Error            |
 | **415** | Unsupported Content Type                   | Error            |
+
+## Security
+To engage with the "Get Logistics Object" endpoint, a client needs proper authentication and authorization to access the designated resource. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status. Conversely, for requests without proper authorization, a `403 "Not Authorized"` response should be provided.
+
 
 ## Example B1
 
@@ -349,6 +357,10 @@ Thus, any property in a Logistics Object can be _deleted_, _added_, or _replaced
 Logistics Objects MUST have a revision number, which is a non negative integer to be incremented after every applied change.
 The audit trail contains a field latestRevision which defines the latest revision of the Logistics Object.
 
+## Endpoint
+``` 
+ PATCH {{baseURL}}/logistics-objects/{{logisticsObjectId}}
+```
 ## Request
 
 The following HTTP header parameters MUST be present in the PATCH request:
@@ -475,6 +487,11 @@ The following HTTP status codes MUST be supported:
 | **404** | Logistics Object not found                 | Error            |
 | **415** | Unsupported Content Type, response when the client sends a PATCH document format that the server does not support for the resource identified by the Request-URI.  | Error            |
 | **422** | Unprocessable request, when the server understands the PATCH document and the syntax of the PATCH document appears to be valid, but the server is incapable of processing the request. | Error            |
+
+## Security
+
+To engage with the "Update Logistics Object" endpoint, a client needs only to be authenticated. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status.
+
 
 ## Example C1
 
@@ -764,6 +781,11 @@ The AuditTrail of a Logistics Object can be retrieved by performing a GET reques
 
 In order to retrieve the history of a Logistics Object between two dates, a query parameter should be added to the request URL as follows: "?updated-from=YYYYMMDDThhmmssZ&updated-to=YYYYMMDDThhmmssZ". The ONE Record client MUST specify this date-time window.
 
+## Endpoint
+``` 
+ GET {{baseURL}}/logistics-objects/{{logisticsObjectId}}/audit-trail
+```
+
 ## Request
 
 The following query parameters MUST be supported:
@@ -795,6 +817,11 @@ The response body follows the API [AuditTrail](https://onerecord.iata.org/ns/api
 
 Each change request follows the API [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) class structure.
 
+## Security
+
+To engage with the "Get Audit Trail of a Logistics Object" endpoint, a client needs proper authentication and authorization to access the designated resource. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status. Conversely, for requests without proper authorization, a `403 "Not Authorized"` response should be provided.
+
+The authorization to access the audit trail should be derived from the logistics objects. However, the implementor of a ONE Record server can decide to separate the control access between a logistics object and its audit trail.
 
 ## Example D1
 
@@ -863,6 +890,8 @@ If this parameter is before the creation date of the Logistics Object, `404 Not 
 If this parameter is in the future, `400 Bad Request` is returned.
 
 To ensure consistency when following the linked objects in a response, all linked Logistics Object, i.e. their Logistics Object URIs. in the response body MUST also contain the `?at=`query parameter with the same provided datetime value.
+
+To retrieve an historical logistic object we use the "Get a logistics object" endpoint. Additional information on how to perform a correct request can be found in the section ["Get a logistics object"](#get-a-logistics-object).
 
 ## Example E1
 
