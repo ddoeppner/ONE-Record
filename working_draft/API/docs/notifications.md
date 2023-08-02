@@ -100,6 +100,12 @@ Rules and recommendations related to the Notifications API:
 
 # Send Notification
 
+## Endpoint 
+``` 
+ POST {{baseURL}}/notifications
+
+```
+
 ## Request
 
 The following HTTP header parameters MUST be present in the request:
@@ -134,7 +140,13 @@ One of the following HTTP status codes MUST be present in the response:
 | 415 | 	Unsupported content type | Error       |
 | 500 |     Internal Server Error | Error       |
 
-A successful request MUST return a `HTTP/1.1 204 No Content` status code and the following HTTP headers parameters MUST be present in the response:
+A successful request MUST return a `HTTP/1.1 204 No Content` status code.
+
+
+## Security 
+
+To engage with the "Send Notifications" endpoint, a client needs to be authenticated. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status.
+
 
 ## Example 1A
 
