@@ -184,6 +184,10 @@ The following HTTP status codes MUST be supported:
 | **401**  | Not authenticated                | Error             |
 | **403**  | Not authorized to retrieve the Subscription Information                  | Error             |
 
+## Security
+
+To engage with the "Get Subscription" endpoint, a client needs proper authentication. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status.
+
 ## Example A1
 
 Request subscription information for specific Logistics Object URI.
@@ -216,7 +220,7 @@ Request subscription information for a Logistics Object type
 Request:
 
 ```http
-GET /subscriptions?topicType=LOGISTICS_OBJECT_TYPE&topic=https://onerecord.iata.org/ns/cargo#Shipment
+GET /subscriptions?topicType=https://onerecord.iata.org/ns/api%23LOGISTICS_OBJECT_TYPE&topic=https://onerecord.iata.org/ns/cargo#Shipment
 Host: 1r.example.com
 Content-Type: application/ld+json; version=2.0.0-dev
 ```
@@ -240,7 +244,7 @@ Request subscription information for a not supported Logistics Object type
 Request:
 
 ```http
-GET /subscriptions?topicType=LOGISTICS_OBJECT_TYPE&topic=https://onerecord.iata.org/ns/cargo#ForkLift
+GET /subscriptions?topicType=https://onerecord.iata.org/ns/api%23LOGISTICS_OBJECT_TYPE&topic=https://onerecord.iata.org/ns/cargo#ForkLift
 Host: 1r.example.com
 Accept: application/ld+json
 ```
@@ -263,7 +267,7 @@ Required parameter `topic=` is missing in the HTTP query parameters.
 Request:
 
 ```http
-GET /subscriptions?topicType=LOGISTICS_OBJECT_TYPE
+GET /subscriptions?topicType=https://onerecord.iata.org/ns/api%23LOGISTICS_OBJECT_TYPE
 Host: 1r.example.com
 Accept: application/ld+json
 ```
@@ -298,6 +302,20 @@ The publisher creates a [SubscriptionRequest](https://onerecord.iata.org/ns/api#
   PUB->>SUB: Send Notifications about data updates and events<br> POST /notifications HTTP/1.1
 ```
 
+The ONE Record server must validate that :
+- the `topicType` is one of the types described in the ONE Record API ontology
+- the `topic` is a valid Logistics Object (i.e. https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c)or a supported Logistics Objects type (i.e https://onerecord.iata.org/ns/cargo#Shipment)
+
+The Callback URL can be derived from the Organization IRI provided in the `hasSubscriber` property of the body request.
+
+
+## Endpoint 
+
+``` 
+ POST {{baseURL}}/subscriptions
+
+```
+
 ## Request
 
 The following HTTP header parameters MUST be present in the request:
@@ -327,6 +345,10 @@ The following HTTP status codes MUST be supported:
 | **401** | Not authenticated                                            | Error            |
 | **403** | Not authorized                                               | Error            |
 | **415** | Unsupported Content Type                                     | Error            |
+
+## Security
+
+To engage with the "Get Subscription" endpoint, a client needs proper authentication. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status.
 
 ## Example B1
 
