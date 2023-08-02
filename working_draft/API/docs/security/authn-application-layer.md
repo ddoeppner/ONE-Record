@@ -401,10 +401,10 @@ In the following table we summarize the authentication and authorization needed 
 | /logistics-objects | POST | Only Internal Service | Only Interal Service | 
 | /logistics-objects/\<logisticsObjectId> | GET | Yes | Yes | 
 | /logistics-objects/\<logisticsObjectId> | PATCH | Yes | No | 
-| /logistics-objects/\<logisticsObjectId>/audit-trail | GET | Yes | Yes (inherited from lo?) | 
+| /logistics-objects/\<logisticsObjectId>/audit-trail | GET | Yes | Yes [^1] | 
 | /logistics-objects/\<logisticsObjectId>/logistics-events | GET | Yes | Yes | 
-| /logistics-objects/\<logisticsObjectId>/logistics-events | POST | Yes | Yes, but could be “every authenticated user” | 
-| /logistics-objects/\<logisticsObjectId>/logistics-events/\<logisticsEventId> | GET | Yes | Yes (inherited from lo?) | 
+| /logistics-objects/\<logisticsObjectId>/logistics-events | POST | Yes | Yes [^2] | 
+| /logistics-objects/\<logisticsObjectId>/logistics-events/\<logisticsEventId> | GET | Yes | Yes | 
 | /subscriptions | GET | Yes | No | 
 | /subscriptions | POST | Yes | No | 
 | /access-delegation | POST | Yes | No |
@@ -416,3 +416,7 @@ In the following table we summarize the authentication and authorization needed 
 The term "Only Internal Service" emphasizes that the service is exclusively accessible to internal actors and should be blocked for third-party ONE Record servers.
 
 More information about the authorization mechanism can be found in the [access control page.](access-control.md)
+
+[^1]: The audit trail can inherit the authorization from the Logistics Object.
+
+[^2]: The implementor can decide to give access to all authenticated users.
