@@ -399,18 +399,18 @@ In the following table we summarize the authentication and authorization needed 
 | -------- | -------- | -------- |  -------- | 
 | / | GET | Yes | No | 
 | /logistics-objects | POST | Only Internal Service | Only Interal Service | 
-| /logistics-objects/\<logisticsObjectId> | GET | Yes | Yes | 
-| /logistics-objects/\<logisticsObjectId> | PATCH | Yes | No | 
-| /logistics-objects/\<logisticsObjectId>/audit-trail | GET | Yes | Yes [^1] | 
-| /logistics-objects/\<logisticsObjectId>/logistics-events | GET | Yes | Yes | 
-| /logistics-objects/\<logisticsObjectId>/logistics-events | POST | Yes | Yes [^2] | 
-| /logistics-objects/\<logisticsObjectId>/logistics-events/\<logisticsEventId> | GET | Yes | Yes | 
+| /logistics-objects/{{logisticsObjectId}} | GET | Yes | Yes | 
+| /logistics-objects/{{logisticsObjectId}} | PATCH | Yes | No | 
+| /logistics-objects/{{logisticsObjectId}}/audit-trail | GET | Yes | Yes [^1] | 
+| /logistics-objects/{{logisticsObjectId}}/logistics-events | GET | Yes | Yes | 
+| /logistics-objects/{{logisticsObjectId}}/logistics-events | POST | Yes | Yes [^2] | 
+| /logistics-objects/{{logisticsObjectId}}/logistics-events/{{logisticsEventId}} | GET | Yes | Yes | 
 | /subscriptions | GET | Yes | No | 
 | /subscriptions | POST | Yes | No | 
 | /access-delegation | POST | Yes | No |
-| /access-requests/\<actionRequestId> | GET | Yes | Yes |
-| /access-requests/\<actionRequestId> | PATCH | Only Internal Service  | Only Internal Service  |
-| /access-requests/\<actionRequestId> | DELETE | Yes | Yes |
+| /access-requests/{{actionRequestId}} | GET | Yes | Yes |
+| /access-requests/{{actionRequestId}} | PATCH | Only Internal Service  | Only Internal Service  |
+| /access-requests/{{actionRequestId}} | DELETE | Yes | Yes |
 | /notifications | POST | Yes | No | 
 
 The term "Only Internal Service" emphasizes that the service is exclusively accessible to internal actors and should be blocked for third-party ONE Record servers.
