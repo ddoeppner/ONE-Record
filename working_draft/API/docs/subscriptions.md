@@ -51,7 +51,7 @@ classDiagram
     class TopicType{
         <<Enumeration>>
         LOGISTICS_OBJECT_TYPE
-        LOGISTICS_OBJECT_URI
+        LOGISTICS_OBJECT_IDENTIFIER
     }
 ```
 
@@ -100,10 +100,10 @@ This step is optional, because a subscription MUST also be possible for already 
 **Step 1 - Retrieve Subscription information**
 
 The publisher MAY propose a Subscription to a subscriber by requesting the Subscription information from the potential subscriber. 
-The publisher sends a GET request to the subscriptions endpoint of a Subscriber with the proposed Logistics Object type or a specific Logistics Object URI using the query parameters `topicType` and `topic`. If the subscription proposal targets a specific Logistics Object, the subscribers MUST set the topicType=[LOGISTICS_OBJECT_URI](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_URI) and provide an accessible Logistics Object URI as `topic` parameter. Example:
+The publisher sends a GET request to the subscriptions endpoint of a Subscriber with the proposed Logistics Object type or a specific Logistics Object URI using the query parameters `topicType` and `topic`. If the subscription proposal targets a specific Logistics Object, the subscribers MUST set the topicType=[LOGISTICS_OBJECT_IDENTIFIER](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER) and provide an accessible Logistics Object URI as `topic` parameter. Example:
 
 ```http
-GET /subscriptions?topicType=https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_URI&topic=https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
+GET /subscriptions?topicType=https://onerecord.iata.org/ns/api%23LOGISTICS_OBJECT_IDENTIFIER&topic=https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
 Host: 1r.example.com
 Accept: application/ld+json; version=2.0.0-dev
 ```
@@ -139,14 +139,21 @@ Accept: application/ld+json; version=2.0.0-dev
 ```
 _([examples/Notification_example1.json](examples/Notification_example1.json))_
 
+## Endpoint 
+
+``` 
+ GET {{baseURL}}/subscriptions?topicType={{topicType}}&topic={dataclass/logisticObjectURI}}
+
+```
+
 ## Request
 
 The following HTTP query parameters MUST be supported:
 
 | Query parameter | Description | Valid values / Examples |
 | --------------- | ----------- | ------------ |
-| **topicType**       | Used by the publisher to specify if Subscription information for a specific Logistics Object or a data class should be in the response body. | <ul><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE)</li><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_URI](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_URI)</li></ul> |
-| **topic**       | Used by the publisher to specify the data class or Logistics Object URI the Subscription information should be related to. topic MUST be a valid URI | <ul><li>https://onerecord.iata.org/ns/cargo#Piece</li><li>https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c</li></ul> |
+| **topicType**       | Used by the publisher to specify if Subscription information for a specific Logistics Object or a data class should be in the response body. When passed in a URL, the **topicType** must be URL encoded (i.e # becomes %23) | <ul><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE)</li><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER)</li></ul> |
+| **topic**       | Used by the publisher to specify the data class or Logistics Object URI the Subscription information should be related to. **topic** MUST be a valid URI | <ul><li>https://onerecord.iata.org/ns/cargo#Piece</li><li>https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c</li></ul> |
 
 The following HTTP header parameters MUST be present in the request:
 
@@ -181,10 +188,11 @@ The following HTTP status codes MUST be supported:
 
 Request subscription information for specific Logistics Object URI.
 
+
 Request:
 
 ```http
-GET /subscriptions?topicType=https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_URI&topic=https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
+GET /subscriptions?topicType=https://onerecord.iata.org/ns/api%23LOGISTICS_OBJECT_IDENTIFIER&topic=https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
 Host: 1r.example.com
 Accept: application/ld+json; version=2.0.0-dev
 ```
