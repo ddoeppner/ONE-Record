@@ -139,6 +139,9 @@ Accept: application/ld+json; version=2.0.0-dev
 ```
 _([examples/Notification_example1.json](examples/Notification_example1.json))_
 
+!!! note
+        Notifications will be triggered for the creation of a new Logistics Event on a Logistics Object solely when the subscription has the ['subscribeToLogisticsEvents'](https://onerecord.iata.org/ns/api#subscribeToLogisticsEvents) option set to true. On the contrary, this notification will be omitted.
+
 ## Endpoint 
 
 ``` 
