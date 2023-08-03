@@ -125,7 +125,8 @@ The example shows how to generate a signature. The signature will be then encode
 JSON Web Tokens (JWTs) consist of claims, which are statements providing information about a particular subject. As explained in the previous section, claims are store in the payload of the JWT token. Despite the fact that claims are optional, in ONE Record network, a JWT token must carry the following claims:
 
 - "iss" (Issuer) Claim : The "iss" (issuer) claim identifies the principal that issued the JWT.
-- "exp" (Expiration Time) Claim : The "exp" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing. 
+- "exp" (Expiration Time) Claim : The "exp" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.
+- "onerecord_company_id" Claim : The "onerecord_company_id" claim carries the IRI of a [cargo:LogisticAgent](https://onerecord.iata.org/ns/cargo#LogisticsAgent) and which identifies the logistics agent in the ONE Record network. 
 
 ```
 {
@@ -134,7 +135,9 @@ JSON Web Tokens (JWTs) consist of claims, which are statements providing informa
 }
 ```
 
-The "iss" must be present to allowed multiple IdP in the network while the "exp" is necessary to define the expiration time of the ID token. Other claims can be added to the JWT Token according to the IdP configuration but might not be used by the ONE Record server.
+The "iss" must be present to allowed multiple IdP in the network while the "exp" is necessary to define the expiration time of the ID token. 
+The "onerecord_id" is necessary for authenticate the party and it's used to fill the `isRequestedBy` property in action requests.
+Other claims can be added to the JWT Token according to the IdP configuration but might not be used by the ONE Record server.
 
 ## Validate JSON Web Tokens
 
@@ -316,7 +319,7 @@ Payload:
 ```json
 {
   "iss": "https://auth.example.com",
-  "sub": "https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda",
+  "onerecord_company_id": "https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda",
   "exp": "2023-03-031T10:38:01.000Z"  
 }
 ```
