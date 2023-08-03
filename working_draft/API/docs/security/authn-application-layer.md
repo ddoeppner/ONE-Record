@@ -126,11 +126,12 @@ JSON Web Tokens (JWTs) consist of claims, which are statements providing informa
 
 - "iss" (Issuer) Claim : The "iss" (issuer) claim identifies the principal that issued the JWT.
 - "exp" (Expiration Time) Claim : The "exp" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.
-- "onerecord_company_id" Claim : The "onerecord_company_id" claim carries the IRI of a [cargo:LogisticAgent](https://onerecord.iata.org/ns/cargo#LogisticsAgent) and which identifies the logistics agent in the ONE Record network. 
+- "onerecord_company_id" Claim : The "onerecord_company_id" claim carries the URI of a [cargo:LogisticAgent](https://onerecord.iata.org/ns/cargo#LogisticsAgent) and which identifies the logistics agent in the ONE Record network. 
 
 ```
 {
   "iss": "https://auth.example.com",
+  "onerecord_company_id": "https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda",
   "exp": "2023-03-031T10:38:01.000Z"  
 }
 ```
