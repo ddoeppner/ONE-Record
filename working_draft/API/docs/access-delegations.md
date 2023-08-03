@@ -16,19 +16,20 @@ If, as in this presented scenario, the airline already has a delegation of acces
 
 !!! note
     The party granting access is referred to as the `Delegator` and the party receiving access is the `Delegate`. 
-    The party requesting access is referred to as the `Requestor` who MAY NOT be the same as the `Delegator`.
+    The party requesting access is referred to as the `Requestor`.
 
 
 
 # Request Access Delegation
 
+## Endpoint
+
+``` 
+ POST {{baseURL}}/access-delegations
+
+```
+
 ## Request
-
-The following REST API endpoint MUST be implemented:
-
-| Endpoint             | HTTP Method | API function            |
-| -------------------- |  ------ |---------------------- |
-| /access-delegations  | POST    |Request to delegate access to Logistics Object for a third party |
 
 The following HTTP header parameters MUST be present in the request:
 
@@ -92,6 +93,10 @@ The following HTTP status codes MUST be supported:
 | **401** | Not authenticated                                            | Error            |
 | **403** | Not authorized to submit Delegation Request                  | Error            |
 | **415** | Unsupported Content Type                                     | Error            |
+
+## Security
+To engage with the "Request Access Delegation" endpoint, a client needs proper authentication. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status.
+
 
 ## Example A1
 
