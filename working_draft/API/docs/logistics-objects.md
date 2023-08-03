@@ -462,7 +462,7 @@ classDiagram
 
 ## Response
 
-A successful request MUST return a `HTTP/1.1 201 Created` status code and the following HTTP headers parameters MUST be present in the response:
+A successful request MUST return a `HTTP/1.1 204 No Content` status code and the following HTTP headers parameters MUST be present in the response:
 
 | Header | Description                 | Example                |
 | -------------------- |  ----- |   -------------------------------- |
