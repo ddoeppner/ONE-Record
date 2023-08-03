@@ -480,7 +480,7 @@ The following HTTP status codes MUST be supported:
 
 | Code    | Description | Response body    |
 | ------- | ----------- | ---------------- |
-| **201** | The change was successfully requested | No body required |
+| **204** | The change was successfully requested | No body required |
 | **400** | The update request body is invalid                             | Error            |
 | **401** | Not authenticated                          | Error            |
 | **403** | Not authorized to update the Logistics Object                  | Error            |
