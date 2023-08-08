@@ -49,6 +49,7 @@ sequenceDiagram
     SA->>-CA: 6. Response with the resource
 
 ```
+
 1. The Client Application sends credentials to the Identity Provider
 2. The Authorization Server validates the credentials
 3. The Authorization Server generates an access token and send it to the Client Application as response
@@ -65,6 +66,7 @@ A JSON Web Token (JWT), pronounced "jot," is an established standard [RFC 7519](
 Due to its compact nature, a JWT can be easily conveyed via a URL, as a POST parameter, or within an HTTP header, ensuring swift transmission. Within a JWT, all pertinent details about an entity are included, eliminating the need for multiple database queries. Furthermore, the recipient of a JWT can verify the token's authenticity without having to contact a server.
 
 The structure of a JWT consists of three parts separated by dots ('.'). These parts are:
+
 - Header
 - Payload
 - Signature
@@ -149,9 +151,10 @@ Validation of JSON Web Tokens should be done using third party libraries that su
 
 The JSON Web Key Set (JWKS) is a collection of keys that includes the public keys required to validate any JSON Web Token (JWT) issued by the Identity Provider (IdP) and signed using the RS256 signing algorithm. For every tenant, OIDC provides a JWKS endpoint accessible at https://{yourDomain}/.well-known/jwks.json. This endpoint contains the JSON Web Key (JWK) required to validate all JWTs issued by OIDC for that specific tenant. For more information about JWKS, please refer to the specification [RFC7517](https://datatracker.ietf.org/doc/html/rfc7517).
 
-IATA mantains a page with the list of authorized IdP together with :
-- the url to request a token
-- the url to refresh a token 
+IATA mantains a page with the list of authorized IdP together with:
+
+- the url to request a token.
+- the url to refresh a token.
 - the location of the JSON Web Key Set. 
 
 Any trusted IdP must immediately communicate any setup change to IATA.
@@ -160,8 +163,9 @@ Any trusted IdP must immediately communicate any setup change to IATA.
 
 The ONE Record server will perform a POST request in order to get an ID Token. The ID Token received can be used to authenticate towards a ONE Record server.
 
-## Resource URL
-The url to request a token will be provided by the Identity Provider. Example: https://localhost:8080/token
+## Endpoint
+The endpoint to request a token will be provided by the Identity Provider. 
+Example: https://auth.example.com/token
 
 ## Request Header Parameter
 
