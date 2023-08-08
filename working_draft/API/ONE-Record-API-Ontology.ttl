@@ -97,12 +97,12 @@ xsd:date rdf:type rdfs:Datatype .
                   rdfs:label "has Change Request"@en .
 
 
-###  https://onerecord.iata.org/ns/api#hasDataOwner
-:hasDataOwner rdf:type owl:ObjectProperty ;
+###  https://onerecord.iata.org/ns/api#hasDataHolder
+:hasDataHolder rdf:type owl:ObjectProperty ;
               rdfs:domain :ServerInformation ;
               rdfs:range cargo:Organization ;
-              rdfs:comment "The data owner of the servers data."@en ;
-              rdfs:label "has data owner"@en .
+              rdfs:comment "The data holder of the servers data."@en ;
+              rdfs:label "has data holder"@en .
 
 
 ###  https://onerecord.iata.org/ns/api#hasError
@@ -626,7 +626,7 @@ xsd:date rdf:type rdfs:Datatype .
                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                  owl:onDataRange xsd:dateTime
                                ] ;
-               rdfs:comment "Superclass for all kinds of requests (i.e someone requsted something (e.g. subscription, access, etc.) at a publisher/owner of a logistics object)"@en ;
+               rdfs:comment "Superclass for all kinds of requests (i.e someone requsted something (e.g. subscription, access, etc.) at a publisher/holder of a logistics object)"@en ;
                rdfs:label "Action Request"@en .
 
 
@@ -957,7 +957,7 @@ xsd:date rdf:type rdfs:Datatype .
 ###  https://onerecord.iata.org/ns/api#ServerInformation
 :ServerInformation rdf:type owl:Class ;
                    rdfs:subClassOf [ rdf:type owl:Restriction ;
-                                     owl:onProperty :hasDataOwner ;
+                                     owl:onProperty :hasDataHolder ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass cargo:Organization
                                    ] ,
@@ -1070,7 +1070,7 @@ xsd:date rdf:type rdfs:Datatype .
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass :Subscription
                                      ] ;
-                     rdfs:comment "SubscriptionRequest initiated by subscribers to publisher (data owner) for themselves or for a third party subscriber."@en ;
+                     rdfs:comment "SubscriptionRequest initiated by subscribers to publisher (data holder) for themselves or for a third party subscriber."@en ;
                      rdfs:label "Subscription Request"@en .
 
 

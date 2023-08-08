@@ -114,7 +114,7 @@ classDiagram
     }
 
     class ServerInformation{
-        + hasDataOwner: Organization                
+        + hasDataHolder: Organization                
         + hasServerEndpoint: xsd:anyURI        
         + hasSupportedApiVersion[]: xsd:string [1..*]
         + hasSupportedContentType[]: xsd:string [1..*]        

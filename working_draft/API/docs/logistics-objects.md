@@ -6,7 +6,7 @@ A list of all possible data classes that inherit from Logistics Object can be fo
 
 !!! note 
         Although the creation of a Logistics Object is specified in the ONE Record API specification, it is not required to expose an API endpoint for this API action to be compliant with the ONE Record standard. 
-        The reason for this is that _only the owner of the logistics object_ MAY create a logistics object with any business logic or technology. 
+        The reason for this is that _only the holder of the logistics object_ MAY create a logistics object with any business logic or technology. 
         However, it is important that the Logistics Object is created with a [Logistics Object URI](concepts.md#logistics-object-uri) that is accessible on the internet of logistics.
 
          Nevertheless, this API action specification is included for reference, because in many cases, the use of HTTP POST is the preferred solution to create resources with REST APIs.
@@ -140,7 +140,7 @@ This Logistics Objects will be used for the following examples.
 # Get a Logistics Object
 
 Each Logistics Object in the Internet of Logistics MUST be accessible via its [Logistics Objects URI](concepts.md#logistics-object-uri) using the HTTP GET method.
-This enables the Owner of the Logistics Object to manage access on the level of individual Logistics Objects (see [access-control](./security/access-control.md) for more information).
+This enables the Holder of the Logistics Object to manage access on the level of individual Logistics Objects (see [access-control](./security/access-control.md) for more information).
 If the requester is authorized to access this Logistics Object then the response body MUST include the requested Logistics Object.
 
 If not a historical version is explicitly requested (see [Retrieve a historical Logistics Object](#retrieve-a-historical-logistics-object)),
@@ -316,7 +316,7 @@ Location: http://new1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a
 # Update a Logistics Object
 
 In ONE Record, logistics objects MAY be updated. 
-However, only the `Owner of a LogisticsObject` can update the data, 
+However, only the [`Holder of a LogisticsObject`](./concepts.md#holder-of-a-logistics-object) can update the data, 
 while `Users of the LogisticsObject` can only request changes following a structure described in this section.
 
 Technically, the HTTP PATCH method is used to request an update to a LogisticsObject.
@@ -339,14 +339,14 @@ Thus, any property in a Logistics Object can be _deleted_, _added_, or _replaced
 
 **Guidelines for updating Logistics Objects in ONE Record:**
 
-- Only the Owner of a Logistics Object MAY make the changes to logistics objects.
+- Only the Holder of a Logistics Object MAY make the changes to logistics objects.
 - Any User of a Logistics Object CAN request a [Change](https://onerecord.iata.org/ns/api#Change) on a Logistics Object, which result in a [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) with the status [REQUEST_PENDING](https://onerecord.iata.org/ns/api#REQUEST_PENDING).
-- The Owner of a Logistics Object decides about the [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) and applies changes to a Logistics Object unless there is a business or technical reason to reject it.
+- The Holder of a Logistics Object decides about the [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) and applies changes to a Logistics Object unless there is a business or technical reason to reject it.
 - Evaluation and Application of a [Change](https://onerecord.iata.org/ns/api#Change) MUST occur as a single (atomic) event. Operations are sorted and processed as two groups of (1) delete operations and (2) add operations until all operations are applied, or else the entire update fails. If an error occurs, it is necessary to revert the logistics object back to its previous state before implementing the modification.
 - If a field update fails, the entire [Change](https://onerecord.iata.org/ns/api#Change) is unsuccessful. Partial updates MUST NOT be accepted. The ONE Record server MUST use the property [hasError](https://onerecord.iata.org/ns/cargo#hasError) of the [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) to document the errors.
 - If the update is successful, the revision number in a Logistics Object's [AuditTrail](https://onerecord.iata.org/ns/api#AuditTrail) is incremented and the changes are recorded in the Audit Trail. Please refer to the sections on [Historical Logistics Objects](#retrieve-a-historical-logistics-object) and [Audit Trail of Logistics Objects](#get-audit-trail-of-a-logistics-object) for more details.
 - It is RECOMMENDED to get the latest version of Logistics Object before requesting a [Change](https://onerecord.iata.org/ns/api#Change) to ensure that the update is made to the latest version of the Logistics Object.
-- If a [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) is rejected by the Owner of the Logistics Object, the revision number of the Logistics Object is not incremented but the request is added to the [AuditTrail](https://onerecord.iata.org/ns/api#AuditTrail) of this Logistics Object, marked with the status [REQUEST_REJECTED](https://onerecord.iata.org/ns/api#REQUEST_REJECTED). A rejected [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) is kept in the [AuditTrail](https://onerecord.iata.org/ns/api#AuditTrail) of the Logistics Object.
+- If a [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) is rejected by the Holder of the Logistics Object, the revision number of the Logistics Object is not incremented but the request is added to the [AuditTrail](https://onerecord.iata.org/ns/api#AuditTrail) of this Logistics Object, marked with the status [REQUEST_REJECTED](https://onerecord.iata.org/ns/api#REQUEST_REJECTED). A rejected [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) is kept in the [AuditTrail](https://onerecord.iata.org/ns/api#AuditTrail) of the Logistics Object.
 - After a [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) is accepted, other pending ChangeRequests that affect the same revision MUST be rejected.
 - The PATCH operation MUST NOT be used to create logistics objects; only linking to an existing object is allowed in a [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest).
 - The PATCH operation MUST NOT be used to link a [LogisticsEvent](https://onerecord.iata.org/ns/cargo#LogisticsEvent) to a Logistics Object. The ONE Record server MUST reject requested changes that contain operations to the [hasLogisticsEvent](https://onerecord.iata.org/ns/cargo#hasLogisticsEvent) property.
@@ -752,7 +752,7 @@ _([examples/Error_400_example2.json](examples/Error_400_example2.json))_
 # Get Audit Trail of a Logistics Object
 
 Every time a Logistics Object is requested to be updated as described in the previous section, the details of this request are added to an AuditTrail of a Logistics Object. 
-Before a ChangeRequest is processed by the owner of a Logistics Object, the status of the ChangeRequest MUST be changed from [REQUEST_PENDING](https://onerecord.iata.org/ns/api#REQUEST_PENDING) to [REQUEST_ACCEPTED](https://onerecord.iata.org/ns/api#REQUEST_ACCEPTED) or [REQUEST_REJECTED](https://onerecord.iata.org/ns/api#REQUEST_REJECTED).
+Before a ChangeRequest is processed by the holder of a Logistics Object, the status of the ChangeRequest MUST be changed from [REQUEST_PENDING](https://onerecord.iata.org/ns/api#REQUEST_PENDING) to [REQUEST_ACCEPTED](https://onerecord.iata.org/ns/api#REQUEST_ACCEPTED) or [REQUEST_REJECTED](https://onerecord.iata.org/ns/api#REQUEST_REJECTED).
 
 The ChangeRequest data class object details about the success or failure of this request, e.g. timestamps, any errors that occurred, in addition to the operations to be applied to a LogisticsObject.
 
@@ -772,7 +772,7 @@ classDiagram
 
 !!! note
         `Users of the Logistics Object` can retrieve the AuditTrail of the LogisticsObject. 
-        `Owner of the Logistics Object` is responsible for updating the AuditTrail.
+        `Holder of the Logistics Object` is responsible for updating the AuditTrail.
 
 
 

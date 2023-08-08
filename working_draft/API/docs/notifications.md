@@ -228,7 +228,7 @@ HTTP/1.1 204 No Content
 
 ## Example 1E
 
-The following example shows a `CHANGE_REQUEST_ACCEPTED` Notification after the ChangeRequest is accepted by the owner of the logistics object.
+The following example shows a `CHANGE_REQUEST_ACCEPTED` Notification after the ChangeRequest is accepted by the holder of the logistics object.
 
 ```http
 POST /notifications HTTP/1.1

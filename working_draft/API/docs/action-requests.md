@@ -1,15 +1,15 @@
 ONE Record uses a generic action request pattern to support the process of one organization requesting an action that must be approved by another organization. 
 Examples include [SubscriptionRequest](https://onerecord.iata.org/ns/api#SubscriptionRequest), where the subscriber asks the publisher to subscribe him/her on a LogisticsObject; or the [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest), 
-where a `User of a LogisticsObject` submits a [Change](https://onerecord.iata.org/ns/api#Change) of a LogisticsObject that must be approved and applied by the `Owner of the LogisticsObject`.
+where a `User of a LogisticsObject` submits a [Change](https://onerecord.iata.org/ns/api#Change) of a LogisticsObject that must be approved and applied by the [`Holder of the LogisticsObject`](./concepts.md#holder-of-a-logistics-object).
 
 While the creation of Action Requests by submitting Change, Subscription or Access Delegation objects is described in the previous sections, this section describes the managing of Action Requests.
-This enables users and owners to view and revoke action requests, and enables owners to change the status of an ActionRequest, i.e. to accept or reject.
+This enables users and holders to view and revoke action requests, and enables holders to change the status of an ActionRequest, i.e. to accept or reject.
 
 **Guidelines for Action Requests in ONE Record:**
 
 - An [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest) MUST be accessible via the URI of the [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest) (requires sufficient permissions)
-- An [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest) MUST only be accepted or reject by the `Owner of the Logistics Object`
-- An [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest) where [isRequestedBy](https://onerecord.iata.org/ns/api#requestedBy) is the `Owner of the Logistics Object` SHOULD be accepted and processed directly.
+- An [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest) MUST only be accepted or reject by the [`Holder of the LogisticsObject`](./concepts.md#holder-of-a-logistics-object)
+- An [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest) where [isRequestedBy](https://onerecord.iata.org/ns/api#requestedBy) is the [`Holder of the LogisticsObject`](./concepts.md#holder-of-a-logistics-object) SHOULD be accepted and processed directly.
 - A [ChangeRequest](https://onerecord.iata.org/ns/api#ChangeRequest) MUST only be revoked as long as it is in `REQUEST_PENDING` status
 - An [AccessDelegationRequest](https://onerecord.iata.org/ns/api#AccessDelegationRequest) MUST only be revoked by the `Delegator` or the `Delegate`
 - A [SubscriptionRequest](https://onerecord.iata.org/ns/api#SubscriptionRequest) MUST only be revoked by the `Requestor`/`Subscriber` or the `Publisher`
@@ -24,8 +24,8 @@ This enables users and owners to view and revoke action requests, and enables ow
 
     [*] --> REQUEST_PENDING
 
-    REQUEST_PENDING --> REQUEST_ACCEPTED: accepted by owner
-    REQUEST_PENDING --> REQUEST_REJECTED: rejected by owner
+    REQUEST_PENDING --> REQUEST_ACCEPTED: accepted by holder
+    REQUEST_PENDING --> REQUEST_REJECTED: rejected by holder
     REQUEST_PENDING --> REQUEST_REVOKED: revocation requested
 
     REQUEST_REVOKED --> [*]
@@ -209,14 +209,14 @@ _([examples/SubscriptionRequest_example2.json](examples/SubscriptionRequest_exam
 
 # Update an Action Request
 
-This API action can be used the owner/publisher of a Logistics Object to approve or reject a pending [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest).
+This API action can be used the holder/publisher of a Logistics Object to approve or reject a pending [ActionRequest](https://onerecord.iata.org/ns/api#ActionRequest).
 
 For example, as a publisher, this API action is used to change the status of a received Subscription Request on a ONE Record server using the PATCH HTTP method. 
 
 !!! note 
         Although the updating the state of of a Subscription Request is specified in the ONE Record API specification, 
         it is not required to expose an API endpoint for this API action to be compliant with the ONE Record standard. 
-        The reason for this is that _only the owner of the logistics object_ MAY accept or reject a subscription request with any business logic or technology.         
+        The reason for this is that _only the holder of the logistics object_ MAY accept or reject a subscription request with any business logic or technology.         
 
         Nevertheless, this API action specification is included for reference, because in many cases, the use of HTTP PATCH is the preferred solution to update resources with REST APIs.
 
@@ -295,7 +295,7 @@ Location: https://1r.example.com/action-requests/733ed391-ad11-4c02-a2bf-c77ee79
 
 # Revoke Action Request
 
-This API action MUST be used to revoke an Action Request MUST be revoked only by the original requestor of the ActionRequest or the owner/publisher of the Logistics Object.
+This API action MUST be used to revoke an Action Request MUST be revoked only by the original requestor of the ActionRequest or the holder/publisher of the Logistics Object.
 
 ## Example C1
 

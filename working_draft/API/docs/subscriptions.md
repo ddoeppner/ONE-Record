@@ -67,7 +67,7 @@ Both scenarios are described with examples below. For simplicity reasons, the se
 
 # Get Subscription information as Publisher
 
-If the publisher of a Logistics Object - also called `Owner of the Logistics Object` - wants to subscribe a user of a Logistics Object - also called `Subscriber` in this scenario  - to send [Notifications](https://onerecord.iata.org/ns/api#Notification) about data updates and/or Logistics Events, the publisher can request the potential subscriber to provide subscription information. 
+If the publisher of a Logistics Object - also called `Holder of the Logistics Object` - wants to subscribe a user of a Logistics Object - also called `Subscriber` in this scenario  - to send [Notifications](https://onerecord.iata.org/ns/api#Notification) about data updates and/or Logistics Events, the publisher can request the potential subscriber to provide subscription information. 
 
 There are two different forms of this scenario:
 

@@ -4851,7 +4851,7 @@ components:
           type: array
           items:
             type: string
-        https://onerecord.iata.org/ns/api#hasDataOwner:
+        https://onerecord.iata.org/ns/api#hasDataHolder:
           $ref: '#/components/schemas/Organization'
         https://onerecord.iata.org/ns/api#hasServerEndpoint:
           uniqueItems: true

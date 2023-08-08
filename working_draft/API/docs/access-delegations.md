@@ -162,6 +162,6 @@ Therefore, the concept described in the previous sections can be used by organiz
 In the example above, the airline can request that the forwarder gives access to their ground handler. 
 The forwarder will grant the access on the basis that they trust the airline who trusts their ground handler.
 
-However, if the owner of the logistics object withdraws access delegation to a second party, it MUST be ensured that the third party's access delegation is also withdrawn.
+However, if the holder of the logistics object withdraws access delegation to a second party, it MUST be ensured that the third party's access delegation is also withdrawn.
 
 See also the section about [revoking Action Requests](action-requests.md#revoke-action-request).

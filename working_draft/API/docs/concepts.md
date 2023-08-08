@@ -59,23 +59,23 @@ This is transition from the traditional logistics and transport EDI systems that
 The concept of Logistics Objects is far more extensive since Logistics Objects can be more granular and have very specific usage in different use cases within the logistics and transport domain.
 Examples of a Logistics Object are a [Piece](https://onerecord.iata.org/ns/cargo#Piece), an [IotDevice](https://onerecord.iata.org/ns/cargo#IotDevice), a [Sensor](https://onerecord.iata.org/ns/cargo#Sensor) or a [BookingOptionRequest](https://onerecord.iata.org/ns/cargo#BookingOptionRequest) and [many more](https://onerecord.iata.org/ns/cargo).
 
-### **Owner of a Logistics Object**
+### **Holder of a Logistics Object**
 
-The owner of a Logistics Object is the one who created it and thus has control over it. The owner may also control the ONE Record server on which the Logistics Object is accessible via HTTP requests, but this is not a requirement.
-Instead, the owner may use a 3rd party IT solution provider that implements, operates, and provisions the ONE Record API and will provide suitable access to the owner to manage and control the Logistics Objects, including its creation, any changes, authorization and access rights, etc.
+The holder of a Logistics Object is the one who created it and thus has control over it. The holder may also control the ONE Record server on which the Logistics Object is accessible via HTTP requests, but this is not a requirement.
+Instead, the holder may use a 3rd party IT solution provider that implements, operates, and provisions the ONE Record API and will provide suitable access to the holder to manage and control the Logistics Objects, including its creation, any changes, authorization and access rights, etc.
 
-_In a publisher-subscriber scenario, the owner of a Logistics Object is also referred to as `Publisher`._ <br/>
-_In an access delegation scenario, the owner of a Logistics Object is also referred to as the `Delegator`._
+_In a publisher-subscriber scenario, the holder of a Logistics Object is also referred to as `Publisher`._ <br/>
+_In an access delegation scenario, the holder of a Logistics Object is also referred to as the `Delegator`._
 
 !!! note
-    In this ONE Record API specification document, the term owner is used to describe a technical holder of a logistics object data object.
-    This does not include legal topics such as data governance, ownership, data stewardship or data custodian.
+    In this ONE Record API specification document, the term `holder` describes a technical holder of a logistics object data object.
+    The `holder` of a Logistics Object might be even the owner of the data. The term `holder` does not include legal topics such as data governance, ownership, data stewardship or data custodian.
 
 ### **User of a Logistics Object**
 
-A user of a Logistics Object is anyone other than the owner and who has an interest in the Logistics Object.
+A user of a Logistics Object is anyone other than the holder and who has an interest in the Logistics Object.
 Most likely the user will have a role in the logistics and transport of a shipment.
-The user of a Logistics Objet MAY be from another organization than the owner or from the same organization but with a different function within that organization.
+The user of a Logistics Objet MAY be from another organization than the holder or from the same organization but with a different function within that organization.
 
 _In a publisher-subscriber scenario, the user of a Logistics Object is also referred to as `Requestor` or `Subscriber`._ <br/>
 _In an access delegation scenario, the user of a Logistics Object is also referred to as the `Requestor` or `Delegate`._ <br/>
@@ -111,7 +111,7 @@ https://api.airline.com/rest/public/onerecord/logistics-objects/6596bb81-f5a0-46
 
 ### Organization URI
 
-In ONE Record, each party in the Internet of Logistics, e.g., a shipper, airline, or public authorities like customs that acts as an owner or user of Logistics Objects, requires a globally unique identifier, a so-called `Organization URI`.
+In ONE Record, each party in the Internet of Logistics, e.g., a shipper, airline, or public authorities like customs that acts as an holder or user of Logistics Objects, requires a globally unique identifier, a so-called `Organization URI`.
 This MUST have a URI that points to a data object that inherits from [Organization](https://onerecord.iata.org/ns/cargo#Organization) which inherits from [LogisticsObject](https://onerecord.iata.org/ns/cargo#LogisticsObject). Therefore, the same URI structure as for Logistics Objects MUST be applied.
 
 This data object can be a [Company](https://onerecord.iata.org/ns/cargo#Company), a [Carrier](https://onerecord.iata.org/ns/cargo#Carrier), or a [PublicAuthority](https://onerecord.iata.org/ns/cargo#PublicAuthority).
