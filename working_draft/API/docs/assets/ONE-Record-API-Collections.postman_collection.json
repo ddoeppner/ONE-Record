@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "91bb2018-a47d-4110-82e0-4f5c229aa093",
 		"name": "ONE Record API Collections",
-		"description": "# ONE Record Example Collection\n\nThis collection contains all the examples described in the ONE Record API specification website([https://iata-cargo.github.io/ONE-Record/]())\n\n# Collection Variables\n\nA set of variables has been designed to ease the use of this collections. In order to run any call, please set the following variables according to your setup:\n\n- baseUrl : the url of the ONE Record server (i.e. [http://onerecordserver.test]())\n    \n\n# Authentication\n\nIf ONE Record Server implements the authentication, please check the Authorization tab of the collection. You can setup a beare",
+		"description": "# ONE Record Example Collection\n\nThis collection contains all the examples described in the ONE Record API specification website([https://iata-cargo.github.io/ONE-Record/]())\n\n# Collection Variables\n\nA set of variables has been designed to ease the use of this collections. In order to run any call, please set the following variables according to your setup:\n\n- baseUrl : the url of the ONE Record server (i.e. [http://onerecordserver.test]())\n    \n\n# Authentication\n\nIf ONE Record Server implements the authentication, you should add a bearer token for each API call. For more information check the Security",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28309429",
 		"_collection_link": "https://crimson-crescent-500945.postman.co/workspace/One-Record-workspace~090d2458-3b0b-4449-8278-184b7711961d/collection/28309429-91bb2018-a47d-4110-82e0-4f5c229aa093?action=share&creator=28309429&source=collection_link"
@@ -97,7 +97,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"@id\": \"http://localhost:8080/\",\n    \"@type\": \"https://onerecord.iata.org/ns/api#ServerInformation\",\n    \"https://onerecord.iata.org/ns/api#hasDataHolder\": {\n        \"@id\": \"http://localhost:8080/logistics-objects/_data-holder\",\n        \"@type\": \"https://onerecord.iata.org/ns/cargo#Organization\",\n        \"https://onerecord.iata.org/ns/cargo#name\": \"ACME Corporation\"\n    },\n    \"https://onerecord.iata.org/ns/api#hasServerEndpoint\": \"http://localhost:8080/\",\n    \"https://onerecord.iata.org/ns/api#hasSupportedContentType\": [\n        \"application/turtle\",\n        \"application/ld+json\",\n        \"text/turtle\"\n    ],\n    \"https://onerecord.iata.org/ns/api#hasSupportedLanguage\": \"en-US\",\n    \"https://onerecord.iata.org/ns/api#hasSupportedLogisticsObjectType\": [\n        \"https://onerecord.iata.org/ns/cargo#Piece\",\n        \"https://onerecord.iata.org/ns/cargo#Shipment\",\n        \"https://onerecord.iata.org/ns/cargo#Waybill\"\n    ]\n}"
+							"body": "{\n    \"@id\": \"http://localhost:8080/\",\n    \"@type\": \"https://onerecord.iata.org/ns/api#ServerInformation\",\n    \"https://onerecord.iata.org/ns/api#hasDataOwner\": {\n        \"@id\": \"http://localhost:8080/logistics-objects/_data-owner\",\n        \"@type\": \"https://onerecord.iata.org/ns/cargo#Organization\",\n        \"https://onerecord.iata.org/ns/cargo#name\": \"ACME Corporation\"\n    },\n    \"https://onerecord.iata.org/ns/api#hasServerEndpoint\": \"http://localhost:8080/\",\n    \"https://onerecord.iata.org/ns/api#hasSupportedContentType\": [\n        \"application/turtle\",\n        \"application/ld+json\",\n        \"text/turtle\"\n    ],\n    \"https://onerecord.iata.org/ns/api#hasSupportedLanguage\": \"en-US\",\n    \"https://onerecord.iata.org/ns/api#hasSupportedLogisticsObjectType\": [\n        \"https://onerecord.iata.org/ns/cargo#Piece\",\n        \"https://onerecord.iata.org/ns/cargo#Shipment\",\n        \"https://onerecord.iata.org/ns/cargo#Waybill\"\n    ]\n}"
 						}
 					]
 				}
@@ -323,13 +323,19 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticsObjectId}}",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticsObjectId}}"
+								":logisticsObjectId"
+							],
+							"variable": [
+								{
+									"key": "logisticsObjectId",
+									"value": null
+								}
 							]
 						},
 						"description": "This request is used to get logistics objects.\n\n## Examples\n\nDescription of the examples:\n\n1. Retreive the Piece object previously created\n2. Retreive a not existing Logistics Object\n3. Retreive the Shipment object previously created with the Piece embedded.\n    \n\nNote:\n\nIn order to run this example, the variables \"pieceId\" and must have existing logistics objects Id."
@@ -347,13 +353,19 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}"
+										":logisticsObjectId"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{pieceId}}"
+										}
 									]
 								}
 							},
@@ -378,13 +390,20 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/notExistingLO",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"notExistingLO"
+										":logisticsObjectId"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "notExistingLO",
+											"description": "Simulate a not existing Logistics Object"
+										}
 									]
 								}
 							},
@@ -409,18 +428,24 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{shipmentId}}?embedded=true",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId?embedded=true",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{shipmentId}}"
+										":logisticsObjectId"
 									],
 									"query": [
 										{
 											"key": "embedded",
 											"value": "true"
+										}
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{shipmentId}}"
 										}
 									]
 								}
@@ -473,13 +498,19 @@
 							"raw": "{{Define your json request. See examples}}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticObject}}",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticObjectId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticObject}}"
+								":logisticObjectId"
+							],
+							"variable": [
+								{
+									"key": "logisticObjectId",
+									"value": null
+								}
 							]
 						},
 						"description": "This request is used to update a logistics object\n\n## Examples\n\nDescription of the examples:\n\n1. Modify a Piece object adding a \"goodsDescription\" and changing the \"coload\" from false to true\n2. Add the \"grossWeight\" to a Piece object.\n3. Modify the \"grossWeight\" of a Piece object.\n4. Delete the \"grossWeight\" of a Piece object.\n    \n\nNote:\n\nIn order to have the example working you need to:\n\n- setup the \"pieceId\" variable to an existing Piece Id ( Use the example A1 to create one).\n- setup the \"internalNodeId\" to the grossWeight id give by the server (Example C3)\n- setup the hasRevision value according to your revision number"
@@ -512,13 +543,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticObjectId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}"
+										":logisticObjectId"
+									],
+									"variable": [
+										{
+											"key": "logisticObjectId",
+											"value": "{{pieceId}}"
+										}
 									]
 								}
 							},
@@ -554,13 +591,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticObjectId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}"
+										":logisticObjectId"
+									],
+									"variable": [
+										{
+											"key": "logisticObjectId",
+											"value": "{{pieceId}}"
+										}
 									]
 								}
 							},
@@ -596,13 +639,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticObjectId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}"
+										":logisticObjectId"
+									],
+									"variable": [
+										{
+											"key": "logisticObjectId",
+											"value": "{{pieceId}}"
+										}
 									]
 								}
 							},
@@ -638,13 +687,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticObjectId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}"
+										":logisticObjectId"
+									],
+									"variable": [
+										{
+											"key": "logisticObjectId",
+											"value": "{{pieceId}}"
+										}
 									]
 								}
 							},
@@ -692,14 +747,20 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticsObjectId}}/audit-trail",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/audit-trail",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticsObjectId}}",
+								":logisticsObjectId",
 								"audit-trail"
+							],
+							"variable": [
+								{
+									"key": "logisticsObjectId",
+									"value": null
+								}
 							]
 						},
 						"description": "This request is used to get the Audit Trail of a logistics object.\n\nThe example shows how to get the Audit Trail of a Cargo:Piece. Use the example A1 to create a Piece and add the id on the variable \"pieceId\""
@@ -722,14 +783,20 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}/audit-trail",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/audit-trail",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}",
+										":logisticsObjectId",
 										"audit-trail"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{pieceId}}"
+										}
 									]
 								}
 							},
@@ -777,18 +844,24 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticsObjectId}}?at={{historicalDate}}",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId?at={{historicalDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticsObjectId}}"
+								":logisticsObjectId"
 							],
 							"query": [
 								{
 									"key": "at",
 									"value": "{{historicalDate}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "logisticsObjectId",
+									"value": null
 								}
 							]
 						},
@@ -812,18 +885,24 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}?at={{historicalDate}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId?at={{historicalDate}}",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}"
+										":logisticsObjectId"
 									],
 									"query": [
 										{
 											"key": "at",
 											"value": "{{historicalDate}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{pieceId}}"
 										}
 									]
 								}
@@ -862,14 +941,20 @@
 							"raw": "{{Add here your request body. See Examples}}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticsObjectId}}/logistics-events",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticsObjectId}}",
+								":logisticsObjectId",
 								"logistics-events"
+							],
+							"variable": [
+								{
+									"key": "logisticsObjectId",
+									"value": null
+								}
 							]
 						},
 						"description": "This endpoints allows to create Logistics Events.\n\n## Examples\n\nDescription of the examples:\n\n1. Add a Logistics Event on an existing Cargo:Shipment object.\n2. Adding a Logistics Event on a non existing Logistics Object.\n    \n\nNote:\n\nIn order to use the examples please set the variable \"shipmentId\" to an existing Shipment Logistics Object and the variable \"companyId\" to an existing Company Logistics Object (See example Logistics Objects- Example A2 and Example A3)"
@@ -902,14 +987,20 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{shipmentId}}/logistics-events",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{shipmentId}}",
+										":logisticsObjectId",
 										"logistics-events"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{shipmentId}}"
+										}
 									]
 								}
 							},
@@ -945,14 +1036,21 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/NotExistingLO/logistics-events",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"NotExistingLO",
+										":logisticsObjectId",
 										"logistics-events"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "NotExistingLO",
+											"description": "Setup to not existing logistics object"
+										}
 									]
 								}
 							},
@@ -982,15 +1080,25 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticsObjectId}}/logistics-events/{{logisticsEventId}}",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events/:logisticsEventId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticsObjectId}}",
+								":logisticsObjectId",
 								"logistics-events",
-								"{{logisticsEventId}}"
+								":logisticsEventId"
+							],
+							"variable": [
+								{
+									"key": "logisticsObjectId",
+									"value": null
+								},
+								{
+									"key": "logisticsEventId",
+									"value": null
+								}
 							]
 						},
 						"description": "This endpoints allows to get Logistics Events.\n\n## Examples\n\nDescription of the examples:\n\n1. Get an existing Logistics Event\n2. Get a non exiting Logistics Event\n    \n\nNote:\n\nIn order to use the examples please set the variable \"shipmentId\" to an existing Shipment Logistics Object ( See Logistics Object - Example A3 ) and set the variable \"LEId\" to an existing Logistics Event (See example Logistics Event - Example A1)"
@@ -1017,15 +1125,25 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{shipmentId}}/logistics-events/{{LEId}}",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events/:logisticsEventId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{shipmentId}}",
+										":logisticsObjectId",
 										"logistics-events",
-										"{{LEId}}"
+										":logisticsEventId"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{shipmentId}}"
+										},
+										{
+											"key": "logisticsEventId",
+											"value": "{{LEId}}"
+										}
 									]
 								}
 							},
@@ -1055,15 +1173,26 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{pieceId}}/logistics-events/nonExistingLE",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events/:logisticsEventId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{pieceId}}",
+										":logisticsObjectId",
 										"logistics-events",
-										"nonExistingLE"
+										":logisticsEventId"
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{pieceId}}"
+										},
+										{
+											"key": "logisticsEventId",
+											"value": "notExisingLE",
+											"description": "Setup to not exiting Logistics Event"
+										}
 									]
 								}
 							},
@@ -1093,15 +1222,21 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/logistics-objects/{{logisticsObjectId}}/logistics-events/",
+							"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events/",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"logistics-objects",
-								"{{logisticsObjectId}}",
+								":logisticsObjectId",
 								"logistics-events",
 								""
+							],
+							"variable": [
+								{
+									"key": "logisticsObjectId",
+									"value": null
+								}
 							]
 						},
 						"description": "This endpoints allows to get Logistics Events.\n\n## Examples\n\nDescription of the examples:\n\n1. Get all Logistics Event of a Shipment Logistics Object\n2. Get all Logistics Event filtered by Event Type of a Shipment Logistics Object\n    \n\nNote:\n\nIn order to use the examples please set the variable \"shipmentId\" to an existing Shipment Logistics Object ( See Logistics Object - Example A3 )"
@@ -1128,15 +1263,21 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{shipmentId}}/logistics-events/",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events/",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{shipmentId}}",
+										":logisticsObjectId",
 										"logistics-events",
 										""
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{shipmentId}}"
+										}
 									]
 								}
 							},
@@ -1166,13 +1307,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/logistics-objects/{{shipmentId}}/logistics-events/?eventType=DEP",
+									"raw": "{{baseUrl}}/logistics-objects/:logisticsObjectId/logistics-events/?eventType=DEP",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"logistics-objects",
-										"{{shipmentId}}",
+										":logisticsObjectId",
 										"logistics-events",
 										""
 									],
@@ -1180,6 +1321,12 @@
 										{
 											"key": "eventType",
 											"value": "DEP"
+										}
+									],
+									"variable": [
+										{
+											"key": "logisticsObjectId",
+											"value": "{{shipmentId}}"
 										}
 									]
 								}
@@ -1650,13 +1797,19 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/action-requests/{{actionRequestId}}",
+							"raw": "{{baseUrl}}/action-requests/:actionRequestId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"action-requests",
-								"{{actionRequestId}}"
+								":actionRequestId"
+							],
+							"variable": [
+								{
+									"key": "actionRequestId",
+									"value": null
+								}
 							]
 						},
 						"description": "This endpoints allows to get details of a specific Action Request\n\n## Examples\n\nDescription of the examples:\n\n1. Get details about a Subscription Request\n    \n\nNote:  \nIn order to use the examples please set the variable \"ARId\" to an existing Subscription Request. To create a Subscription Request use the Example B1 or B2 in Subscriptions."
@@ -1674,13 +1827,19 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/action-requests/{{ARId}}",
+									"raw": "{{baseUrl}}/action-requests/:actionRequestId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"action-requests",
-										"{{ARId}}"
+										":actionRequestId"
+									],
+									"variable": [
+										{
+											"key": "actionRequestId",
+											"value": "{{ARId}}"
+										}
 									]
 								}
 							},
@@ -1747,13 +1906,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/action-requests/{{ARId}}",
+									"raw": "{{baseUrl}}/action-requests/:actionRequestId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"action-requests",
-										"{{ARId}}"
+										":actionRequestId"
+									],
+									"variable": [
+										{
+											"key": "actionRequestId",
+											"value": "{{ARId}}"
+										}
 									]
 								}
 							},
@@ -1788,13 +1953,19 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/action-requests/{{ARId}}",
+									"raw": "{{baseUrl}}/action-requests/:actionRequestId",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"action-requests",
-										"{{ARId}}"
+										":actionRequestId"
+									],
+									"variable": [
+										{
+											"key": "actionRequestId",
+											"value": "{{ARId}}"
+										}
 									]
 								}
 							},
