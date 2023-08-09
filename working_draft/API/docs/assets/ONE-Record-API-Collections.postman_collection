@@ -195,6 +195,8 @@
 									]
 								}
 							},
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "Text",
 							"header": [],
 							"cookie": [],
@@ -2022,11 +2024,6 @@
 		},
 		{
 			"key": "internalNodeId",
-			"value": "_:test",
-			"type": "string"
-		},
-		{
-			"key": "internalDefinedNodeId",
 			"value": "neone:23321169-a6d8-4205-a57b-0ac1761ae2ac",
 			"type": "string"
 		},
