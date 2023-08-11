@@ -11,11 +11,11 @@ The ONE Record server employs the OpenID Connect standard to authenticate other 
 
 OpenID Connect outlines various actors that play specific and distinct roles in the authentication and authorization process. In the context of the ONE Record servers network, our focus will be on the main roles that hold significance.
 
-- Client Application: The client represents a ONE Record server that wants to access an external resouce (i.e a logistics object situated on a different ONE Record server). 
+- Client Application: The client represents a ONE Record server that wants to access an external resouce (i.e a logistics object situated on a different ONE Record server). In this page, a client application is referred as ONE Record client
 
 - Identity Provider: The Identity Provider (IdP) holds the responsibility of authenticating a ONE Record server. It verifies the server's identity and generates an ID token that the requesting server can utilize for authentication within the ONE Record network.
 
-- Resource Server: The Resource Server is the host of protected resources that a ONE Record server aims to access. In the ONE Record context, these resources may include logistics objects, logistics events, and more.
+- Resource Server: The Resource Server is the host of protected resources that a ONE Record server aims to access. In the ONE Record context, these resources may include logistics objects, logistics events, and more. In this page, a resource server is referred as ONE Record Server.
 
 It's essential to understand that OpenID Connect is built on top of OAuth 2.0, which provides the framework for token-based authentication and authorization. OpenID Connect adds an authentication layer and standardizes the exchange of identity information, making it easier for ONE Record servers to authenticate other servers in the network.
 
@@ -35,8 +35,8 @@ The following diagram shows a generic implementation of the Client Credential Fl
 
 ```mermaid
 sequenceDiagram
-    participant CA as Client Applicaiton
-    participant SA as Server Application
+    participant CA as Client Application (One Record Client)
+    participant SA as Server Application (One Record Server)
     participant IdP as Identity Provider (IdP)
 
     CA->>+IdP: 1. Authenticate with Client ID and Client Secret    
@@ -44,17 +44,17 @@ sequenceDiagram
     IdP->>-CA: 3. ID Token
 
 
-    CA->>+SA: 4. Request resource with Access token  
+    CA->>+SA: 4. Request resource with ID token  
     SA->>SA: 5.  Validate the ID token with JWKS provided by the IdP
     SA->>-CA: 6. Response with the resource
 
 ```
 
 1. The Client Application sends credentials to the Identity Provider
-2. The Authorization Server validates the credentials
-3. The Authorization Server generates an access token and send it to the Client Application as response
-4. The Client Application request a resource on the Server Application attaching the access token
-5. The Server Application validates the access token using the JWKS provided by the IdP
+2. The IdP validates the credentials
+3. The IdP generates an ID token and send it to the Client Application as response
+4. The Client Application request a resource on the Server Application attaching the ID token
+5. The Server Application validates the ID token using the JWKS provided by the IdP
 6. The Server Application responds with the requested resource
 
 This diagram does not shows how JWKS are shared between the IdP and the Server Application. More information can be found below in the [JSON Web Key Sets section](#json-web-key-sets).
@@ -128,18 +128,18 @@ JSON Web Tokens (JWTs) consist of claims, which are statements providing informa
 
 - "iss" (Issuer) Claim : The "iss" (issuer) claim identifies the principal that issued the JWT.
 - "exp" (Expiration Time) Claim : The "exp" (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.
-- "onerecord_company_id" Claim : The "onerecord_company_id" claim carries the URI of a [cargo:LogisticAgent](https://onerecord.iata.org/ns/cargo#LogisticsAgent) and which identifies the logistics agent in the ONE Record network. 
+- "logistics_agent_uri" Claim : The "logistics_agent_uri" claim carries the URI of a [cargo:LogisticAgent](https://onerecord.iata.org/ns/cargo#LogisticsAgent) and which identifies the logistics agent in the ONE Record network. 
 
 ```
 {
   "iss": "https://auth.example.com",
-  "onerecord_company_id": "https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda",
+  "logistics_agent_uri": "https://1r.example.com/logistics-objects/957e2622-9d31-493b-8b8f-3c805064dbda",
   "exp": "2023-03-031T10:38:01.000Z"  
 }
 ```
 
 The "iss" must be present to allowed multiple IdP in the network while the "exp" is necessary to define the expiration time of the ID token. 
-The "onerecord_id" is necessary for authenticate the party and it's used to fill the `isRequestedBy` property in action requests.
+The "logistics_agent_uri" is necessary for authenticate the party and it's used to fill the `isRequestedBy` property in action requests.
 Other claims can be added to the JWT Token according to the IdP configuration but might not be used by the ONE Record server.
 
 ## Validate JSON Web Tokens
@@ -188,7 +188,7 @@ One of the following HTTP status codes MUST be present in the response:
 
 | Response    | Description                                  | Examples                |
 | ----------------- |    -------------------------------- |   ------------- |
-| **200** | Access Token Created | Return the access_token as shown in the Response body
+| **200** | ID Token Created | Return a newly created ID Token as shown in the Response body section
 | **400** | Bad Request | Error
 | **401** | Unauthorized| Error
 
@@ -198,7 +198,10 @@ One of the following HTTP status codes MUST be present in the response:
 | ----------------- |    -------------------------------- |   ------------- |
 | **access_token** | A JWT token representing a session | sdaksmcna3249mn432mn423842....     
 | **expires_in** | The number of second till session expiration | 600
-| **token_type** | The type of the access token. This is always set to bearer| bearer 
+| **token_type** | The type of the token. This is always set to bearer| bearer 
+
+!!! note
+        OIDC is built upon the foundation of OAuth 2.0 (as defined in (RFC 67490[ttps://datatracker.ietf.org/doc/html/rfc6749]). It's important to note that the ID Token, which contains user identity information, is returned within the `access_token`` field as described by the OAuth specification.
 
 ## Error Body
 
@@ -231,11 +234,11 @@ sequenceDiagram
     
     1Rc->>+IdP: Authenticate with Client ID and Client Secret    
     IdP->>IdP: Validate Client ID and Client Secret 
-    IdP-->>-1Rc: Access Token
+    IdP-->>-1Rc: ID Token
 
-    1Rc->>+1Rs: HTTP request with access token
-    1Rs->>1Rs: Verify access token with JSON Web Key and check Access Control Lists
-    alt is invalid or expired access token
+    1Rc->>+1Rs: HTTP request with ID token
+    1Rs->>1Rs: Verify ID token with JSON Web Key and check Access Control Lists
+    alt is invalid or expired ID token
         1Rs-->>1Rc: Error with status code 401
     else is not authorized
         1Rs-->>1Rc: Error with status code 403
@@ -246,7 +249,7 @@ sequenceDiagram
 ```
 
 
-0. (Optional) The ONE Record server get the JWKS from the Authorization Server
+0. (Optional) The ONE Record server get the JWKS from the IdP
 ```
 GET /.well-known/jwks.json
 Host: auth.example.com
@@ -272,13 +275,14 @@ Cache-Control: public, max-age=15, stale-while-revalidate=15, stale-if-error=864
    ]
 }
 ```
-The Authorization server uses a private key to sign JWTs.
-The authorization server provides the public key on a URL in the form of a JSON Web Key Set (JWKS).
+The IdP uses a private key to sign JWTs.
+The IdP provides the public key on a URL in the form of a JSON Web Key Set (JWKS).
 
-1. ONE Record client gets ID token from an Authorization server 
+1. ONE Record client gets ID token from an IdP 
 
 The ONE Record client must authenticate for this request.
 As seen in the Request token API, the IdP define the authentication method as BASIC or POST
+
 - `POST`: `client_id` and `client_secret` in the HTTP request body  
 - `BASIC`: `client_id` and `client_secret`as username and password in the HTTP Basic auth header following the encoding explained in the API description.
 
@@ -308,7 +312,7 @@ Pragma: no-cache
 }
 ```
 
-Using the JWT debugger to decode the access token, returns the following JSON object:
+Using the JWT debugger to decode the ID token, returns the following JSON object:
 
 
 Header:
@@ -330,7 +334,7 @@ Payload:
 ```
 
 2. ONE Record client sends request to ONE Record server
-Having received an ID token, the client application can then send a request to a resource server, using that token. 
+Having received an ID token, the ONE Record client can then send a request to a ONE Record server, using that token. 
 
 ```http
 GET /logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c HTTP/1.1
@@ -356,7 +360,7 @@ Revision: 1
 Latest-Revision: 1
 
 {
-   "@context": {
+   "@context":{
      "api": "https://onerecord.iata.org/ns/api#",
      "@language": "en-US"
    },
@@ -372,6 +376,7 @@ Latest-Revision: 1
         }
     ]
 }
+
 ```
 # Identity Provider
 
@@ -393,7 +398,7 @@ The Identity provider is responsible for the onboarding of a party in the networ
 ## Multiple Identity Providers
 The ONE Record network allows for the existence of multiple Identity Providers (IdPs). Although not obligatory, different key players may choose different Identity Providers according to their preferences.
 
-Consequently, the ONE Record API must have the capability to handle multiple IdPs. Each server should be able to establish a list of trusted IdPs that clients can use for authentication. This specification outlines how to interact with an IdP, but variations in the JWT token implementation can occur, and it is the responsibility of the IdP to provide public information about each variation.
+Consequently, the ONE Record API must have the capability to handle multiple IdPs. Each server should be able to establish a list of trusted IdPs that ONE Record clients can use for authentication. This specification outlines how to interact with an IdP, but variations in the JWT token implementation can occur, and it is the responsibility of the IdP to provide public information about each variation.
 
 To implement multiple IdPs, a ONE Record Server utilizes the 'iss' claim to identify the issuer of the token (IdP). Once the IdP is identified, the ONE Record server can utilize the appropriate JWKS (JSON Web Key Set) to validate the ID token.
 

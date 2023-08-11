@@ -212,6 +212,7 @@ More information about data versioning can be found in the section [Historical L
 # Validation
 
 ONE Record server must implement two type of validations:
+
 - API validation : the payload and the headers must respect the API specification issues by IATA.
 - Model validation : during the creation of a new object, the data provided within the request body should be complaint with the ONE Record cargo ontology.
 

@@ -49,6 +49,27 @@ Nevertheless, it is useful for [pub-sub interactions](subscriptions.md), for exa
 
 In this document, the term ONE Record client is used when referring to an software program that sends HTTP requests to a [ONE Record server](#one-record-server).
 
+## Base URL 
+
+The term `Base URL` stands for "Base Uniform Resource Locator" in the context of web development and URLs (Uniform Resource Locators). A URL is a web address that specifies the location of a resource, such as a webpage or a file, on the internet. The base URL serves as a foundation or starting point for constructing complete URLs within a particular context.
+
+In simpler terms, the base URL provides the common part of a URL that remains consistent for a set of related web pages or resources. This can be especially useful when you're working on a website with multiple pages or dealing with resources organized in a specific directory structure.
+
+For instance, consider the ONE Record scenario where you have multiple endpoints, such as "logistics-objects" "action-requests" and "notifications." The base URL in this case might be:
+
+```
+https://1r.example.com
+```
+
+Then, you can append specific paths to the base URL to access different ONE Record endpoints:
+
+- Logistics Objects: `https://1r.example.com/logistics-objects`
+- Action Requests: `https://1r.example.com/action-requests`
+- Contact page: `https://1r.example.com/notifications`
+
+Here, the base URL `https://1r.example.com/` remains constant for all the pages, and you simply extend it with the unique paths for each API.
+In every endpoint, the idea of a `Base URL` will be denoted as `{{baseURL}}`.
+
 ## Logistics Objects
 
 The ONE Record cargo ontology is organized as a set of data classes that represent real world concepts in transport and logistics, also referred to as digital twins.

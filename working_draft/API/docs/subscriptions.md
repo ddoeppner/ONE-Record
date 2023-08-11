@@ -155,7 +155,7 @@ The following HTTP query parameters MUST be supported:
 
 | Query parameter | Description | Valid values / Examples |
 | --------------- | ----------- | ------------ |
-| **topicType**       | Used by the publisher to specify if Subscription information for a specific Logistics Object or a data class should be in the response body. When passed in a URL, the **topicType** must be URL encoded (i.e # becomes %23) | <ul><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE)</li><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER)</li></ul> |
+| **topicType**       | Used by the publisher to specify if Subscription information for a specific Logistics Object or a data class should be in the response body. When passed in a URL, the **topicType** must be URL encoded (i.e `#` becomes `%23` or can be replaced with `/`) | <ul><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_TYPE)</li><li>[https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER](https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_IDENTIFIER)</li></ul> |
 | **topic**       | Used by the publisher to specify the data class or Logistics Object URI the Subscription information should be related to. **topic** MUST be a valid URI | <ul><li>https://onerecord.iata.org/ns/cargo#Piece</li><li>https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c</li></ul> |
 
 The following HTTP header parameters MUST be present in the request:

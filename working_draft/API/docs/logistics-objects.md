@@ -462,11 +462,11 @@ classDiagram
 
 ## Response
 
-A successful request MUST return a `HTTP/1.1 204 No Content` status code and the following HTTP headers parameters MUST be present in the response:
+A successful request MUST return a ``HTTP/1.1 201 Created` status code and the following HTTP headers parameters MUST be present in the response:
 
 | Header | Description                 | Example                |
 | -------------------- |  ----- |   -------------------------------- |
-| **Location**         | The URI of the submitted ChangeRequest          | https://1r.example.com/action-requests/6b948f9b-b812-46ed-be39-4501453da99b |
+| **Location**         | The URI of the newly created ChangeRequest          | https://1r.example.com/action-requests/6b948f9b-b812-46ed-be39-4501453da99b |
 | **Type**             | The type of the newly created resource as a URI | https://onerecord.iata.org/ns/api#ChangeRequest                   |
 
 Otherwise, an `Error` object with `ErrorDetails` as response body MUST be returned with the following HTTP headers:
@@ -480,7 +480,7 @@ The following HTTP status codes MUST be supported:
 
 | Code    | Description | Response body    |
 | ------- | ----------- | ---------------- |
-| **204** | The change was successfully requested | No body required |
+| **201** | The change request was correctly created | No body required |
 | **400** | The update request body is invalid                             | Error            |
 | **401** | Not authenticated                          | Error            |
 | **403** | Not authorized to update the Logistics Object                  | Error            |
@@ -822,6 +822,9 @@ Each change request follows the API [ChangeRequest](https://onerecord.iata.org/n
 To engage with the "Get Audit Trail of a Logistics Object" endpoint, a client needs proper authentication and authorization to access the designated resource. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status. Conversely, for requests without proper authorization, a `403 "Not Authorized"` response should be provided.
 
 The authorization to access the audit trail should be derived from the logistics objects. However, the implementor of a ONE Record server can decide to separate the control access between a logistics object and its audit trail.
+
+!!! note
+        The Audit trail comprehensively documents the chronological history of a logistics object. Individuals with access to the audit trail are able to view the complete evolution of the logistics object over time. Due to this, it is imperative for the implementer of the ONE Record server to exercise caution when granting access to this particular resource.
 
 ## Example D1
 

@@ -6,13 +6,13 @@ Logistics events are events related to the management and execution of transport
 - List of logistics Events attached to Logistics Objects are event stores. This event store is an append-only log. Events CAN be added by using the HTTP POST method (see [Create a Logistics Event](#create-a-logistics-event)) but MUST NOT be changed or deleted.
 - Logistics Events are neither logistics objects nor embedded object
 - Every Logistics Events MUST an URI, that follows the following structure: 
-    - {{baseURL}}/logistics-object/{{logisticsObjectId}}/logistics-events/{{logisticsEventId}} where {{logisticsEventId}} is globally unique identifier
+    - {{baseURL}}/logistics-object/{{logisticsObjectId}}/logistics-events/{{logisticsEventId}} where {{logisticsEventId}} is an identifier which can be globally unique and must be unique in the context of its parent Logistics Object
 - A Logistics Event MUST be linked to exactly one Logistics Object
 - Every Logistics Event MUST have a property `occuredAt (xsd:dateTime)`
 
 # Logistics Events URI
 
-Each Logistics Event MUST have globally unique identifier. The implementor can use the same algorithm as the Logistics Object ids. For more information check the section [Logistics Objects URI](./concepts.md#logistics-object-uri)
+Each Logistics Event MUST have globally unique IRI and MUST have a unique identifier in the context of its parent Logistics Object. The implementor can use the same algorithm as the Logistics Object ids. For more information check the section [Logistics Objects URI](./concepts.md#logistics-object-uri)
 
 
 # Create a Logistics Event
