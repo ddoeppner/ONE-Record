@@ -670,7 +670,7 @@
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
-										"value": "application/json",
+										"value": "application/ld+json; version=2.0.0-dev",
 										"type": "text"
 									},
 									{
