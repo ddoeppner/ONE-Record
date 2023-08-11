@@ -297,8 +297,6 @@ Location: https://1r.example.com/action-requests/733ed391-ad11-4c02-a2bf-c77ee79
 
 This API action MUST be used to revoke an Action Request MUST be revoked only by the original requestor of the ActionRequest or the holder/publisher of the Logistics Object.
 
-## Example C1
-
 ## Endpoint
 
 ``` 
@@ -326,6 +324,8 @@ The following HTTP status codes MUST be supported:
 ## Security
 
 To engage with the "Revoke Action Request" endpoint, a client needs proper authentication and authorization to access the designated resource. If requests lack proper authentication, the ONE Record server should respond with a `401 "Not Authenticated"` status. Conversely, for requests without proper authorization, a `403 "Not Authorized"` response should be provided.
+
+## Example C1
 
 Request:
 ```http
