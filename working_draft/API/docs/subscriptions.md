@@ -380,8 +380,10 @@ Type: https://onerecord.iata.org/ns/api#SubscriptionRequest
 
 # Subscriptions with 3rd parties
 
-It MUST NOT be possible to request a subscription on behalf of a third party.
-Therefore, a subscriber MUST subscribe him/herself after being granted access to a logistics object, or be subscribed by the publisher (after access has been granted). 
+It is feasible to initiate a subscription on behalf of a third party. In such instances, the individual making the request will differ from the individual intended to receive the notifications.
+
+The entity responsible for implementing the ONE Record Server is obligated to establish a mechanism to verify the legitimacy of the intended recipient for receiving these notifications. There are scenarios where the implementor might choose to disallow this capability and verify that the authenticated user matches the intended receiver.
+
 
 !!! note
         Notifications are sent to the subscriber's Notification endpoint. It MUST be assumed that the subscriber performs the internal forwarding of the received notifications to the backend systems or third parties for further processing.
