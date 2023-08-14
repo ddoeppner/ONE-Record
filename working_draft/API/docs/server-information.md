@@ -20,7 +20,6 @@ classDiagram
         + hasSupportedContentType[]: xsd:string [1..*]        
         + hasSupportedEncoding[]: xsd:string [*]
         + hasSupportedLanguage[]: xsd:string [1..*]
-        + hasSupportedLogisticsObjectType[]: xsd:anyURI [1..*]
         + hasSupportedOntology[]: xsd:anyURI [1..*]
         + hasSupportedOntologyVersion[]: xsd:anyURI [1..*]
     }        

@@ -368,14 +368,6 @@ xsd:date rdf:type rdfs:Datatype .
                       rdfs:label "Supported language"@en .
 
 
-###  https://onerecord.iata.org/ns/api#hasSupportedLogisticsObjectType
-:hasSupportedLogisticsObjectType rdf:type owl:DatatypeProperty ;
-                                 rdfs:domain :ServerInformation ;
-                                 rdfs:range xsd:anyURI ;
-                                 rdfs:comment "Supported logistics object types on the server"@en ;
-                                 rdfs:label "Supported LogisticsObject types"@en .
-
-
 ###  https://onerecord.iata.org/ns/api#hasSupportedOntology
 :hasSupportedOntology rdf:type owl:DatatypeProperty ;
                       rdfs:domain :ServerInformation ;
@@ -979,11 +971,6 @@ xsd:date rdf:type rdfs:Datatype .
                                      owl:onProperty :hasSupportedLanguage ;
                                      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onDataRange xsd:string
-                                   ] ,
-                                   [ rdf:type owl:Restriction ;
-                                     owl:onProperty :hasSupportedLogisticsObjectType ;
-                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onDataRange xsd:anyURI
                                    ] ,
                                    [ rdf:type owl:Restriction ;
                                      owl:onProperty :hasSupportedOntology ;
