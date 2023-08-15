@@ -40,18 +40,26 @@ classDiagram
         + expiresAt: xsd:dateTime [0..1]                                
         + hasSubscriber: Organization        
         + hasTopicType: TopicType        
-                + notifyRequestStatusChange: xsd:boolean = FALSE
-        + sendLogisticsObjectBody: xsd:boolean = FALSE        
-        + subscribeToLogisticsEvents: xsd:boolean = FALSE
+        + notifyRequestStatusChange: xsd:boolean = FALSE
+        + sendLogisticsObjectBody: xsd:boolean = FALSE 
+        + includeSubscriptionEventType[]: SubscriptionEventType [1..*]     
         + hasTopic: xsd:anyURI        
     }    
     Subscription "1" --> "1" Organization: hasSubscriber
     Subscription --> TopicType
+    Subscription "1" --> "1..*" SubscriptionEventType
 
     class TopicType{
         <<Enumeration>>
         LOGISTICS_OBJECT_TYPE
         LOGISTICS_OBJECT_IDENTIFIER
+    }
+
+    class SubscriptionEventType{
+        <<Enumeration>>
+        LOGISTICS_OBJECT_CREATED
+        LOGISTICS_OBJECT_UPDATED
+        LOGISTICS_EVENT_RECEIVED
     }
 ```
 
@@ -140,7 +148,7 @@ Accept: application/ld+json; version=2.0.0-dev
 _([examples/Notification_example1.json](examples/Notification_example1.json))_
 
 !!! note
-        Notifications will be triggered for the creation of a new Logistics Event on a Logistics Object solely when the subscription has the ['subscribeToLogisticsEvents'](https://onerecord.iata.org/ns/api#subscribeToLogisticsEvents) option set to true. On the contrary, this notification will be omitted.
+        Notifications will be triggered for the creation of a new Logistics Event on a Logistics Object solely when the subscription property ['includeSubscriptionEventType'](https://onerecord.iata.org/ns/api#includeSubscriptionEventType) contains the value ['LOGISTICS_EVENT_RECEIVED'](https://onerecord.iata.org/ns/api#LOGISTICS_EVENT_RECEIVED). On the contrary, this notification will be omitted.
 
 ## Endpoint 
 

@@ -232,6 +232,14 @@ xsd:date rdf:type rdfs:Datatype .
     rdfs:range :PatchOperation .
 
 
+###  https://onerecord.iata.org/ns/api#includeSubscriptionEventType
+:includeSubscriptionEventType rdf:type owl:ObjectProperty ;
+                              rdfs:domain :Subscription ;
+                              rdfs:range :SubscriptionEventType ;
+                              rdfs:comment "An array used to indicate the specific types of notifications that the subscriber desires to receive from the publisher. The subscriber is required to specify their preferences on a per-type basis"@en ;
+                              rdfs:label "Include SubscriptionEventType"@en .
+
+
 #################################################################
 #    Data properties
 #################################################################
@@ -453,14 +461,6 @@ xsd:date rdf:type rdfs:Datatype .
                          rdfs:comment "Flag specifying if the publisher should send the whole logistics object or not in the notification object"@en ;
                          rdfs:label "Send LogisticsObject body"@en .
 
-
-###  https://onerecord.iata.org/ns/api#subscribeToLogisticsEvents
-:subscribeToLogisticsEvents rdf:type owl:DatatypeProperty ;
-                            rdfs:domain :Subscription ;
-                            rdfs:range xsd:boolean ;
-                            rdfs:comment "Flag specifying if the subscriber wants to receive Notification from the publisher when LogisticsEvents for a Logistics Object are received, default=FALSE"@en ;
-                            rdfs:label "Subscribe to LogisticsEvents"@en ;
-                            rdfs:seeAlso "https://onerecord.iata.org/ns/cargo/#LogisticsEvent"^^xsd:anyURI .
 
 ###  https://onerecord.iata.org/ns/api#hasLogisticsObjectType
 :hasLogisticsObjectType rdf:type owl:ObjectProperty ;
@@ -848,7 +848,18 @@ xsd:date rdf:type rdfs:Datatype .
                                                          :SUBSCRIPTION_REQUEST_REVOKED
                                                        )
                                            ] ;
-                       rdfs:label "Event Type"@en .
+                       rdfs:label "Notification Event Type"@en .
+
+
+###  https://onerecord.iata.org/ns/api#SubscriptionEventType
+:SubscriptionEventType rdf:type owl:Class ;
+                       owl:equivalentClass [ rdf:type owl:Class ;
+                                             owl:oneOf ( :LOGISTICS_EVENT_RECEIVED
+                                                         :LOGISTICS_OBJECT_CREATED
+                                                         :LOGISTICS_OBJECT_UPDATED
+                                                       )
+                                           ] ;
+                       rdfs:label "Subscription Event Type"@en .
 
 
 ###  https://onerecord.iata.org/ns/api#Operation
@@ -1042,9 +1053,13 @@ xsd:date rdf:type rdfs:Datatype .
                                 owl:onDataRange xsd:boolean
                               ] ,
                               [ rdf:type owl:Restriction ;
-                                owl:onProperty :subscribeToLogisticsEvents ;
-                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onDataRange xsd:boolean
+                                owl:onProperty :includeSubscriptionEventType ;
+                                owl:allValuesFrom :SubscriptionEventType
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :includeSubscriptionEventType ;
+                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :SubscriptionEventType
                               ] ;
               rdfs:comment "Subscription information sent to the publisher"@en ;
               rdfs:label "Subscription"@en .
@@ -1183,13 +1198,15 @@ cargo:Organization rdf:type owl:Class .
 
 ###  https://onerecord.iata.org/ns/api#LOGISTICS_EVENT_RECEIVED
 :LOGISTICS_EVENT_RECEIVED rdf:type owl:NamedIndividual ,
-                                   :NotificationEventType ;
+                                   :NotificationEventType ,
+                                   :SubscriptionEventType ;
                           rdfs:label "LOGISTICS_EVENT_RECEIVED"@en .
 
 
 ###  https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_CREATED
 :LOGISTICS_OBJECT_CREATED rdf:type owl:NamedIndividual ,
-                                   :NotificationEventType ;
+                                   :NotificationEventType ,
+                                   :SubscriptionEventType ;
                           rdfs:label "LOGISTICS_OBJECT_CREATED"@en .
 
 
@@ -1207,7 +1224,8 @@ cargo:Organization rdf:type owl:Class .
 
 ###  https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_UPDATED
 :LOGISTICS_OBJECT_UPDATED rdf:type owl:NamedIndividual ,
-                                   :NotificationEventType ;
+                                   :NotificationEventType ,
+                                   :SubscriptionEventType ;
                           rdfs:label "LOGISTICS_OBJECT_UPDATED"@en .
 
 

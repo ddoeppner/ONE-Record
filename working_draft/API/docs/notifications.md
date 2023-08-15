@@ -210,8 +210,10 @@ HTTP/1.1 204 No Content
 
 ## Example 1D
 
-The following example shows a `LOGISTICS_EVENT_RECEIVED` Notification after a LogisticsEvent is submitted and a subscriber set 
-`https://onerecord.iata.org/ns/api#subscribeToLogisticsEvents` to `true` in Subscription.
+The following example shows a `LOGISTICS_EVENT_RECEIVED` Notification after a LogisticsEvent is submitted.  
+
+!!! note
+        Notifications will be triggered for the creation of a new Logistics Event on a Logistics Object solely when the subscription property ['includeSubscriptionEventType'](https://onerecord.iata.org/ns/api#includeSubscriptionEventType) contains the value ['LOGISTICS_EVENT_RECEIVED'](https://onerecord.iata.org/ns/api#LOGISTICS_EVENT_RECEIVED). On the contrary, this notification will be omitted.
 
 ```http
 POST /notifications HTTP/1.1

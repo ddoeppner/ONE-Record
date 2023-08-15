@@ -131,13 +131,15 @@ classDiagram
         + hasDescription: xsd:string [0..1]
         + expiresAt: xsd:dateTime [0..1]                                
         + hasSubscriber: Organization        
-        + hasTopicType: TopicType        
+        + hasTopicType: TopicType  
+        + notifyRequestStatusChange: xsd:boolean = FALSE      
         + sendLogisticsObjectBody: xsd:boolean = FALSE        
-        + subscribeToLogisticsEvents: xsd:boolean = FALSE
+        + includeSubscriptionEventType[]: SubscriptionEventType [1..*]
         + hasTopic: xsd:anyURI        
     }    
     Subscription "1" --> "1" Organization: hasSubscriber
     Subscription --> TopicType
+    Subscription "1" --> "1..*" SubscriptionEventType
 
     class NotificationEventType{
         <<Enumeration>>
@@ -189,5 +191,12 @@ classDiagram
         REQUEST_REJECTED
         REQUEST_FAILED
         REQUEST_REVOKED        
+    }
+    class SubscriptionEventType{
+        <<Enumeration>>
+        LOGISTICS_OBJECT_CREATED
+        LOGISTICS_OBJECT_UPDATED
+
+        LOGISTICS_EVENT_RECEIVED
     }
 ```

@@ -4972,12 +4972,6 @@ components:
           type: array
           items:
             type: string
-        https://onerecord.iata.org/ns/api#hasSupportedLogisticsObjectType:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uri
         https://onerecord.iata.org/ns/api#hasSupportedOntology:
           uniqueItems: true
           type: array
@@ -5217,8 +5211,11 @@ components:
           type: array
           items:
             type: string
-        https://onerecord.iata.org/ns/api#subscribeToLogisticsEvents:
-          type: boolean
+        https://onerecord.iata.org/ns/api#includeSubscriptionEventType:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     SubscriptionRequest:
       title: SubscriptionRequest
       type: object

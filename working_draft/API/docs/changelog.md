@@ -95,6 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed Subscription#callbackUrl
 - removed cargo ontology data classes
 - removed ServerInformation#hasSupportedLogisticsObjectType
+- removed Subscription#subscribeToLogisticsEvents
 
 ### Added
 
@@ -113,3 +114,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed min/max cardinalities to exact cardinalities (`qualifiedCardinality`)
 - introduced Named Individuals to represent ENUMs
 - added Notification#hasLogisticsObjectType
+- added Subscription#includeSubscriptionEventType 
+- added enumeration SubscriptionEventType
