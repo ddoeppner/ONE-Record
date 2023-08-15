@@ -229,6 +229,12 @@ For example, as a publisher, this API action is used to change the status of a r
 ```
 ## Request
 
+The following query parameters MUST be supported:
+
+| Query parameter   | Description                         | Valid values        |
+| ----------------- |    -------------------------------- |   ------------- |
+| **status**      | A parameter used to configure the status of an Action request. This operation modifies the status of the Action Request based on the value specified in the status parameter.  | <ul><li>https://onerecord.iata.org/ns/api#REQUEST_ACCEPTED</li><li>https://onerecord.iata.org/ns/api#REQUEST_REJECTED</li><li>https://onerecord.iata.org/ns/api#REQUEST_REVOKED</li></ul> |
+
 The following HTTP header parameters MUST be present in the request:
 
 | Header    | Description                                  | Examples                |
@@ -274,15 +280,13 @@ Access to the Action Request update endpoint should be restricted to internal us
 Request:
 
 ```http
-PATCH /action-requests/733ed391-ad11-4c02-a2bf-c77ee7997c28 HTTP/1.1
+PATCH /action-requests/733ed391-ad11-4c02-a2bf-c77ee7997c28?status=https://onerecord.iata.org/ns/api#REQUEST_ACCEPTED HTTP/1.1
 Host: 1r.example.com
 Content-Type: application/ld+json; version=2.0.0-dev
 Accept: application/ld+json; version=2.0.0-dev
 
---8<-- "examples/ActionRequestChange_example1.json"
 ```
 
-_([examples/ActionRequestChange_example1.json](examples/ActionRequestChange_example1.json))_
 
 Response:
 
