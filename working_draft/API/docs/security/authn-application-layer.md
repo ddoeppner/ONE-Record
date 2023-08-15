@@ -19,45 +19,13 @@ OpenID Connect outlines various actors that play specific and distinct roles in 
 
 It's essential to understand that OpenID Connect is built on top of OAuth 2.0, which provides the framework for token-based authentication and authorization. OpenID Connect adds an authentication layer and standardizes the exchange of identity information, making it easier for ONE Record servers to authenticate other servers in the network.
 
-# OpenId Connect Client Credential Grant
+# OpenId Connect Grant Types
 
-The ONE Record server uses OpenId Connect Client Credential Grant to authenticate different actors in the network.
+OpenID Connect (OIDC) defines various grant types that facilitate secure authentication and authorization processes in web and mobile applications. These grant types determine how tokens are exchanged between the involved parties. The "Authorization Code" grant type is widely used and involves the exchange of an authorization code for access tokens, enhancing security by keeping tokens away from the client. The "Implicit" grant type is suitable for browser-based applications, providing access tokens directly, while the "Client Credentials" grant type is employed by confidential clients to authenticate themselves and obtain access tokens directly from the authorization server. Lastly, the "Refresh Token" grant type enables the renewal of access tokens without requiring users to reauthenticate, improving user experience and security.
 
-The OIDC Client Credential Flow can be used to secure machine-to-machine (m2m) communications, where a software program, rather than a user, needs to be authenticated. In this type of grant, the client credentials are verified and an ID Token is generated. This ID token is provided in a form of a signed JSON Web Token (JWT). Any ONE Record Server can verify the authenticity of the JWT token, and so the identity of the client server, using JSON Web Key Set (JWKS) provided by the IdP without the need of a new API call.
+It is important to node that these grants define only the authentication procedure while the authorization to access specific resources is handled with Access Contol Lists.
 
-In ONE Record, this grant defines only the authentication procedure while the authorization to access specific resources is handled with Access Contol Lists. 
-
-
-
-## Flow Diagram
-
-The following diagram shows a generic implementation of the Client Credential Flow :
-
-```mermaid
-sequenceDiagram
-    participant CA as Client Application (One Record Client)
-    participant SA as Server Application (One Record Server)
-    participant IdP as Identity Provider (IdP)
-
-    CA->>+IdP: 1. Authenticate with Client ID and Client Secret    
-    IdP->>IdP: 2. Validate Client ID and Client Secret 
-    IdP->>-CA: 3. ID Token
-
-
-    CA->>+SA: 4. Request resource with ID token  
-    SA->>SA: 5.  Validate the ID token with JWKS provided by the IdP
-    SA->>-CA: 6. Response with the resource
-
-```
-
-1. The Client Application sends credentials to the Identity Provider
-2. The IdP validates the credentials
-3. The IdP generates an ID token and send it to the Client Application as response
-4. The Client Application request a resource on the Server Application attaching the ID token
-5. The Server Application validates the ID token using the JWKS provided by the IdP
-6. The Server Application responds with the requested resource
-
-This diagram does not shows how JWKS are shared between the IdP and the Server Application. More information can be found below in the [JSON Web Key Sets section](#json-web-key-sets).
+The server's implementer holds the authority to select the preferred grant type. However, the JSON Web Token MUST follow the specifications defined in the [JWT section](#json-web-token). Within this page, a demonstration of the "Client Credential" grant type will be showcased, noted for its suitability in facilitating machine-to-machine interactions. 
 
 # JSON Web Token
 
@@ -159,22 +127,59 @@ IATA mantains a page with the list of authorized IdP together with:
 
 Any trusted IdP must immediately communicate any setup change to IATA.
 
-# Request a Token
+# Example - Client Credential Grant
+
+In this section, a example of the Client Credential grant will be demostrated in the context of ONE Record.
+
+The OIDC Client Credential Flow can be used to secure machine-to-machine (m2m) communications, where a software program, rather than a user, needs to be authenticated. In this type of grant, the client credentials are verified and an ID Token is generated. This ID token is provided in a form of a signed JSON Web Token (JWT). Any ONE Record Server can verify the authenticity of the JWT token, and so the identity of the client server, using [JWKS](#json-web-key-sets) provided by the IdP without the need of a new API call.
+
+
+## Flow Diagram
+
+The following diagram shows a generic implementation of the Client Credential Flow :
+
+```mermaid
+sequenceDiagram
+    participant CA as Client Application (One Record Client)
+    participant SA as Server Application (One Record Server)
+    participant IdP as Identity Provider (IdP)
+
+    CA->>+IdP: 1. Authenticate with Client ID and Client Secret    
+    IdP->>IdP: 2. Validate Client ID and Client Secret 
+    IdP->>-CA: 3. ID Token
+
+
+    CA->>+SA: 4. Request resource with ID token  
+    SA->>SA: 5.  Validate the ID token with JWKS provided by the IdP
+    SA->>-CA: 6. Response with the resource
+
+```
+
+1. The Client Application sends credentials to the Identity Provider
+2. The IdP validates the credentials
+3. The IdP generates an ID token and send it to the Client Application as response
+4. The Client Application request a resource on the Server Application attaching the ID token
+5. The Server Application validates the ID token using the JWKS provided by the IdP
+6. The Server Application responds with the requested resource
+
+This diagram does not shows how JWKS are shared between the IdP and the Server Application. More information can be found below in the [JSON Web Key Sets section](#json-web-key-sets).
+
+## Request a Token in Client Credential Grant
 
 The ONE Record server will perform a POST request in order to get an ID Token. The ID Token received can be used to authenticate towards a ONE Record server.
 
-## Endpoint
+### Endpoint
 The endpoint to request a token will be provided by the Identity Provider. 
 Example: https://auth.example.com/token
 
-## Request Header Parameter
+### Request Header Parameter
 
 | Request Header    | Description                                  | Examples                |
 | ----------------- |    -------------------------------- |   ------------- |
 | **Authorization** | Provides credentials that authenticates a ONE Record client with an IfP. This header must be set to Basic <base64 encoded "clientId:clientSecret"> if the IdP authentication method is set to Basic. The client_id and client_secret are provided when a client subscribes to an IdP.  | Basic b25lOnJlY29yZA==     
 | **Content-Type** | Define the content type of the request | application/x-www-form-urlencoded
 
-## Request Body Parameter
+### Request Body Parameter
 
 | Body property    | Description                                  | Examples                |
 | ----------------- |    -------------------------------- |   ------------- |
@@ -182,7 +187,7 @@ Example: https://auth.example.com/token
 | **client_id** | Provides the client id generated by the IdP. This property must be set if the IdP authentication method is set to POST | 
 | **client_secret** | Provides the client secret generated by the IdP. This property must be set if the IdP authentication method is set to POST| 
 
-## Reponse 
+### Reponse 
 
 One of the following HTTP status codes MUST be present in the response:
 
@@ -192,7 +197,7 @@ One of the following HTTP status codes MUST be present in the response:
 | **400** | Bad Request | Error
 | **401** | Unauthorized| Error
 
-## Reponse Body
+### Reponse Body
 
 | Body property    | Description                                  | Examples                |
 | ----------------- |    -------------------------------- |   ------------- |
@@ -203,20 +208,20 @@ One of the following HTTP status codes MUST be present in the response:
 !!! note
         OIDC is built upon the foundation of OAuth 2.0 (as defined in (RFC 67490[ttps://datatracker.ietf.org/doc/html/rfc6749]). It's important to note that the ID Token, which contains user identity information, is returned within the `access_token`` field as described by the OAuth specification.
 
-## Error Body
+### Error Body
 
 | Body property    | Description                                  | Examples                |
 | ----------------- |    -------------------------------- |   ------------- |
 | **error** | Name of the error | invalid_client_id   
 | **error_description** | Description of the error | the client id provided is invalid
 
-# Refresh token
+## Refresh token
 
 The Client Credential Grant used by ONE Record does not support refresh tokens [(RFC 6749 Section 4.4.2).](https://www.rfc-editor.org/rfc/rfc6749#section-4.4.2)
 Refresh tokens primarily serve the purpose of allowing applications to prevent users from having to provide their username and password multiple times.
 Since ONE Record server authentication does not involve any user interaction, there is no need for refresh tokens in this scenario.
 
-# ONE Record Authentication Example
+## Implementation example
 
 The following section describes an example of authentication between two ONE Record servers.
 
