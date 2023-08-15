@@ -23,7 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - use Logistics Object URI / Organization URI for the complete URI of a Logistics Object, i.e. https://1r.example.com/logistics-objects/1a8ded38-1804-467c-a369-81a411416b7c
 - use logisticsObjectID for the unique identifier part of the URI, i.e. 1a8ded38-1804-467c-a369-81a411416b7c
 - use Data Holder instead of Data Onwer
-- use hasDataHolder instead of hasDataOnwer into ServerInformation class
+- redesign the Update Action Requests section
+
 
 ### Removed
 
@@ -32,7 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed Link HTTP header, because URI and endpoint structure is defined
 - removed required ttl/turtle as supported content-type
 - removed acl endpoint
-- removed `hasSupportedLogisticsObjectType` from ServerInformation data class
 
   
 ### Added
@@ -49,7 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added Authentication and Authorization with OpenID Connect
 - added security and endpoint information for all APIs
 - added allow subscription for third parties
-- added `hasLogisticsObjectType` in Notification data class
 
 
 ---
@@ -74,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed Subscription#cacheFor<xsd:int> to Subscription#expiresAt<xsd:dateTime>
 - renamed DelegationRequest#operations to DelegationRequest#permissions
 - renamed api#status (used in SubscriptionRequest, ChangeRequest DelegationRequest) to api#requestStatus
+- renamed ServerInformation#hasDataOnwer into ServerInformation#hasDataHolder
 
 
 ### Removed
@@ -91,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed DelegationRequest#action
 - removed Subscription#callbackUrl
 - removed cargo ontology data classes
+- removed ServerInformation#hasSupportedLogisticsObjectType
 
 ### Added
 
@@ -108,4 +109,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - import cargo ontology with `owl:imports cargo`
 - changed min/max cardinalities to exact cardinalities (`qualifiedCardinality`)
 - introduced Named Individuals to represent ENUMs
-- added AccessPermission
+- added Notification#hasLogisticsObjectType
