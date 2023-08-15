@@ -74,6 +74,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - renamed DelegationRequest#operations to DelegationRequest#permissions
 - renamed api#status (used in SubscriptionRequest, ChangeRequest DelegationRequest) to api#requestStatus
 - renamed ServerInformation#hasDataOnwer into ServerInformation#hasDataHolder
+- changed Subscription#notifyRequestStatusChange from mandatory to optional
+- changed Change#notifyRequestStatusChange from mandatory to optional
+- changed AccessDelegation#notifyRequestStatusChange from mandatory to optional
 
 
 ### Removed

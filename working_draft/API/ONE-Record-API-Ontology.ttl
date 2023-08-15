@@ -512,11 +512,6 @@ xsd:date rdf:type rdfs:Datatype .
                                     owl:allValuesFrom xsd:boolean
                                   ] ,
                                   [ rdf:type owl:Restriction ;
-                                    owl:onProperty :notifyRequestStatusChange ;
-                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                    owl:onDataRange xsd:boolean
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
                                     owl:onProperty :hasDescription ;
                                     owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                     owl:onDataRange xsd:string
@@ -684,11 +679,6 @@ xsd:date rdf:type rdfs:Datatype .
                           owl:onProperty :hasRevision ;
                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                           owl:onDataRange xsd:positiveInteger
-                        ] ,
-                        [ rdf:type owl:Restriction ;
-                          owl:onProperty :notifyRequestStatusChange ;
-                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                          owl:onDataRange xsd:boolean
                         ] ,
                         [ rdf:type owl:Restriction ;
                           owl:onProperty :hasDescription ;
@@ -1034,8 +1024,7 @@ xsd:date rdf:type rdfs:Datatype .
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :notifyRequestStatusChange ;
-                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onDataRange xsd:boolean
+                                owl:allValuesFrom xsd:boolean
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :expiresAt ;
