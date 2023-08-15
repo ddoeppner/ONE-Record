@@ -3507,6 +3507,9 @@ components:
           $ref: '#/components/schemas/NotificationEventType'
         https://onerecord.iata.org/ns/api#hasLogisticsObject:
           $ref: '#/components/schemas/LogisticsObject'
+        https://onerecord.iata.org/ns/api#hasLogisticsObjectType:
+          type: string
+          format: uri          
         https://onerecord.iata.org/ns/api#isTriggeredBy:
           $ref: '#/components/schemas/ActionRequest'
         https://onerecord.iata.org/ns/api#hasChangedProperty:

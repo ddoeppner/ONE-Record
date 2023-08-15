@@ -41,7 +41,8 @@ The initialization of this data exchange channel is described in the [Subscripti
         + hasChangedProperty[]: xsd:anyURI [*]        
         + hasEventType: NotificationEventType
         + isTriggeredBy: ActionRequest [0..1]  
-        + hasLogisticsObject: LogisticsObject [0..1]                
+        + hasLogisticsObject: LogisticsObject [0..1]
+        + hasLogisticsObjectType: xsd:anyURI [0..1]                
         + hasTopic: xsd:anyURI
         
     }

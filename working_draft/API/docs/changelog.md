@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed Link HTTP header, because URI and endpoint structure is defined
 - removed required ttl/turtle as supported content-type
 - removed acl endpoint
-- removed hasSupportedLogisticsObjectType from ServerInformation data class
+- removed `hasSupportedLogisticsObjectType` from ServerInformation data class
 
   
 ### Added
@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added ActionEnum to class diagram
 - added Authentication and Authorization with OpenID Connect
 - added security and endpoint information for all APIs
+- added allow subscription for third parties
+- added `hasLogisticsObjectType` in Notification data class
 
 
 ---

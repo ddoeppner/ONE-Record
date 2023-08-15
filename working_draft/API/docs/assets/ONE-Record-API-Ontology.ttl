@@ -462,6 +462,13 @@ xsd:date rdf:type rdfs:Datatype .
                             rdfs:label "Subscribe to LogisticsEvents"@en ;
                             rdfs:seeAlso "https://onerecord.iata.org/ns/cargo/#LogisticsEvent"^^xsd:anyURI .
 
+###  https://onerecord.iata.org/ns/api#hasLogisticsObjectType
+:hasLogisticsObjectType rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Notification ;
+                        rdfs:range xsd:anyURI ;
+                        rdfs:comment "The type of cargo:LogisticsObject in the notification e.g. https://onerecord.iata.org/ns/cargo#Piece" ;
+                        rdfs:label "has Logistics Object Type"@en .
+
 
 #################################################################
 #    Classes
@@ -784,6 +791,10 @@ xsd:date rdf:type rdfs:Datatype .
                                 owl:allValuesFrom cargo:LogisticsObject
                               ] ,
                               [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasLogisticsObjectType ;
+                                owl:allValuesFrom xsd:anyURI
+                              ] ,
+                              [ rdf:type owl:Restriction ;
                                 owl:onProperty :isTriggeredBy ;
                                 owl:allValuesFrom :ActionRequest
                               ] ,
@@ -796,6 +807,11 @@ xsd:date rdf:type rdfs:Datatype .
                                 owl:onProperty :hasLogisticsObject ;
                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass cargo:LogisticsObject
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasLogisticsObjectType ;
+                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass xsd:anyURI
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :isTriggeredBy ;
