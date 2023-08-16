@@ -5,7 +5,7 @@
 		"description": "# ONE Record Example Collection\n\nThis collection contains all the examples described in the ONE Record API specification website([https://iata-cargo.github.io/ONE-Record/]())\n\n# Collection Variables\n\nA set of variables has been designed to ease the use of this collections. In order to run any call, please set the following variables according to your setup:\n\n- baseUrl : the url of the ONE Record server (i.e. [http://onerecordserver.test]())\n    \n\n# Authentication\n\nIf ONE Record Server implements the authentication, you should add a bearer token for each API call. For more information check the Security",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28309429",
-		"_collection_link": "https://crimson-crescent-500945.postman.co/workspace/One-Record-workspace~090d2458-3b0b-4449-8278-184b7711961d/collection/28309429-91bb2018-a47d-4110-82e0-4f5c229aa093?action=share&creator=28309429&source=collection_link"
+		"_collection_link": "https://crimson-crescent-500945.postman.co/workspace/One-Record-workspace~090d2458-3b0b-4449-8278-184b7711961d/collection/28309429-91bb2018-a47d-4110-82e0-4f5c229aa093?action=share&source=collection_link&creator=28309429"
 	},
 	"item": [
 		{
@@ -97,7 +97,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"@id\": \"http://localhost:8080/\",\n    \"@type\": \"https://onerecord.iata.org/ns/api#ServerInformation\",\n    \"https://onerecord.iata.org/ns/api#hasDataOwner\": {\n        \"@id\": \"http://localhost:8080/logistics-objects/_data-owner\",\n        \"@type\": \"https://onerecord.iata.org/ns/cargo#Organization\",\n        \"https://onerecord.iata.org/ns/cargo#name\": \"ACME Corporation\"\n    },\n    \"https://onerecord.iata.org/ns/api#hasServerEndpoint\": \"http://localhost:8080/\",\n    \"https://onerecord.iata.org/ns/api#hasSupportedContentType\": [\n        \"application/turtle\",\n        \"application/ld+json\",\n        \"text/turtle\"\n    ],\n    \"https://onerecord.iata.org/ns/api#hasSupportedLanguage\": \"en-US\",\n    \"https://onerecord.iata.org/ns/api#hasSupportedLogisticsObjectType\": [\n        \"https://onerecord.iata.org/ns/cargo#Piece\",\n        \"https://onerecord.iata.org/ns/cargo#Shipment\",\n        \"https://onerecord.iata.org/ns/cargo#Waybill\"\n    ]\n}"
+							"body": ""
 						}
 					]
 				}
@@ -1596,7 +1596,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"@context\": {\r\n    \"cargo\": \"https://onerecord.iata.org/ns/cargo#\",\r\n    \"api\": \"https://onerecord.iata.org/ns/api#\"\r\n  },\r\n  \"@type\": \"api:Subscription\",\r\n  \"api:hasContentType\": \"application/ld+json\",\r\n  \"api:hasSubscriber\": {\r\n    \"@id\": \"{{baseUrl}}/logistics-objects/{{companyId}}\"\r\n  },\r\n  \"api:hasTopicType\": {\r\n    \"@id\": \"api:LOGISTICS_OBJECT_IDENTIFIER\"\r\n  },\r\n  \"api:subscribeToLogisticsEvents\": {\r\n    \"@type\": \"http://www.w3.org/2001/XMLSchema#boolean\",\r\n    \"@value\": \"true\"\r\n  },\r\n  \"api:hasTopic\": {\r\n    \"@id\": \"{{baseUrl}}/logistics-objects/{{pieceId}}\"\r\n  }\r\n}",
+									"raw": "{\r\n  \"@context\": {\r\n    \"cargo\": \"https://onerecord.iata.org/ns/cargo#\",\r\n    \"api\": \"https://onerecord.iata.org/ns/api#\"\r\n  },\r\n  \"@type\": \"api:Subscription\",\r\n  \"api:hasContentType\": \"application/ld+json\",\r\n  \"api:hasSubscriber\": {\r\n    \"@id\": \"{{baseUrl}}/logistics-objects/{{companyId}}\"\r\n  },\r\n  \"api:hasTopicType\": {\r\n    \"@id\": \"api:LOGISTICS_OBJECT_IDENTIFIER\"\r\n  },\r\n\"api:includeSubscriptionEventType\": [\r\n    {\r\n      \"@id\": \"api:LOGISTICS_OBJECT_UPDATED\"\r\n    },\r\n    {\r\n      \"@id\": \"api:LOGISTICS_OBJECT_CREATED\"\r\n    },\r\n    {\r\n      \"@id\": \"api:LOGISTICS_EVENT_RECEIVED\"\r\n    }\r\n  ],\r\n  \"api:hasTopic\": {\r\n    \"@id\": \"{{baseUrl}}/logistics-objects/{{pieceId}}\"\r\n  }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1637,7 +1637,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"@context\": {\r\n    \"cargo\": \"https://onerecord.iata.org/ns/cargo#\",\r\n    \"api\": \"https://onerecord.iata.org/ns/api#\"\r\n  },\r\n  \"@type\": \"api:Subscription\",\r\n  \"api:hasContentType\": \"application/ld+json\",\r\n  \"api:hasSubscriber\": {\r\n    \"@id\": \"{{baseUrl}}/logistics-objects/{{companyId}}\"\r\n  },\r\n  \"api:hasTopicType\": {\r\n    \"@id\": \"api:LOGISTICS_OBJECT_TYPE\"\r\n  },\r\n  \"api:subscribeToLogisticsEvents\": {\r\n    \"@type\": \"http://www.w3.org/2001/XMLSchema#boolean\",\r\n    \"@value\": \"true\"\r\n  },\r\n  \"api:hasTopic\": {\r\n    \"@id\": \"https://onerecord.iata.org/ns/cargo#Shipment\"\r\n  }\r\n}",
+									"raw": "{\r\n    \"@context\": {\r\n        \"cargo\": \"https://onerecord.iata.org/ns/cargo#\",\r\n        \"api\": \"https://onerecord.iata.org/ns/api#\"\r\n    },\r\n    \"@type\": \"api:Subscription\",\r\n    \"api:hasContentType\": \"application/ld+json\",\r\n    \"api:hasSubscriber\": {\r\n        \"@id\": \"{{baseUrl}}/logistics-objects/{{companyId}}\"\r\n    },\r\n    \"api:hasTopicType\": {\r\n        \"@id\": \"api:LOGISTICS_OBJECT_TYPE\"\r\n    },\r\n    \"api:includeSubscriptionEventType\": [\r\n        {\r\n            \"@id\": \"api:LOGISTICS_OBJECT_UPDATED\"\r\n        },\r\n        {\r\n            \"@id\": \"api:LOGISTICS_OBJECT_CREATED\"\r\n        },\r\n        {\r\n            \"@id\": \"api:LOGISTICS_EVENT_RECEIVED\"\r\n        }\r\n    ],\r\n    \"api:hasTopic\": {\r\n        \"@id\": \"https://onerecord.iata.org/ns/cargo#Shipment\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1869,13 +1869,19 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/action-requests/{{actionRequestId}}",
+							"raw": "{{baseUrl}}/action-requests/{{actionRequestId}}?status={{acStatus}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"action-requests",
 								"{{actionRequestId}}"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "{{acStatus}}"
+								}
 							]
 						},
 						"description": "This endpoints allows to update a specific Action Request\n\n## Examples\n\nDescription of the examples:\n\n1. Update a Subscription Request\n    \n\nNote:  \nIn order to use the examples please set the variable \"ARId\" to an existing Subscription Request. To create a Subscription Request use the Example B1 or B2 in Subscriptions."
@@ -1900,7 +1906,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"@context\": {        \r\n        \"api\": \"https://onerecord.iata.org/ns/api#\"\r\n    },\r\n    \"@type\": \"api:ActionRequestChange\",    \r\n    \"api:referencesActionRequest\": {\r\n        \"@type\": \"api:ActionRequest\",\r\n        \"@id\": \"{{baseUrl}}/action-requests/{{ARId}}\"\r\n    },\r\n    \"api:hasDescription\": \"SubscriptionRequest accepted\",\r\n    \"api:hasOperation\": [\r\n        {\r\n            \"@type\": \"api:Operation\",\r\n            \"api:op\": { \"@id\": \"api:DELETE\" },\r\n            \"api:s\": \"{{baseUrl}}/action-requests/{{ARId}}\",\r\n            \"api:p\": \"https://onerecord.iata.org/ns/api#hasRequestStatus\",\r\n            \"api:o\": [\r\n                {\r\n                    \"@type\": \"api:OperationObject\",\r\n                    \"api:hasDatatype\": \"https://onerecord.iata.org/ns/api#RequestStatus\",\r\n                    \"api:hasValue\": \"https://onerecord.iata.org/ns/api#REQUEST_PENDING\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"@type\": \"api:Operation\",\r\n            \"api:op\": { \"@id\": \"api:ADD\" },\r\n            \"api:s\": \"{{baseUrl}}/action-requests/{{ARId}}\",\r\n            \"api:p\": \"https://onerecord.iata.org/ns/api#hasRequestStatus\",\r\n            \"api:o\": [\r\n                {\r\n                    \"@type\": \"api:OperationObject\",\r\n                    \"api:hasDatatype\": \"https://onerecord.iata.org/ns/api#RequestStatus\",\r\n                    \"api:hasValue\": \"https://onerecord.iata.org/ns/api#REQUEST_ACCEPTED\"\r\n                }\r\n            ]\r\n        }                 \r\n    ]\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1908,13 +1914,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/action-requests/:actionRequestId",
+									"raw": "{{baseUrl}}/action-requests/:actionRequestId?status=https://onerecord.iata.org/ns/api%23REQUEST_ACCEPTED",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"action-requests",
 										":actionRequestId"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "https://onerecord.iata.org/ns/api%23REQUEST_ACCEPTED"
+										}
 									],
 									"variable": [
 										{
@@ -2009,7 +2021,7 @@
 		},
 		{
 			"key": "pieceId",
-			"value": "b9287f89-045c-4849-94db-6091e4dbaffd",
+			"value": "f22976dc-676d-472e-bd28-24604ed082dd",
 			"type": "string"
 		},
 		{
