@@ -2,7 +2,7 @@ name: docs_builder
 on:
   push:
     branches:
-      - master 
+      - api_2.0.0-dev 
 permissions:
   contents: write
 jobs:
