@@ -9,9 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Support longpaths
-        run: sudo /usr/bin/git config --global core.symlinks false
       - uses: actions/checkout@v3
+        continue-on-error: true
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
