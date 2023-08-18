@@ -44,6 +44,10 @@ deploy:
 	mkdocs gh-deploy --ignore-version --no-history
 	$(MAKE) create-symlinks
 
+deployGH:	
+	$(MAKE) copy-assets
+	mkdocs gh-deploy --ignore-version --no-history
+
 clean:
 	rm -rf $(SITE_DIR)
 
