@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Support longpaths
-        run: /usr/bin/git config --system core.longpaths true
+        run: sudo /usr/bin/git config --system core.longpaths true
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
