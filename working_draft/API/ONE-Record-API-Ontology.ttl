@@ -469,7 +469,7 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
 
 
 ###  https://onerecord.iata.org/ns/api#hasLogisticsObjectType
-:hasLogisticsObjectType rdf:type owl:ObjectProperty ;
+:hasLogisticsObjectType rdf:type owl:DatatypeProperty ;
                         rdfs:domain :Notification ;
                         rdfs:range xsd:anyURI ;
                         rdfs:comment "The type of cargo:LogisticsObject in the notification e.g. https://onerecord.iata.org/ns/cargo#Piece" ;
@@ -807,7 +807,7 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :hasLogisticsObjectType ;
                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                owl:onClass xsd:anyURI
+                                owl:onDataRange xsd:anyURI
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :isTriggeredBy ;
