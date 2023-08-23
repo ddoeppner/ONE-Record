@@ -977,6 +977,10 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
                                      owl:onClass cargo:Organization
                                    ] ,
                                    [ rdf:type owl:Restriction ;
+                                     owl:onProperty :hasDataHolder ;
+                                     owl:allValuesFrom cargo:Organization
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
                                      owl:onProperty :hasSupportedEncoding ;
                                      owl:allValuesFrom xsd:string
                                    ] ,
@@ -1024,6 +1028,10 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
                                 owl:onProperty :hasSubscriber ;
                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                 owl:onClass cargo:Organization
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasSubscriber ;
+                                owl:allValuesFrom cargo:Organization
                               ] ,
                               [ rdf:type owl:Restriction ;
                                 owl:onProperty :hasTopicType ;
