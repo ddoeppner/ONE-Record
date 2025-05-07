@@ -1,19 +1,19 @@
 {
     "@context": {
-        "cargo": "https://onerecord.iata.org/ns/cargo#"
+        "cargo": "https://onerecord.iata.org/ns/cargo#",
+        "country": "https://vocabulary.uncefact.org/CountryId#"
     },
     "@type": "cargo:CustomsInformation",
     "cargo:country": {
-        "@type": "cargo:CodeListElement",
-        "cargo:code": "DE"
+        "@id": "country:DE"
     },
     "cargo:subjectCode": {
-        "@type": "cargo:CodeListElement",
-        "cargo:code": "ISS"
+        "@id": "https://1r.example.com/subjectCode#ISS",
+        "@type": "cargo:CodeListElement"
     },
     "cargo:contentCode": {
-        "@type": "cargo:CodeListElement",
-        "cargo:code": "RA"
+        "@id": "https://1r.example.com/contentCode#RA",
+        "@type": "cargo:CodeListElement"
     },
     "cargo:otherCustomsInformation": "01234-01"
 }

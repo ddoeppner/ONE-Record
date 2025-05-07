@@ -1,9 +1,13 @@
 {
     "@context": {
         "cargo": "https://onerecord.iata.org/ns/cargo#",
-        "ccodes": "https://onerecord.iata.org/ns/coreCodeLists#"
+        "securityStatus": "https://onerecord.iata.org/ns/code-lists/SecurityStatus#NSC"
     },
     "@type": "cargo:SecurityDeclaration",
     
-    "cargo:securityStatus": "ccodes:SecurityStatus_NSC"
+    "cargo:securityStatus": [
+        {
+            "@id": "securityStatus:NSC"
+        }
+    ]
 }
