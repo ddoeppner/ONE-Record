@@ -10,7 +10,7 @@
 @base <https://onerecord.iata.org/ns/api#> .
 
 <https://onerecord.iata.org/ns/api> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://onerecord.iata.org/ns/api/2.2.0-dev> ;
+                                     owl:versionIRI <https://onerecord.iata.org/ns/api/2.2.0> ;
                                      owl:imports cargo: ;
                                      dc:description "The ONE Record API vocabulary, described using W3C RDF Schema and the Web Ontology Language."@en ;
                                      dc:title "ONE Record API Ontology"@en ;
@@ -18,10 +18,10 @@
                                      terms:modified "2025-05-06" ;
                                      terms:title "ONE Record API Ontology"@en ;
                                      rdfs:comment """
-For a detailed Changelog, see CHANGELOG.md in API directory in GitHub"""@en ;
+For a detailed Changelog, see https://iata-cargo.github.io/ONE-Record/development/General/release-note/"""@en ;
                                      rdfs:isDefinedBy "https://www.iata.org/one-record/"^^xsd:anyURI ;
                                      rdfs:label "ONE Record API Ontology"@en ;
-                                     owl:versionInfo "2.2.0-dev" .
+                                     owl:versionInfo "2.2.0" .
 
 #################################################################
 #    Annotation properties
@@ -134,6 +134,13 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
          rdfs:domain :Collection ;
          rdfs:comment "Item that is contained in a collection"@en ;
          rdfs:label "has Item"@en .
+
+
+###  https://onerecord.iata.org/ns/api#hasLogisticsEvent
+:hasLogisticsEvent rdf:type owl:ObjectProperty ;
+                   rdfs:range cargo:LogisticsEvent ;
+                   rdfs:comment "A reference to a cargo LogisticsEvent" ;
+                   rdfs:label "has Logistics Event" .
 
 
 ###  https://onerecord.iata.org/ns/api#hasLogisticsObject
@@ -818,6 +825,10 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
                                 owl:allValuesFrom :NotificationEventType
                               ] ,
                               [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasLogisticsEvent ;
+                                owl:allValuesFrom cargo:LogisticsEvent
+                              ] ,
+                              [ rdf:type owl:Restriction ;
                                 owl:onProperty :hasLogisticsObject ;
                                 owl:allValuesFrom cargo:LogisticsObject
                               ] ,
@@ -1063,6 +1074,10 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
                                 owl:onClass :TopicType
                               ] ,
                               [ rdf:type owl:Restriction ;
+                                owl:onProperty :expiresAt ;
+                                owl:allValuesFrom xsd:dateTime
+                              ] ,
+                              [ rdf:type owl:Restriction ;
                                 owl:onProperty :hasContentType ;
                                 owl:allValuesFrom xsd:string
                               ] ,
@@ -1188,6 +1203,10 @@ owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
 cargo:LogisticsAgent rdf:type owl:Class .
 
 
+###  https://onerecord.iata.org/ns/cargo#LogisticsEvent
+cargo:LogisticsEvent rdf:type owl:Class .
+
+
 ###  https://onerecord.iata.org/ns/cargo#LogisticsObject
 cargo:LogisticsObject rdf:type owl:Class .
 
@@ -1295,6 +1314,18 @@ cargo:Organization rdf:type owl:Class .
                                    :NotificationEventType ,
                                    :SubscriptionEventType ;
                           rdfs:label "LOGISTICS_EVENT_RECEIVED"@en .
+
+
+###  https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_ACCESS_GRANTED
+:LOGISTICS_OBJECT_ACCESS_GRANTED rdf:type owl:NamedIndividual ,
+                                          :NotificationEventType ;
+                                 rdfs:label "LOGISTICS_OBJECT_ACCESS_GRANTED"@en .
+
+
+###  https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_AVAILABLE
+:LOGISTICS_OBJECT_AVAILABLE rdf:type owl:NamedIndividual ,
+                                     :NotificationEventType ;
+                            rdfs:label "LOGISTICS_OBJECT_AVAILABLE"@en .
 
 
 ###  https://onerecord.iata.org/ns/api#LOGISTICS_OBJECT_CREATED
@@ -1435,10 +1466,10 @@ cargo:Organization rdf:type owl:Class .
 [ owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger
 ] .
 
-[ owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger
+[ owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger
  ] .
 
-[ owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger
+[ owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger
  ] .
 
 [ owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger
